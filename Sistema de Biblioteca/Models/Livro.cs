@@ -13,7 +13,8 @@ namespace Sistema_de_Biblioteca.Models
         public int Edicao { get; set; }
         public int Ano { get; set; }
         public int Paginas { get; set; }
+        public string Genero { get; set; }
         public string Editora { get; set; }
-        public int Quantidade { get; set; }
+        public bool Status { get; set; }
     }
 }

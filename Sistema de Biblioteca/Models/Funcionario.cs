@@ -7,6 +7,8 @@ namespace Sistema_de_Biblioteca.Models
 {
     public class Funcionario : Pessoa
     {
-        public string Funcao { get; set; }
+        public string Cargo { get; set; }
+        public DateTime DataAdmissao { get; set; }
+        public DateTime DataDemissao { get; set; }
     }
 }
