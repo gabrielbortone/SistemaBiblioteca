@@ -1,10 +1,5 @@
 ﻿using Sistema_de_Biblioteca.Models.ValueObjects;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Models
 {
@@ -27,11 +22,9 @@ namespace Sistema_de_Biblioteca.Models
         [StringLength(11, MinimumLength = 11)]
         public string CPF { get; set; }
 
-        [ForeignKey("EnderecoId")]
         public Endereco Endereco { get; set; }
         public int EnderecoId { get; set; }
 
-        [ForeignKey("TelefoneId")]
         public Telefone Telefone { get; set; }
         public int TelefoneId { get; set; }
 
