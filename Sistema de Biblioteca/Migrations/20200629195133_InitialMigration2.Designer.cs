@@ -10,7 +10,7 @@ using Sistema_de_Biblioteca.Models;
 namespace Sistema_de_Biblioteca.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200629194432_InitialMigration2")]
+    [Migration("20200629195133_InitialMigration2")]
     partial class InitialMigration2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -28,5 +28,7 @@ namespace Sistema_de_Biblioteca.Models
 
         public Funcionario Funcionario { get; set; }
         public int FuncionarioId { get; set; }
+
+
     }
 }

@@ -18,10 +18,5 @@ namespace Sistema_de_Biblioteca.Models
 
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            
-        }
-
     }
 }
