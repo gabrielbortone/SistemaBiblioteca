@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistema_de_Biblioteca.Models
 {
@@ -24,12 +23,7 @@ namespace Sistema_de_Biblioteca.Models
         [DataType(DataType.Date, ErrorMessage = "Data em formato inválido")]
         public DateTime? DataEntrega { get; set; }
 
-        [ForeignKey("AlunoId")]
-        public Aluno Aluno { get; set; }
-        public int AlunoId { get; set; }
-
-        [ForeignKey("FuncionarioId")]
-        public Funcionario Funcionario { get; set; }
-        public int FuncionarioId { get; set; }
+        public Pessoa Pessoa { get; set; }
+        public int PessaoId { get; set; }
     }
 }
