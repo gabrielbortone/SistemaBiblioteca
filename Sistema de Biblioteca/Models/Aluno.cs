@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,8 +10,7 @@ namespace Sistema_de_Biblioteca.Models
 {
     public class Aluno
     {
-        [Key]
-        public int Id { get; set; }
+        public int AlunoId { get; set; }
 
         [Required]
         [Display(Name = "Informe o seu nome")]
@@ -26,11 +26,17 @@ namespace Sistema_de_Biblioteca.Models
         [StringLength(11, MinimumLength = 11)]
         public string CPF { get; set; }
 
-        public Endereco Endereco { get; set; }
+
+        [Required]
+        [ForeignKey("EnderecoId")]
+        public virtual Endereco Endereco { get; set; }
         public int EnderecoId { get; set; }
 
-        public Telefone Telefone { get; set; }
+        [Required]
+        [ForeignKey("TelefoneId")]
+        public virtual Telefone Telefone { get; set; }
         public int TelefoneId { get; set; }
+
 
         [Required(ErrorMessage = "Informe o seu email")]
         [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido...")]

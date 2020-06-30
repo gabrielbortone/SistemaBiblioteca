@@ -10,6 +10,12 @@
     <Compile Remove="Migrations\20200629193403_InitialMigration.Designer.cs" />
     <Compile Remove="Migrations\20200629195133_InitialMigration2.cs" />
     <Compile Remove="Migrations\20200629195133_InitialMigration2.Designer.cs" />
+    <Compile Remove="Migrations\20200630190144_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200630190144_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200630192601_Add Password.cs" />
+    <Compile Remove="Migrations\20200630192601_Add Password.Designer.cs" />
+    <Compile Remove="Migrations\20200630192846_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200630192846_InitialMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,10 +25,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

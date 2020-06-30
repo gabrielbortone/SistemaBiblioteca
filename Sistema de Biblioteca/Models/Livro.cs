@@ -9,8 +9,7 @@ namespace Sistema_de_Biblioteca.Models
 {
     public class Livro
     {
-        [Key]
-        public int Id { get; set; }
+        public int LivroId { get; set; }
 
         [Required]
         [Display(Name = "Informe o título do livro")]

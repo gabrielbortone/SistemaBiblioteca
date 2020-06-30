@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sistema_de_Biblioteca.Models;
+using Sistema_de_Biblioteca.Repositories;
+using Sistema_de_Biblioteca.Repositories.Interfaces;
 
 namespace Sistema_de_Biblioteca
 {
@@ -23,6 +25,10 @@ namespace Sistema_de_Biblioteca
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddTransient<IAlunoRepository, AlunoRepository>();
+            services.AddTransient<ILivroRepository, LivroRepository>();
+            services.AddTransient<IFuncionarioRepository, FuncionarioRepository>();
+            services.AddTransient<IEmprestimoRepository, EmprestimoRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext ctx)

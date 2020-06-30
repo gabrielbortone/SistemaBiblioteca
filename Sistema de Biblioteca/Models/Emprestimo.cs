@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistema_de_Biblioteca.Models
 {
     public class Emprestimo
     {
-        [Key]
-        public int Id { get; set; }
+        public int EmprestimoId { get; set; }
 
         [Display(Name = "Data do Emprestimo")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
@@ -23,13 +23,19 @@ namespace Sistema_de_Biblioteca.Models
         [DataType(DataType.Date, ErrorMessage = "Data em formato inválido")]
         public DateTime? DataEntrega { get; set; }
 
-        public Livro Livro { get; set; }
+        [Required]
+        [ForeignKey("LivroId")]
+        public virtual Livro Livro { get; set; }
         public int LivroId { get; set; }
 
-        public Aluno Aluno { get; set; }
+        [Required]
+        [ForeignKey("AlunoId")]
+        public virtual Aluno Aluno { get; set; }
         public int AlunoId { get; set; }
 
-        public Funcionario Funcionario { get; set; }
+        [Required]
+        [ForeignKey("FuncionarioId")]
+        public virtual Funcionario Funcionario { get; set; }
         public int FuncionarioId { get; set; }
 
 

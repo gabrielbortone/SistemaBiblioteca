@@ -9,7 +9,7 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
     public class Telefone
     {
         [Key]
-        public int Id { get; set; }
+        public int TelefoneId { get; set; }
 
         [Required]
         public TipoTelefone Tipo { get; set; }

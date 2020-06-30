@@ -8,7 +8,7 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
 {
     public class Endereco
     {
-        public int Id { get; set; }
+        public int EnderecoId { get; set; }
 
         [Required]
         [Display(Name = "Informe o CEP:")]

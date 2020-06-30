@@ -21,7 +21,7 @@ namespace Sistema_de_Biblioteca.Migrations
 
             modelBuilder.Entity("Sistema_de_Biblioteca.Models.Aluno", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AlunoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -54,7 +54,7 @@ namespace Sistema_de_Biblioteca.Migrations
                     b.Property<int>("TelefoneId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("AlunoId");
 
                     b.HasIndex("EnderecoId");
 
@@ -65,7 +65,7 @@ namespace Sistema_de_Biblioteca.Migrations
 
             modelBuilder.Entity("Sistema_de_Biblioteca.Models.Emprestimo", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("EmprestimoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -88,7 +88,7 @@ namespace Sistema_de_Biblioteca.Migrations
                     b.Property<int>("LivroId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("EmprestimoId");
 
                     b.HasIndex("AlunoId");
 
@@ -101,7 +101,7 @@ namespace Sistema_de_Biblioteca.Migrations
 
             modelBuilder.Entity("Sistema_de_Biblioteca.Models.Funcionario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("FuncionarioId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -133,6 +133,10 @@ namespace Sistema_de_Biblioteca.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
+                    b.Property<string>("Senha")
+                        .HasColumnType("nvarchar(12)")
+                        .HasMaxLength(12);
+
                     b.Property<string>("Sobrenome")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
@@ -141,7 +145,7 @@ namespace Sistema_de_Biblioteca.Migrations
                     b.Property<int>("TelefoneId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("FuncionarioId");
 
                     b.HasIndex("EnderecoId");
 
@@ -152,7 +156,7 @@ namespace Sistema_de_Biblioteca.Migrations
 
             modelBuilder.Entity("Sistema_de_Biblioteca.Models.Livro", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("LivroId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -189,14 +193,14 @@ namespace Sistema_de_Biblioteca.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.HasKey("Id");
+                    b.HasKey("LivroId");
 
                     b.ToTable("Livros");
                 });
 
             modelBuilder.Entity("Sistema_de_Biblioteca.Models.ValueObjects.Endereco", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("EnderecoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -221,14 +225,14 @@ namespace Sistema_de_Biblioteca.Migrations
                         .HasColumnType("nvarchar(35)")
                         .HasMaxLength(35);
 
-                    b.HasKey("Id");
+                    b.HasKey("EnderecoId");
 
                     b.ToTable("Enderecos");
                 });
 
             modelBuilder.Entity("Sistema_de_Biblioteca.Models.ValueObjects.Telefone", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TelefoneId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -244,7 +248,7 @@ namespace Sistema_de_Biblioteca.Migrations
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("TelefoneId");
 
                     b.ToTable("Telefones");
                 });
