@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Sistema_de_Biblioteca.Migrations
 {
-    public partial class InitialMigration2 : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -131,6 +131,7 @@ namespace Sistema_de_Biblioteca.Migrations
                     DataEmprestimo = table.Column<DateTime>(nullable: false),
                     DataLimiteEntrega = table.Column<DateTime>(nullable: false),
                     DataEntrega = table.Column<DateTime>(nullable: true),
+                    LivroId = table.Column<int>(nullable: false),
                     AlunoId = table.Column<int>(nullable: false),
                     FuncionarioId = table.Column<int>(nullable: false)
                 },
@@ -147,6 +148,12 @@ namespace Sistema_de_Biblioteca.Migrations
                         name: "FK_Emprestimos_Funcionarios_FuncionarioId",
                         column: x => x.FuncionarioId,
                         principalTable: "Funcionarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Emprestimos_Livros_LivroId",
+                        column: x => x.LivroId,
+                        principalTable: "Livros",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -172,6 +179,11 @@ namespace Sistema_de_Biblioteca.Migrations
                 column: "FuncionarioId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Emprestimos_LivroId",
+                table: "Emprestimos",
+                column: "LivroId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Funcionarios_EnderecoId",
                 table: "Funcionarios",
                 column: "EnderecoId");
@@ -188,13 +200,13 @@ namespace Sistema_de_Biblioteca.Migrations
                 name: "Emprestimos");
 
             migrationBuilder.DropTable(
-                name: "Livros");
-
-            migrationBuilder.DropTable(
                 name: "Alunos");
 
             migrationBuilder.DropTable(
                 name: "Funcionarios");
+
+            migrationBuilder.DropTable(
+                name: "Livros");
 
             migrationBuilder.DropTable(
                 name: "Enderecos");

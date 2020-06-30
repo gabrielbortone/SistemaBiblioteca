@@ -23,6 +23,9 @@ namespace Sistema_de_Biblioteca.Models
         [DataType(DataType.Date, ErrorMessage = "Data em formato inválido")]
         public DateTime? DataEntrega { get; set; }
 
+        public Livro Livro { get; set; }
+        public int LivroId { get; set; }
+
         public Aluno Aluno { get; set; }
         public int AlunoId { get; set; }
 

@@ -1,9 +1,8 @@
-﻿using Sistema_de_Biblioteca.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Repositories
 {
@@ -17,37 +16,40 @@ namespace Sistema_de_Biblioteca.Repositories
         }
         void ILivroRepository.AddLivro(Livro livro)
         {
-            throw new NotImplementedException();
+            _context.Livros.Add(livro);
+            _context.SaveChanges();
         }
 
         IEnumerable<Livro> ILivroRepository.GetAllLivro()
         {
-            throw new NotImplementedException();
+            return _context.Livros.ToList();
         }
 
         IEnumerable<Livro> ILivroRepository.GetLivroByAuthor(string autor)
         {
-            throw new NotImplementedException();
+            return _context.Livros.Where(l => l.Autor == autor).AsNoTracking().ToList();
         }
 
         IEnumerable<Livro> ILivroRepository.GetLivroByGenre(string genero)
         {
-            throw new NotImplementedException();
+            return _context.Livros.Where(l => l.Genero == genero).AsNoTracking().ToList();
         }
 
         Livro ILivroRepository.GetLivroById(int? id)
         {
-            throw new NotImplementedException();
+            return _context.Livros.Find(id);
         }
 
         void ILivroRepository.RemoveLivro(Livro livro)
         {
-            throw new NotImplementedException();
+            _context.Livros.Remove(livro);
+            _context.SaveChanges();
         }
 
         void ILivroRepository.UpdateLivro(Livro livro)
         {
-            throw new NotImplementedException();
+            _context.Livros.Update(livro);
+            _context.SaveChanges();
         }
     }
 }

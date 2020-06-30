@@ -18,27 +18,32 @@ namespace Sistema_de_Biblioteca.Repositories
 
         void IAlunoRepository.AddAluno(Aluno aluno)
         {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<Aluno> IAlunoRepository.GetAllAluno()
-        {
-            throw new NotImplementedException();
-        }
-
-        Aluno IAlunoRepository.GetAlunoById(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IAlunoRepository.RemoveAluno(Aluno aluno)
-        {
-            throw new NotImplementedException();
+            _context.Alunos.Add(aluno);
+            _context.SaveChanges();
         }
 
         void IAlunoRepository.UpdateAluno(Aluno aluno)
         {
-            throw new NotImplementedException();
+            _context.Alunos.Update(aluno);
+            _context.SaveChanges();
         }
+
+        IEnumerable<Aluno> IAlunoRepository.GetAllAluno()
+        {
+            return _context.Alunos.ToList();
+        }
+
+        Aluno IAlunoRepository.GetAlunoById(int? id)
+        {
+            return _context.Alunos.Find(id);
+        }
+
+        void IAlunoRepository.RemoveAluno(Aluno aluno)
+        {
+            _context.Alunos.Remove(aluno);
+            _context.SaveChanges();
+        }
+
+       
     }
 }

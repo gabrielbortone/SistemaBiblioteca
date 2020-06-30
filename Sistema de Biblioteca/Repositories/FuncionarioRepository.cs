@@ -19,27 +19,30 @@ namespace Sistema_de_Biblioteca.Repositories
 
         void IFuncionarioRepository.AddFuncionario(Funcionario funcionario)
         {
-            throw new NotImplementedException();
+            _context.Funcionarios.Add(funcionario);
+            _context.SaveChanges();
         }
 
         IEnumerable<Funcionario> IFuncionarioRepository.GetAllFuncionario()
         {
-            throw new NotImplementedException();
+            return _context.Funcionarios.ToList();
         }
 
         Funcionario IFuncionarioRepository.GetFuncionarioById(int? id)
         {
-            throw new NotImplementedException();
+            return _context.Funcionarios.Find(id);
         }
 
         void IFuncionarioRepository.RemoveFuncionario(Funcionario funcionario)
         {
-            throw new NotImplementedException();
+            _context.Funcionarios.Remove(funcionario);
+            _context.SaveChanges();
         }
 
         void IFuncionarioRepository.UpdateFuncionario(Funcionario funcionario)
         {
-            throw new NotImplementedException();
+            _context.Funcionarios.Update(funcionario);
+            _context.SaveChanges();
         }
     }
 }

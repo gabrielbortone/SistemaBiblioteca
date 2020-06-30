@@ -10,8 +10,8 @@ using Sistema_de_Biblioteca.Models;
 namespace Sistema_de_Biblioteca.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200629195133_InitialMigration2")]
-    partial class InitialMigration2
+    [Migration("20200630190144_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,11 +87,16 @@ namespace Sistema_de_Biblioteca.Migrations
                     b.Property<int>("FuncionarioId")
                         .HasColumnType("int");
 
+                    b.Property<int>("LivroId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AlunoId");
 
                     b.HasIndex("FuncionarioId");
+
+                    b.HasIndex("LivroId");
 
                     b.ToTable("Emprestimos");
                 });
@@ -272,6 +277,12 @@ namespace Sistema_de_Biblioteca.Migrations
                     b.HasOne("Sistema_de_Biblioteca.Models.Funcionario", "Funcionario")
                         .WithMany()
                         .HasForeignKey("FuncionarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Sistema_de_Biblioteca.Models.Livro", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
