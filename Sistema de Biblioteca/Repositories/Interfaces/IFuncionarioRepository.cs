@@ -12,6 +12,7 @@ namespace Sistema_de_Biblioteca.Repositories.Interfaces
         public void RemoveFuncionario(Funcionario funcionario);
         public void UpdateFuncionario(Funcionario funcionario);
         public Funcionario GetFuncionarioById(int? id);
+        public Funcionario GetFuncionarioByUserName(string userName);
         public IEnumerable<Funcionario> GetAllFuncionario();
     }
 }

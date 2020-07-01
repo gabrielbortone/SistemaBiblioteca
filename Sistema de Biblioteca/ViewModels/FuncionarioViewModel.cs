@@ -23,11 +23,14 @@ namespace Sistema_de_Biblioteca.ViewModels
         [StringLength(11, MinimumLength = 11)]
         public string CPF { get; set; }
 
+        [Display(Name = "Informe seu UserName")]
+        [StringLength(12, MinimumLength = 3)]
+        public string Username { get; set; }
+
         [Display(Name = "Informe a sua senha")]
         [StringLength(12, MinimumLength = 3)]
         [DataType(DataType.Password)]
         public string Senha { get; set; }
-
 
         [Required]
         [Display(Name = "Informe o CEP:")]

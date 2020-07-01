@@ -29,6 +29,13 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
         [Display(Name = "Informe o Estado:")]
         [StringLength(35, MinimumLength = 4)]
         public string Estado { get; set; }
-        
+
+        public Endereco(string cep, string bairro, string cidade, string estado)
+        {
+            CEP = cep;
+            Bairro = bairro;
+            Cidade = cidade;
+            Estado = estado;
+        }
     }
 }

@@ -41,5 +41,17 @@ namespace Sistema_de_Biblioteca.Models
         public string Editora { get; set; }
 
         public Status Status { get; set; }
+
+        public Livro(string titulo, string autor, int edicao, int ano, int paginas, string genero, string editora)
+        {
+            Titulo = titulo;
+            Autor = autor;
+            Edicao = edicao;
+            Ano = ano;
+            Paginas = paginas;
+            Genero = genero;
+            Editora = editora;
+            Status = Status.Disponivel;
+        }
     }
 }
