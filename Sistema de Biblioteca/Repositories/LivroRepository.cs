@@ -14,39 +14,39 @@ namespace Sistema_de_Biblioteca.Repositories
         {
             _context = context;
         }
-        void ILivroRepository.AddLivro(Livro livro)
+        public void AddLivro(Livro livro)
         {
             _context.Livros.Add(livro);
             _context.SaveChanges();
         }
 
-        IEnumerable<Livro> ILivroRepository.GetAllLivro()
+        public IEnumerable<Livro> GetAllLivro()
         {
             return _context.Livros.ToList();
         }
 
-        IEnumerable<Livro> ILivroRepository.GetLivroByAuthor(string autor)
+        public IEnumerable<Livro> GetLivroByAuthor(string autor)
         {
             return _context.Livros.Where(l => l.Autor == autor).AsNoTracking().ToList();
         }
 
-        IEnumerable<Livro> ILivroRepository.GetLivroByGenre(string genero)
+        public IEnumerable<Livro> GetLivroByGenre(string genero)
         {
             return _context.Livros.Where(l => l.Genero == genero).AsNoTracking().ToList();
         }
 
-        Livro ILivroRepository.GetLivroById(int? id)
+        public Livro GetLivroById(int? id)
         {
             return _context.Livros.Find(id);
         }
 
-        void ILivroRepository.RemoveLivro(Livro livro)
+        public void RemoveLivro(Livro livro)
         {
             _context.Livros.Remove(livro);
             _context.SaveChanges();
         }
 
-        void ILivroRepository.UpdateLivro(Livro livro)
+        public void UpdateLivro(Livro livro)
         {
             _context.Livros.Update(livro);
             _context.SaveChanges();

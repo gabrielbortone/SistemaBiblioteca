@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Repositories;
+using Sistema_de_Biblioteca.ViewModels;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
@@ -20,9 +21,12 @@ namespace Sistema_de_Biblioteca.Controllers
         }
 
         [HttpPost]
-        public Task<IActionResult> Cadastrar()
+        public async Task<IActionResult> Cadastrar(AlunoViewModel alunoVM)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+            }
+            return View(alunoVM);
         }
 
 

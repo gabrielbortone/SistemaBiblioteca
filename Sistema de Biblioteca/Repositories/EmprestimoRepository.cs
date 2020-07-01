@@ -16,39 +16,39 @@ namespace Sistema_de_Biblioteca.Repositories
         {
             _context = context;
         }
-        void IEmprestimoRepository.AddEmprestimo(Emprestimo emprestimo)
+        public void AddEmprestimo(Emprestimo emprestimo)
         {
             _context.Emprestimos.Add(emprestimo);
             _context.SaveChanges();
         }
 
-        IEnumerable<Emprestimo> IEmprestimoRepository.GetAllEmprestimo()
+        public IEnumerable<Emprestimo> GetAllEmprestimo()
         {
             return _context.Emprestimos.ToList();
         }
 
-        Emprestimo IEmprestimoRepository.GetEmprestimoById(int? id)
+        public Emprestimo GetEmprestimoById(int? id)
         {
             return _context.Emprestimos.Find(id);
         }
 
-        IEnumerable<Emprestimo> IEmprestimoRepository.GetEmprestimoByLivro(Livro livro)
+        public IEnumerable<Emprestimo> GetEmprestimoByLivro(Livro livro)
         {
             return _context.Emprestimos.Where(e => e.Livro == livro).AsNoTracking().ToList();
         }
 
-        IEnumerable<Emprestimo> IEmprestimoRepository.GetLivroByAluno(Aluno aluno)
+        public IEnumerable<Emprestimo> GetLivroByAluno(Aluno aluno)
         {
             return _context.Emprestimos.Where(e => e.Aluno == aluno).AsNoTracking().ToList();
         }
 
-        void IEmprestimoRepository.RemoveEmprestimo(Emprestimo emprestimo)
+        public void RemoveEmprestimo(Emprestimo emprestimo)
         {
             _context.Emprestimos.Remove(emprestimo);
             _context.SaveChanges();
         }
 
-        void IEmprestimoRepository.UpdateEmprestimo(Emprestimo emprestimo)
+        public void UpdateEmprestimo(Emprestimo emprestimo)
         {
             _context.Emprestimos.Update(emprestimo);
             _context.SaveChanges();

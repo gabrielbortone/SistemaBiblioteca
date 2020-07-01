@@ -8,12 +8,12 @@ namespace Sistema_de_Biblioteca.Repositories.Interfaces
 {
     public interface ILivroRepository
     {
-        void AddLivro(Livro livro);
-        void RemoveLivro(Livro livro);
-        void UpdateLivro(Livro livro);
-        Livro GetLivroById(int? id);
-        IEnumerable<Livro> GetAllLivro();
-        IEnumerable<Livro> GetLivroByAuthor(string autor);
-        IEnumerable<Livro> GetLivroByGenre(string genero);
+        public void AddLivro(Livro livro);
+        public void RemoveLivro(Livro livro);
+        public void UpdateLivro(Livro livro);
+        public Livro GetLivroById(int? id);
+        public IEnumerable<Livro> GetAllLivro();
+        public IEnumerable<Livro> GetLivroByAuthor(string autor);
+        public IEnumerable<Livro> GetLivroByGenre(string genero);
     }
 }

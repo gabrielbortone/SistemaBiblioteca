@@ -8,10 +8,10 @@ namespace Sistema_de_Biblioteca.Repositories.Interfaces
 {
     public interface IAlunoRepository
     {
-        void AddAluno(Aluno aluno);
-        void RemoveAluno(Aluno aluno);
-        void UpdateAluno(Aluno aluno);
-        Aluno GetAlunoById(int? id);
-        IEnumerable<Aluno> GetAllAluno();
+        public void AddAluno(Aluno aluno);
+        public void RemoveAluno(Aluno aluno);
+        public void UpdateAluno(Aluno aluno);
+        public Aluno GetAlunoById(int? id);
+        public IEnumerable<Aluno> GetAllAluno();
     }
 }

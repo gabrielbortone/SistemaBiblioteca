@@ -16,29 +16,29 @@ namespace Sistema_de_Biblioteca.Repositories
             _context = context;
         }
 
-        void IAlunoRepository.AddAluno(Aluno aluno)
+        public void AddAluno(Aluno aluno)
         {
             _context.Alunos.Add(aluno);
             _context.SaveChanges();
         }
 
-        void IAlunoRepository.UpdateAluno(Aluno aluno)
+        public void UpdateAluno(Aluno aluno)
         {
             _context.Alunos.Update(aluno);
             _context.SaveChanges();
         }
 
-        IEnumerable<Aluno> IAlunoRepository.GetAllAluno()
+        public IEnumerable<Aluno> GetAllAluno()
         {
             return _context.Alunos.ToList();
         }
 
-        Aluno IAlunoRepository.GetAlunoById(int? id)
+        public Aluno GetAlunoById(int? id)
         {
             return _context.Alunos.Find(id);
         }
 
-        void IAlunoRepository.RemoveAluno(Aluno aluno)
+        public void RemoveAluno(Aluno aluno)
         {
             _context.Alunos.Remove(aluno);
             _context.SaveChanges();
