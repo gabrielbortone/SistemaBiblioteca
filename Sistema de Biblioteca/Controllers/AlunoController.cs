@@ -14,9 +14,18 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             _alunoRepository = alunoRepository;
         }
-        public IActionResult Index()
+        public IActionResult Cadastrar()
         {
             return View();
         }
+
+        [HttpPost]
+        public Task<IActionResult> Cadastrar()
+        {
+            return View();
+        }
+
+
+
     }
 }

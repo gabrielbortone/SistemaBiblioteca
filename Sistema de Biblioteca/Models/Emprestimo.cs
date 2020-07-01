@@ -38,6 +38,14 @@ namespace Sistema_de_Biblioteca.Models
         public virtual Funcionario Funcionario { get; set; }
         public int FuncionarioId { get; set; }
 
+        public Emprestimo(DateTime dataLimiteEntrega, Livro livro, Aluno aluno, Funcionario funcionario)
+        {
+            DataEmprestimo = DateTime.Now;
+            DataLimiteEntrega = dataLimiteEntrega;
+            Livro = livro;
+            Aluno = aluno;
+            Funcionario = funcionario;
+        }
 
     }
 }

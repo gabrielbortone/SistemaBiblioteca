@@ -149,8 +149,7 @@ namespace Sistema_de_Biblioteca.Migrations
                         name: "FK_Emprestimos_Funcionarios_FuncionarioId",
                         column: x => x.FuncionarioId,
                         principalTable: "Funcionarios",
-                        principalColumn: "FuncionarioId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "FuncionarioId");
                     table.ForeignKey(
                         name: "FK_Emprestimos_Livros_LivroId",
                         column: x => x.LivroId,
