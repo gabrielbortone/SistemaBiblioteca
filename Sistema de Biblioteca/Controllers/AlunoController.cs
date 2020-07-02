@@ -22,7 +22,13 @@ namespace Sistema_de_Biblioteca.Controllers
         }
         public IActionResult Cadastrar()
         {
-            return View();
+            if (_loginService.IsLogged)
+            {
+                return View();
+            }
+            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
+            RedirectToAction("Login", "Account");
+            return null;
         }
 
         [HttpPost]
@@ -46,7 +52,13 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Editar()
         {
-            return View();
+            if (_loginService.IsLogged)
+            {
+                return View();
+            }
+            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
+            RedirectToAction("Login", "Account");
+            return null;
         }
 
         [HttpPost]
@@ -70,7 +82,13 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Deletar()
         {
-            return View();
+            if (_loginService.IsLogged)
+            {
+                return View();
+            }
+            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
+            RedirectToAction("Login", "Account");
+            return null;
         }
 
         [HttpPost]

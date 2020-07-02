@@ -23,7 +23,13 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Cadastrar()
         {
-            return View();
+            if (_loginService.IsLogged)
+            {
+                return View();
+            }
+            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
+            RedirectToAction("Login", "Account");
+            return null;
         }
 
         [HttpPost]
@@ -38,7 +44,8 @@ namespace Sistema_de_Biblioteca.Controllers
                     _livroRepository.AddLivro(livro);
                     ViewBag.Mensagem = "Cadastro feito com sucesso!";
                 }
-                RedirectToAction("Index", "Home");
+                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
+                RedirectToAction("Login", "Account");
             }
             ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
             return View(livroVM);
@@ -46,7 +53,13 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Editar()
         {
-            return View();
+            if (_loginService.IsLogged)
+            {
+                return View();
+            }
+            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
+            RedirectToAction("Login", "Account");
+            return null;
         }
 
         [HttpPost]
@@ -61,7 +74,8 @@ namespace Sistema_de_Biblioteca.Controllers
                     _livroRepository.UpdateLivro(livro);
                     ViewBag.Mensagem = "Edição feito com sucesso!";
                 }
-                RedirectToAction("Index", "Home");
+                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
+                RedirectToAction("Login", "Account");
             }
             ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
             return View(livroVM);
@@ -69,7 +83,13 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Deletar()
         {
-            return View();
+            if (_loginService.IsLogged)
+            {
+                return View();
+            }
+            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
+            RedirectToAction("Login", "Account");
+            return null;
         }
 
         [HttpPost]
@@ -86,7 +106,8 @@ namespace Sistema_de_Biblioteca.Controllers
                         ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
                     }
                 }
-                RedirectToAction("Index", "Home");
+                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
+                RedirectToAction("Login", "Account");
             }
             ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
             return View();
@@ -101,7 +122,8 @@ namespace Sistema_de_Biblioteca.Controllers
                     IEnumerable<Livro> ListaLivros = _livroRepository.GetAllLivro();
                     return View(ListaLivros);
                 }
-                RedirectToAction("Index", "Home");
+                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
+                RedirectToAction("Login", "Account");
             }
             return View("Nada a ser exibido!");
         }

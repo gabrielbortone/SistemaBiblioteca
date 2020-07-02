@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Services
 {
-    public class LoginService
+    public class LoginService : ILoginService
     {
         public bool IsLogged { get; set; }
         private Funcionario Funcionario { get; set; }
@@ -16,6 +16,7 @@ namespace Sistema_de_Biblioteca.Services
         public LoginService(FuncionarioRepository funcionarioRepository)
         {
             _funcionarioRepository = funcionarioRepository;
+            Funcionario = null;
             IsLogged = false;
         }
 
