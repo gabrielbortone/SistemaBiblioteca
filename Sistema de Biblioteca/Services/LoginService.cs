@@ -1,9 +1,6 @@
 ﻿using Sistema_de_Biblioteca.Models;
-using Sistema_de_Biblioteca.Repositories;
+using Sistema_de_Biblioteca.Repositories.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Services
 {
@@ -11,9 +8,9 @@ namespace Sistema_de_Biblioteca.Services
     {
         public bool IsLogged { get; set; }
         private Funcionario Funcionario { get; set; }
-        private FuncionarioRepository _funcionarioRepository { get; set; }
+        private IFuncionarioRepository _funcionarioRepository { get; set; }
 
-        public LoginService(FuncionarioRepository funcionarioRepository)
+        public LoginService(IFuncionarioRepository funcionarioRepository)
         {
             _funcionarioRepository = funcionarioRepository;
             Funcionario = null;

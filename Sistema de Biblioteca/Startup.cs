@@ -32,6 +32,7 @@ namespace Sistema_de_Biblioteca
             services.AddTransient<ILivroRepository, LivroRepository>();
             services.AddTransient<IEmprestimoRepository, EmprestimoRepository>();
             
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext ctx)
@@ -52,9 +53,6 @@ namespace Sistema_de_Biblioteca
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
