@@ -6,7 +6,7 @@ namespace Sistema_de_Biblioteca.Services
 {
     public class LoginService : ILoginService
     {
-        public bool IsLogged { get; set; }
+        private bool IsLogged { get; set; }
         private Funcionario Funcionario { get; set; }
         private IFuncionarioRepository _funcionarioRepository { get; set; }
 
@@ -43,6 +43,11 @@ namespace Sistema_de_Biblioteca.Services
         public void Logout()
         {
             Funcionario = null;
+        }
+
+        public bool EstaLogado()
+        {
+            return this.IsLogged;
         }
     }
 }

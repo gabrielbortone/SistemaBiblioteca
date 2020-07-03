@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
-using Sistema_de_Biblioteca.Repositories;
+using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.Services;
 using Sistema_de_Biblioteca.ViewModels;
+using System.Collections.Generic;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
     public class LivroController : Controller
     {
-        private LivroRepository _livroRepository;
-        private LoginService _loginService;
-        public LivroController(LivroRepository livroRepository, LoginService loginService)
+        private ILivroRepository _livroRepository;
+        private ILoginService _loginService;
+        public LivroController(ILivroRepository livroRepository, ILoginService loginService)
         {
             _livroRepository = livroRepository;
             _loginService = loginService;
@@ -23,7 +19,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Cadastrar()
         {
-            if (_loginService.IsLogged)
+            if (_loginService.EstaLogado())
             {
                 return View();
             }
@@ -37,7 +33,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     Livro livro = new Livro(livroVM.Titulo,livroVM.Autor,livroVM.Edicao, livroVM.Ano, livroVM.Paginas,
                         livroVM.Genero, livroVM.Editora);
@@ -53,7 +49,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Editar()
         {
-            if (_loginService.IsLogged)
+            if (_loginService.EstaLogado())
             {
                 return View();
             }
@@ -67,7 +63,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     Livro livro = new Livro(livroVM.Titulo, livroVM.Autor, livroVM.Edicao, livroVM.Ano, livroVM.Paginas,
                         livroVM.Genero, livroVM.Editora);
@@ -83,7 +79,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Deletar()
         {
-            if (_loginService.IsLogged)
+            if (_loginService.EstaLogado())
             {
                 return View();
             }
@@ -97,7 +93,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     Livro livro = _livroRepository.GetLivroById(id);
                     if (livro != null)
@@ -117,7 +113,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     IEnumerable<Livro> ListaLivros = _livroRepository.GetAllLivro();
                     return View(ListaLivros);

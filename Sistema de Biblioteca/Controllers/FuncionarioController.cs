@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
-using Sistema_de_Biblioteca.Repositories;
+using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.Services;
 using Sistema_de_Biblioteca.ViewModels;
+using System.Collections.Generic;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
     public class FuncionarioController : Controller
     {
-        private FuncionarioRepository _funcionarioRepository;
-        private LoginService _loginService;
-        public FuncionarioController(FuncionarioRepository funcionarioRepository, LoginService loginService)
+        private IFuncionarioRepository _funcionarioRepository;
+        private ILoginService _loginService;
+        public FuncionarioController(IFuncionarioRepository funcionarioRepository, ILoginService loginService)
         {
             _funcionarioRepository = funcionarioRepository;
             _loginService = loginService;
         }
         public IActionResult Cadastrar()
         {
-            if (_loginService.IsLogged)
+            if (_loginService.EstaLogado())
             {
                 return View();
             }
@@ -36,7 +33,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF, 
                         funcionarioVM.Username, funcionarioVM.Senha,
@@ -54,7 +51,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Editar()
         {
-            if (_loginService.IsLogged)
+            if (_loginService.EstaLogado())
             {
                 return View();
             }
@@ -68,7 +65,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF,
                         funcionarioVM.Username, funcionarioVM.Senha,
@@ -86,7 +83,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Deletar()
         {
-            if (_loginService.IsLogged)
+            if (_loginService.EstaLogado())
             {
                 return View();
             }
@@ -100,7 +97,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     Funcionario funcionario = _funcionarioRepository.GetFuncionarioById(id);
                     if (funcionario != null)
@@ -120,7 +117,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     IEnumerable<Funcionario> ListaFuncionario = _funcionarioRepository.GetAllFuncionario();
                     return View(ListaFuncionario);

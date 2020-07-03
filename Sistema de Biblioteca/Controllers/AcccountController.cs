@@ -10,9 +10,9 @@ namespace Sistema_de_Biblioteca.Controllers
 {
     public class AcccountController : Controller
     {
-        private LoginService _loginService { get; }
+        private ILoginService _loginService { get; }
 
-        public AcccountController( LoginService loginService)
+        public AcccountController( ILoginService loginService)
         {
             _loginService = loginService;
         }
@@ -23,6 +23,7 @@ namespace Sistema_de_Biblioteca.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel loginVM)
         {
             if (_loginService.ObterFuncionarioLogado() == null)

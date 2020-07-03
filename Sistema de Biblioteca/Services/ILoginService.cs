@@ -8,6 +8,7 @@ namespace Sistema_de_Biblioteca.Services
     {
         public void Logar(string username, string password);
         public Funcionario ObterFuncionarioLogado();
+        public bool EstaLogado();
         public void Logout();
     }
 }

@@ -1,0 +1,19 @@
+﻿
+    @inject ILoginService LoginService
+
+    @if (LoginService.EstaLogado())
+    {
+        <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm"
+              method="post" class="navbar-left">
+            <ul class="nav navbar-nav navbar-left">
+                <a href="javascript:document.getElementById('logoutForm').submit()">&nbsp;Log off&nbsp;&nbsp;&nbsp;</a>
+            </ul>
+        </form>
+    }
+    else
+    {
+    <ul class="nav navbar-nav navbar-left">
+        <a class="nav-link text-light" asp-controller="Account" asp-action="Login" >&nbsp; Log in&nbsp; </a>
+        <a class="nav-link text-light" asp-controller="Account" asp-action="Register" >&nbsp;Registro&nbsp;&nbsp;&nbsp; </a>
+    </ul>
+    }

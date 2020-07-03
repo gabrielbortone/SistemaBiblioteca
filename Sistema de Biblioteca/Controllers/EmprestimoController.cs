@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
-using Sistema_de_Biblioteca.Repositories;
+using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.Services;
 using Sistema_de_Biblioteca.ViewModels;
+using System;
+using System.Collections.Generic;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
     public class EmprestimoController : Controller
     {
-        private EmprestimoRepository _emprestimoRepository;
-        private LoginService _loginService;
-        public EmprestimoController(EmprestimoRepository emprestimoRepository, LoginService loginService)
+        private IEmprestimoRepository _emprestimoRepository;
+        private ILoginService _loginService;
+        public EmprestimoController(IEmprestimoRepository emprestimoRepository, ILoginService loginService)
         {
             _emprestimoRepository = emprestimoRepository;
             _loginService = loginService;
@@ -22,7 +20,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Cadastrar()
         {
-            if (_loginService.IsLogged)
+            if (_loginService.EstaLogado())
             {
                 return View();
             }
@@ -36,7 +34,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, emprestimoVM.Livro, emprestimoVM.Aluno,
                         _loginService.ObterFuncionarioLogado());
@@ -52,7 +50,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Editar()
         {
-            if (_loginService.IsLogged)
+            if (_loginService.EstaLogado())
             {
                 return View();
             }
@@ -66,7 +64,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, emprestimoVM.Livro, emprestimoVM.Aluno,
                         _loginService.ObterFuncionarioLogado());
@@ -82,7 +80,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Deletar()
         {
-            if (_loginService.IsLogged)
+            if (_loginService.EstaLogado())
             {
                 return View();
             }
@@ -96,7 +94,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     Emprestimo emprestimo = _emprestimoRepository.GetEmprestimoById(id);
                     if (emprestimo != null)
@@ -116,7 +114,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     IEnumerable<Emprestimo> ListaEmprestimo = _emprestimoRepository.GetAllEmprestimo();
                     return View(ListaEmprestimo);

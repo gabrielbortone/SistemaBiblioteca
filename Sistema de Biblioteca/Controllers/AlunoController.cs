@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories;
+using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.Services;
 using Sistema_de_Biblioteca.ViewModels;
 
@@ -13,16 +14,16 @@ namespace Sistema_de_Biblioteca.Controllers
 {
     public class AlunoController : Controller
     {
-        private AlunoRepository _alunoRepository;
-        private LoginService _loginService;
-        public AlunoController(AlunoRepository alunoRepository, LoginService loginService)
+        private IAlunoRepository _alunoRepository;
+        private ILoginService _loginService;
+        public AlunoController(IAlunoRepository alunoRepository, ILoginService loginService)
         {
             _alunoRepository = alunoRepository;
             _loginService = loginService;
         }
         public IActionResult Cadastrar()
         {
-            if (_loginService.IsLogged)
+            if (_loginService.EstaLogado())
             {
                 return View();
             }
@@ -36,7 +37,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, 
                         new Endereco(alunoVM.CEP,alunoVM.Bairro,alunoVM.Cidade,alunoVM.Estado),
@@ -52,7 +53,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Editar()
         {
-            if (_loginService.IsLogged)
+            if (_loginService.EstaLogado())
             {
                 return View();
             }
@@ -66,7 +67,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF,
                         new Endereco(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado),
@@ -82,7 +83,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Deletar()
         {
-            if (_loginService.IsLogged)
+            if (_loginService.EstaLogado())
             {
                 return View();
             }
@@ -96,7 +97,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     Aluno aluno = _alunoRepository.GetAlunoById(id);
                     if (aluno != null)
@@ -115,7 +116,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_loginService.IsLogged)
+                if (_loginService.EstaLogado())
                 {
                     IEnumerable<Aluno> ListaAlunos = _alunoRepository.GetAllAluno();
                     return View(ListaAlunos);
