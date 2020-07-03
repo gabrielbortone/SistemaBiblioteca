@@ -24,28 +24,27 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 return View();
             }
-            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-            RedirectToAction("Login", "Account");
-            return null;
+            return View("../Account/Login");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(EmprestimoViewModel emprestimoVM)
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, emprestimoVM.Livro, emprestimoVM.Aluno,
                         _loginService.ObterFuncionarioLogado());
                     _emprestimoRepository.AddEmprestimo(emprestimo);
                     ViewBag.Mensagem = "Cadastro feito com sucesso!";
                 }
-                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-                RedirectToAction("Login", "Account");
+                ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
+                return View(emprestimoVM);
             }
-            ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
-            return View(emprestimoVM);
+            return View("../Account/Login");
+            
         }
 
         public IActionResult Editar()
@@ -54,28 +53,27 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 return View();
             }
-            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-            RedirectToAction("Login", "Account");
-            return null;
+            return View("../Account/Login");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Editar(EmprestimoViewModel emprestimoVM)
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, emprestimoVM.Livro, emprestimoVM.Aluno,
                         _loginService.ObterFuncionarioLogado());
                     _emprestimoRepository.UpdateEmprestimo(emprestimo);
                     ViewBag.Mensagem = "Edição feito com sucesso!";
                 }
-                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-                RedirectToAction("Login", "Account");
+                ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
+                return View(emprestimoVM);
             }
-            ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
-            return View(emprestimoVM);
+            return View("../Account/Login");
+            
         }
 
         public IActionResult Deletar()
@@ -84,17 +82,16 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 return View();
             }
-            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-            RedirectToAction("Login", "Account");
-            return null;
+            return View("../Account/Login");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     Emprestimo emprestimo = _emprestimoRepository.GetEmprestimoById(id);
                     if (emprestimo != null)
@@ -103,25 +100,25 @@ namespace Sistema_de_Biblioteca.Controllers
                         ViewBag.Mensagem = "Emprestimo Removido feito com sucesso!";
                     }
                 }
-                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-                RedirectToAction("Login", "Account");
+                ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
+                return View(id);
             }
-            ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
-            return View();
+            return View("../Account/Login");
+            
         }
 
         public IActionResult Listar()
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     IEnumerable<Emprestimo> ListaEmprestimo = _emprestimoRepository.GetAllEmprestimo();
                     return View(ListaEmprestimo);
                 }
-                RedirectToAction("Index", "Home");
+                return View("Error");
             }
-            return View("Nada a ser exibido!");
+            return View("../Account/Login");
         }
     }
 }

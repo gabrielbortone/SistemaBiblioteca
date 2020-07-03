@@ -6,6 +6,7 @@ namespace Sistema_de_Biblioteca.ViewModels
 {
     public class EmprestimoViewModel
     {
+        public int Id { get; set; }
         [Display(Name = "Data de Limite de Entrega")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         [DataType(DataType.Date, ErrorMessage = "Data em formato inválido")]

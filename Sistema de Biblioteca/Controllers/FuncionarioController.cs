@@ -29,11 +29,12 @@ namespace Sistema_de_Biblioteca.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(FuncionarioViewModel funcionarioVM)
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF, 
                         funcionarioVM.Username, funcionarioVM.Senha,
@@ -42,11 +43,10 @@ namespace Sistema_de_Biblioteca.Controllers
                     _funcionarioRepository.AddFuncionario(funcionario);
                     ViewBag.Mensagem = "Cadastro feito com sucesso!";
                 }
-                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-                RedirectToAction("Login", "Account");
+                ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
+                return View(funcionarioVM);
             }
-            ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
-            return View(funcionarioVM);
+            return View("../Account/Login");
         }
 
         public IActionResult Editar()
@@ -55,17 +55,16 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 return View();
             }
-            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-            RedirectToAction("Login", "Account");
-            return null;
+            return View("../Account/Login");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Editar(FuncionarioViewModel funcionarioVM)
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF,
                         funcionarioVM.Username, funcionarioVM.Senha,
@@ -74,11 +73,11 @@ namespace Sistema_de_Biblioteca.Controllers
                     _funcionarioRepository.UpdateFuncionario(funcionario);
                     ViewBag.Mensagem = "Edição feito com sucesso!";
                 }
-                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-                RedirectToAction("Login", "Account");
+                ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
+                return View(funcionarioVM);
             }
-            ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
-            return View(funcionarioVM);
+            
+            return View("../Account/Login");
         }
 
         public IActionResult Deletar()
@@ -87,17 +86,16 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 return View();
             }
-            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-            RedirectToAction("Login", "Account");
-            return null;
+            return View("../Account/Login");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     Funcionario funcionario = _funcionarioRepository.GetFuncionarioById(id);
                     if (funcionario != null)
@@ -106,26 +104,25 @@ namespace Sistema_de_Biblioteca.Controllers
                         ViewBag.Mensagem = "Funcionário Removido feito com sucesso!";
                     }
                 }
-                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-                RedirectToAction("Login", "Account");
+                ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
+                return View();
             }
-            ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
-            return View();
+            
+            return View("../Account/Login");
         }
 
         public IActionResult Listar()
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     IEnumerable<Funcionario> ListaFuncionario = _funcionarioRepository.GetAllFuncionario();
                     return View(ListaFuncionario);
                 }
-                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-                RedirectToAction("Login", "Account");
+                return View("Error");
             }
-            return View("Nada a ser exibido!");
+            return View("../Account/Login");
         }
     }
 }

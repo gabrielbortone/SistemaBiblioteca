@@ -30,6 +30,7 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
         [StringLength(35, MinimumLength = 4)]
         public string Estado { get; set; }
 
+        public Endereco() { }
         public Endereco(string cep, string bairro, string cidade, string estado)
         {
             CEP = cep;

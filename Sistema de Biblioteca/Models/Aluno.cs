@@ -45,6 +45,7 @@ namespace Sistema_de_Biblioteca.Models
         [StringLength(12, MinimumLength = 12)]
         public string Matricula { get; set; }
 
+        public Aluno(){}
         public Aluno(string nome, string sobrenome, string CPF, Endereco endereco, Telefone telefone, string email, string matricula)
         {
             Nome = nome;

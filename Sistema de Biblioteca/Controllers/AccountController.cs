@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
-    public class AcccountController : Controller
+    public class AccountController : Controller
     {
         private ILoginService _loginService { get; }
 
-        public AcccountController( ILoginService loginService)
+        public AccountController( ILoginService loginService)
         {
             _loginService = loginService;
         }
@@ -28,16 +28,21 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (_loginService.ObterFuncionarioLogado() == null)
             {
-                _loginService.Logar(loginVM.Username, loginVM.Senha);
-                if(_loginService.ObterFuncionarioLogado() != null)
+                if (ModelState.IsValid)
                 {
-                    RedirectToAction("Home", "Index");
+                    _loginService.Logar(loginVM.Username, loginVM.Senha);
+                    if (_loginService.ObterFuncionarioLogado() != null)
+                    {
+                        RedirectToAction("Home", "Index");
+                    }
                 }
                 return View(loginVM);
             }
             throw new Exception("Usuário já está logado!");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Logout()
         {
             if (_loginService.ObterFuncionarioLogado() != null)

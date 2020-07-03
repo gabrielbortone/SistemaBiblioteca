@@ -9,6 +9,7 @@ namespace Sistema_de_Biblioteca.ViewModels
 {
     public class AlunoViewModel
     {
+        public int Id { get; set; }
         [Required]
         [Display(Name = "Informe o seu nome")]
         [StringLength(30, MinimumLength = 4)]

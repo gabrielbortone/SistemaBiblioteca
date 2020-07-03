@@ -9,6 +9,7 @@ namespace Sistema_de_Biblioteca.ViewModels
 {
     public class LivroViewModel
     {
+        public int Id { get; set; }
         [Required]
         [Display(Name = "Informe o título do livro")]
         [StringLength(50, MinimumLength = 4)]

@@ -23,28 +23,27 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 return View();
             }
-            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-            RedirectToAction("Login", "Account");
-            return null;
+            return View("../Account/Login");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(LivroViewModel livroVM)
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     Livro livro = new Livro(livroVM.Titulo,livroVM.Autor,livroVM.Edicao, livroVM.Ano, livroVM.Paginas,
                         livroVM.Genero, livroVM.Editora);
                     _livroRepository.AddLivro(livro);
                     ViewBag.Mensagem = "Cadastro feito com sucesso!";
                 }
-                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-                RedirectToAction("Login", "Account");
+                ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
+                return View(livroVM);
             }
-            ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
-            return View(livroVM);
+            return View("../Account/Login");
+            
         }
 
         public IActionResult Editar()
@@ -53,28 +52,27 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 return View();
             }
-            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-            RedirectToAction("Login", "Account");
-            return null;
+            return View("../Account/Login");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Editar(LivroViewModel livroVM)
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     Livro livro = new Livro(livroVM.Titulo, livroVM.Autor, livroVM.Edicao, livroVM.Ano, livroVM.Paginas,
                         livroVM.Genero, livroVM.Editora);
                     _livroRepository.UpdateLivro(livro);
                     ViewBag.Mensagem = "Edição feito com sucesso!";
                 }
-                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-                RedirectToAction("Login", "Account");
+                ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
+                return View(livroVM);
             }
-            ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
-            return View(livroVM);
+            return View("../Account/Login");
+
         }
 
         public IActionResult Deletar()
@@ -83,17 +81,16 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 return View();
             }
-            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-            RedirectToAction("Login", "Account");
-            return null;
+            return View("../Account/Login");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     Livro livro = _livroRepository.GetLivroById(id);
                     if (livro != null)
@@ -102,26 +99,25 @@ namespace Sistema_de_Biblioteca.Controllers
                         ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
                     }
                 }
-                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-                RedirectToAction("Login", "Account");
+                ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
+                return View(id);
             }
-            ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
-            return View();
+            return View("../Account/Login");
+            
         }
 
         public IActionResult Listar()
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     IEnumerable<Livro> ListaLivros = _livroRepository.GetAllLivro();
                     return View(ListaLivros);
                 }
-                ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-                RedirectToAction("Login", "Account");
+                return View("Error");
             }
-            return View("Nada a ser exibido!");
+            return View("../Account/Login");
         }
     }
 }

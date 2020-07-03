@@ -64,6 +64,7 @@ namespace Sistema_de_Biblioteca.Models
         public DateTime DataAdmissao { get; set; }
         public DateTime? DataDemissao { get; set; }
 
+        public Funcionario(){}
         public Funcionario(string nome, string sobrenome, string cpf, string username, string password, Endereco endereco, Telefone telefone, string email, string cargo, DateTime dataAdmissao)
         {
             Nome = nome;

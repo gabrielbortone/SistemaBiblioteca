@@ -27,17 +27,16 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 return View();
             }
-            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-            RedirectToAction("Login", "Account");
-            return null;
+            return View("../Account/Login");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(AlunoViewModel alunoVM)
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, 
                         new Endereco(alunoVM.CEP,alunoVM.Bairro,alunoVM.Cidade,alunoVM.Estado),
@@ -45,10 +44,11 @@ namespace Sistema_de_Biblioteca.Controllers
                     _alunoRepository.AddAluno(aluno);
                     ViewBag.Mensagem = "Cadastro feito com sucesso!";
                 }
-                RedirectToAction("Index", "Home");
+                ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
+                return View(alunoVM);
             }
-            ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
-            return View(alunoVM);
+            return View("../Account/Login");
+            
         }
 
         public IActionResult Editar()
@@ -57,28 +57,29 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 return View();
             }
-            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-            RedirectToAction("Login", "Account");
-            return null;
+            return View("../Account/Login");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Editar(AlunoViewModel alunoVM)
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF,
                         new Endereco(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado),
                         new Telefone(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero), alunoVM.Email, alunoVM.Matricula);
                     _alunoRepository.UpdateAluno(aluno);
                     ViewBag.Mensagem = "Edição feito com sucesso!";
+                    return View("Listar");
                 }
-                RedirectToAction("Index", "Home");
+                ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
+                return View(alunoVM);
             }
-            ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
-            return View(alunoVM);
+           
+            return View("../Account/Login");
         }
 
         public IActionResult Deletar()
@@ -87,17 +88,17 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 return View();
             }
-            ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-            RedirectToAction("Login", "Account");
-            return null;
+
+            return View("../Account/Login");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     Aluno aluno = _alunoRepository.GetAlunoById(id);
                     if (aluno != null)
@@ -106,24 +107,23 @@ namespace Sistema_de_Biblioteca.Controllers
                         ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
                     }        
                 }
-                RedirectToAction("Index", "Home");
+                return View("Error");
             }
-            ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
-            return View();
+            return View("../Account/Login");
         }
 
         public IActionResult Listar()
         {
-            if (ModelState.IsValid)
+            if (_loginService.EstaLogado())
             {
-                if (_loginService.EstaLogado())
+                if (ModelState.IsValid)
                 {
                     IEnumerable<Aluno> ListaAlunos = _alunoRepository.GetAllAluno();
                     return View(ListaAlunos);
                 }
-                RedirectToAction("Index", "Home");
+                return View("Error");
             }
-            return View("Nada a ser exibido!");
+            return View("../Account/Login");
         }
 
 

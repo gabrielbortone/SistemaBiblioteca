@@ -24,6 +24,7 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
         [StringLength(11, MinimumLength = 10)]
         public string Numero { get; set; }
 
+        public Telefone() { }
         public Telefone(TipoTelefone tipo, int ddd, string numero)
         {
             Tipo = tipo;

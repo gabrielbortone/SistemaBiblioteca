@@ -42,6 +42,8 @@ namespace Sistema_de_Biblioteca.Models
 
         public Status Status { get; set; }
 
+        public Livro() { }
+
         public Livro(string titulo, string autor, int edicao, int ano, int paginas, string genero, string editora)
         {
             Titulo = titulo;

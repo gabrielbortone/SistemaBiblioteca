@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sistema_de_Biblioteca.Models.ValueObjects;
+using Sistema_de_Biblioteca.ViewModels;
 
 namespace Sistema_de_Biblioteca.Models
 {
@@ -17,6 +18,18 @@ namespace Sistema_de_Biblioteca.Models
         {
 
         }
+
+
+        public DbSet<Sistema_de_Biblioteca.ViewModels.AlunoViewModel> AlunoViewModel { get; set; }
+
+
+        public DbSet<Sistema_de_Biblioteca.ViewModels.EmprestimoViewModel> EmprestimoViewModel { get; set; }
+
+
+        public DbSet<Sistema_de_Biblioteca.ViewModels.FuncionarioViewModel> FuncionarioViewModel { get; set; }
+
+
+        public DbSet<Sistema_de_Biblioteca.ViewModels.LivroViewModel> LivroViewModel { get; set; }
 
     }
 }
