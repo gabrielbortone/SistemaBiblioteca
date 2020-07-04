@@ -4,6 +4,7 @@ using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.Services;
 using Sistema_de_Biblioteca.ViewModels;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
@@ -86,13 +87,12 @@ namespace Sistema_de_Biblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Deletar(int id)
+        public IActionResult Deletar(Livro livro)
         {
             if (_loginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
-                    Livro livro = _livroRepository.GetLivroById(id);
                     if (livro != null)
                     {
                         _livroRepository.RemoveLivro(livro);
@@ -100,7 +100,7 @@ namespace Sistema_de_Biblioteca.Controllers
                     }
                 }
                 ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
-                return View(id);
+                return View(livro);
             }
             return View("../Account/Login");
             
@@ -113,11 +113,35 @@ namespace Sistema_de_Biblioteca.Controllers
                 if (ModelState.IsValid)
                 {
                     IEnumerable<Livro> ListaLivros = _livroRepository.GetAllLivro();
-                    return View(ListaLivros);
+                    List<LivroViewModel> ListaLivrosViewModel = ConverterEmViewModel(ListaLivros);
+                    
+                    return View(ListaLivrosViewModel);
                 }
                 return View("Error");
             }
             return View("../Account/Login");
+        }
+
+        private List<LivroViewModel> ConverterEmViewModel(IEnumerable<Livro> livros)
+        {
+            List<LivroViewModel> ListaLivrosViewModel = new List<LivroViewModel>();
+            foreach (Livro livro in livros)
+            {
+                LivroViewModel livroViewModel = new LivroViewModel()
+                {
+                    Id = livro.LivroId,
+                    Titulo = livro.Titulo,
+                    Autor = livro.Autor,
+                    Edicao = livro.Edicao,
+                    Ano = livro.Ano,
+                    Paginas = livro.Paginas,
+                    Genero = livro.Genero,
+                    Editora = livro.Editora
+
+                };
+                ListaLivrosViewModel.Add(livroViewModel);
+            }
+            return ListaLivrosViewModel;
         }
     }
 }

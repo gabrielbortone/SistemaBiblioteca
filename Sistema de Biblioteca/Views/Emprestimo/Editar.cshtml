@@ -24,6 +24,21 @@
                 <span asp-validation-for="DataEntrega" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="TituloLivro" class="control-label"></label>
+                <input asp-for="TituloLivro" class="form-control" />
+                <span asp-validation-for="TituloLivro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NomeAluno" class="control-label"></label>
+                <input asp-for="NomeAluno" class="form-control" />
+                <span asp-validation-for="NomeAluno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SobrenomeAluno" class="control-label"></label>
+                <input asp-for="SobrenomeAluno" class="form-control" />
+                <span asp-validation-for="SobrenomeAluno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -31,6 +46,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Listar">Voltar para a lista</a>
 </div>
 

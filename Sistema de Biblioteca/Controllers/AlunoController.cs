@@ -94,13 +94,12 @@ namespace Sistema_de_Biblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Deletar(int id)
+        public IActionResult Deletar(Aluno aluno)
         {
             if (_loginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
-                    Aluno aluno = _alunoRepository.GetAlunoById(id);
                     if (aluno != null)
                     {
                         _alunoRepository.RemoveAluno(aluno);
@@ -119,11 +118,38 @@ namespace Sistema_de_Biblioteca.Controllers
                 if (ModelState.IsValid)
                 {
                     IEnumerable<Aluno> ListaAlunos = _alunoRepository.GetAllAluno();
-                    return View(ListaAlunos);
+                    List<AlunoViewModel> ListaAlunosViewModel = ConverterEmViewModel(ListaAlunos);
+                    return View(ListaAlunosViewModel);
                 }
                 return View("Error");
             }
             return View("../Account/Login");
+        }
+
+        private List<AlunoViewModel> ConverterEmViewModel(IEnumerable<Aluno> alunos)
+        {
+            List<AlunoViewModel> ListaAlunosViewModel = new List<AlunoViewModel>();
+            foreach (Aluno aluno in alunos)
+            {
+                AlunoViewModel livroViewModel = new AlunoViewModel()
+                {
+                    Id = aluno.AlunoId,
+                    Nome = aluno.Nome,
+                    Sobrenome = aluno.Sobrenome,
+                    CPF = aluno.CPF,
+                    CEP = aluno.Endereco.CEP,
+                    Bairro = aluno.Endereco.Bairro,
+                    Cidade = aluno.Endereco.Cidade,
+                    Estado = aluno.Endereco.Estado,
+                    Tipo = aluno.Telefone.Tipo,
+                    DDD = aluno.Telefone.DDD,
+                    Numero = aluno.Telefone.Numero,
+                    Email = aluno.Email,
+                    Matricula = aluno.Matricula
+                };
+                ListaAlunosViewModel.Add(livroViewModel);
+            }
+            return ListaAlunosViewModel;
         }
 
 

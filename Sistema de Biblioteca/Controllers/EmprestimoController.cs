@@ -11,10 +11,14 @@ namespace Sistema_de_Biblioteca.Controllers
     public class EmprestimoController : Controller
     {
         private IEmprestimoRepository _emprestimoRepository;
+        private IAlunoRepository _alunoRepository;
+        private ILivroRepository _livroRepository;
         private ILoginService _loginService;
-        public EmprestimoController(IEmprestimoRepository emprestimoRepository, ILoginService loginService)
+        public EmprestimoController(IEmprestimoRepository emprestimoRepository, IAlunoRepository alunoRepository, ILivroRepository livroRepository,ILoginService loginService)
         {
             _emprestimoRepository = emprestimoRepository;
+            _alunoRepository = alunoRepository;
+            _livroRepository = livroRepository;
             _loginService = loginService;
         }
 
@@ -35,7 +39,9 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, emprestimoVM.Livro, emprestimoVM.Aluno,
+                    Livro livro = _livroRepository.GetLivroByTitle(emprestimoVM.TituloLivro);
+                    Aluno aluno = _alunoRepository.GetAlunoByName(emprestimoVM.NomeAluno, emprestimoVM.SobrenomeAluno);
+                    Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, livro, aluno,
                         _loginService.ObterFuncionarioLogado());
                     _emprestimoRepository.AddEmprestimo(emprestimo);
                     ViewBag.Mensagem = "Cadastro feito com sucesso!";
@@ -64,7 +70,9 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, emprestimoVM.Livro, emprestimoVM.Aluno,
+                    Livro livro = _livroRepository.GetLivroByTitle(emprestimoVM.TituloLivro);
+                    Aluno aluno = _alunoRepository.GetAlunoByName(emprestimoVM.NomeAluno, emprestimoVM.SobrenomeAluno);
+                    Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, livro, aluno,
                         _loginService.ObterFuncionarioLogado());
                     _emprestimoRepository.UpdateEmprestimo(emprestimo);
                     ViewBag.Mensagem = "Edição feito com sucesso!";
@@ -87,13 +95,12 @@ namespace Sistema_de_Biblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Deletar(int id)
+        public IActionResult Deletar(Emprestimo emprestimo)
         {
             if (_loginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
-                    Emprestimo emprestimo = _emprestimoRepository.GetEmprestimoById(id);
                     if (emprestimo != null)
                     {
                         _emprestimoRepository.RemoveEmprestimo(emprestimo);
@@ -101,7 +108,7 @@ namespace Sistema_de_Biblioteca.Controllers
                     }
                 }
                 ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
-                return View(id);
+                return View(emprestimo);
             }
             return View("../Account/Login");
             
@@ -119,6 +126,23 @@ namespace Sistema_de_Biblioteca.Controllers
                 return View("Error");
             }
             return View("../Account/Login");
+        }
+
+        private List<EmprestimoViewModel> ConverterEmViewModel(IEnumerable<Emprestimo> emprestimos)
+        {
+            List <EmprestimoViewModel> ListaEmprestimosViewModel = new List<EmprestimoViewModel>();
+            foreach (Emprestimo emprestimo in emprestimos)
+            {
+                EmprestimoViewModel emprestimoViewModel = new EmprestimoViewModel 
+                { 
+                    Id = emprestimo.EmprestimoId,
+
+                
+                };
+
+                ListaEmprestimosViewModel.Add(emprestimoViewModel);
+            }
+            return ListaEmprestimosViewModel;
         }
     }
 }

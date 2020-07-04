@@ -80,6 +80,7 @@ namespace Sistema_de_Biblioteca.ViewModels
         [Required]
         [Display(Name = "Informe o seu nome")]
         public DateTime DataAdmissao { get; set; }
+        public DateTime? DataDemissao { get; set; }
 
     }
 }
