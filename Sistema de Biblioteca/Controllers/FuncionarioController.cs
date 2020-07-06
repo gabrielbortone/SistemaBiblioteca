@@ -91,13 +91,12 @@ namespace Sistema_de_Biblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Deletar(int id)
+        public IActionResult Deletar(Funcionario funcionario)
         {
             if (_loginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
-                    Funcionario funcionario = _funcionarioRepository.GetFuncionarioById(id);
                     if (funcionario != null)
                     {
                         _funcionarioRepository.RemoveFuncionario(funcionario);
@@ -118,11 +117,43 @@ namespace Sistema_de_Biblioteca.Controllers
                 if (ModelState.IsValid)
                 {
                     IEnumerable<Funcionario> ListaFuncionario = _funcionarioRepository.GetAllFuncionario();
-                    return View(ListaFuncionario);
+                    List<FuncionarioViewModel> ListaFuncionariosViewModel = ConverterEmViewModel(ListaFuncionario);
+                    return View(ListaFuncionariosViewModel);
                 }
                 return View("Error");
             }
             return View("../Account/Login");
         }
+
+        private List<FuncionarioViewModel> ConverterEmViewModel(IEnumerable<Funcionario> funcionarios)
+        {
+            List<FuncionarioViewModel> ListaFuncionariosViewModel = new List<FuncionarioViewModel>();
+            foreach (Funcionario funcionario in funcionarios)
+            {
+                FuncionarioViewModel funcionarioViewModel = new FuncionarioViewModel()
+                {
+                    Id = funcionario.FuncionarioId,
+                    Nome = funcionario.Nome,
+                    Sobrenome = funcionario.Sobrenome,
+                    CPF = funcionario.CPF,
+                    Username = funcionario.Username,
+                    Senha = funcionario.Senha,
+                    CEP = funcionario.Endereco.CEP,
+                    Bairro = funcionario.Endereco.Bairro,
+                    Cidade = funcionario.Endereco.Cidade,
+                    Estado = funcionario.Endereco.Estado,
+                    Tipo = funcionario.Telefone.Tipo,
+                    DDD = funcionario.Telefone.DDD,
+                    Numero = funcionario.Telefone.Numero,
+                    Email = funcionario.Email,
+                    Cargo = funcionario.Cargo,
+                    DataAdmissao = funcionario.DataAdmissao
+                };
+                ListaFuncionariosViewModel.Add(funcionarioViewModel);
+            }
+            return ListaFuncionariosViewModel;
+        }
+
+
     }
 }

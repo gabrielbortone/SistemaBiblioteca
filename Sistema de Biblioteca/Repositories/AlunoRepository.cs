@@ -44,6 +44,9 @@ namespace Sistema_de_Biblioteca.Repositories
             _context.SaveChanges();
         }
 
-       
+        public Aluno GetAlunoByName(string nome, string sobrenome)
+        {
+            return _context.Alunos.Where(a => a.Nome == nome && a.Sobrenome == sobrenome).FirstOrDefault();
+        }
     }
 }

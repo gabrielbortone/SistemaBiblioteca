@@ -13,6 +13,7 @@ namespace Sistema_de_Biblioteca.Repositories.Interfaces
         public void UpdateLivro(Livro livro);
         public Livro GetLivroById(int? id);
         public IEnumerable<Livro> GetAllLivro();
+        public Livro GetLivroByTitle(string titulo);
         public IEnumerable<Livro> GetLivroByAuthor(string autor);
         public IEnumerable<Livro> GetLivroByGenre(string genero);
     }

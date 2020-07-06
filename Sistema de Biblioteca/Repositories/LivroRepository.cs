@@ -40,6 +40,11 @@ namespace Sistema_de_Biblioteca.Repositories
             return _context.Livros.Find(id);
         }
 
+        public Livro GetLivroByTitle(string titulo)
+        {
+            return _context.Livros.Where(l => l.Titulo == titulo).FirstOrDefault();
+        }
+
         public void RemoveLivro(Livro livro)
         {
             _context.Livros.Remove(livro);

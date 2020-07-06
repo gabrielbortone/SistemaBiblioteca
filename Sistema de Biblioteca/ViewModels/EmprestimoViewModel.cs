@@ -18,12 +18,15 @@ namespace Sistema_de_Biblioteca.ViewModels
         public DateTime? DataEntrega { get; set; }
 
         [Required]
-        public Livro Livro { get; set; }
+        public string TituloLivro { get; set; }
 
 
         [Required]
-        public Aluno Aluno { get; set; }
-        
+        public string NomeAluno { get; set; }
+
+        [Required]
+        public string SobrenomeAluno { get; set; }
+
 
         [Required]
         public Funcionario Funcionario { get; set; }

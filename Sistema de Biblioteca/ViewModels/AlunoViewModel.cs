@@ -1,4 +1,5 @@
 ﻿using Sistema_de_Biblioteca.Models;
+using Sistema_de_Biblioteca.Models.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,6 +23,7 @@ namespace Sistema_de_Biblioteca.ViewModels
 
         [Display(Name = "Informe o seu número de CPF")]
         [StringLength(11, MinimumLength = 11)]
+        [CustomValidationCPF(ErrorMessage = "CPF inválido")]
         public string CPF { get; set; }
 
 
