@@ -10,8 +10,8 @@ using Sistema_de_Biblioteca.Models;
 namespace Sistema_de_Biblioteca.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200630195145_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200706184833_InitialMigrationReset")]
+    partial class InitialMigrationReset
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -146,6 +146,10 @@ namespace Sistema_de_Biblioteca.Migrations
 
                     b.Property<int>("TelefoneId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(12)")
+                        .HasMaxLength(12);
 
                     b.HasKey("FuncionarioId");
 

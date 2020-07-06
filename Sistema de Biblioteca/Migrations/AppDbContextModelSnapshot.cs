@@ -145,6 +145,10 @@ namespace Sistema_de_Biblioteca.Migrations
                     b.Property<int>("TelefoneId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(12)")
+                        .HasMaxLength(12);
+
                     b.HasKey("FuncionarioId");
 
                     b.HasIndex("EnderecoId");

@@ -23,7 +23,7 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 return View();
             }
-            return View("../Account/Login");
+            return View("../Home/Index");
         }
 
         [HttpPost]

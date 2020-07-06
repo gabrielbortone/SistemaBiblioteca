@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Sistema_de_Biblioteca.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialMigrationReset : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -98,6 +98,7 @@ namespace Sistema_de_Biblioteca.Migrations
                     Nome = table.Column<string>(maxLength: 30, nullable: false),
                     Sobrenome = table.Column<string>(maxLength: 30, nullable: false),
                     CPF = table.Column<string>(maxLength: 11, nullable: true),
+                    Username = table.Column<string>(maxLength: 12, nullable: true),
                     Senha = table.Column<string>(maxLength: 12, nullable: true),
                     EnderecoId = table.Column<int>(nullable: false),
                     TelefoneId = table.Column<int>(nullable: false),

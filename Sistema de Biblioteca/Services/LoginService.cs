@@ -1,4 +1,5 @@
-﻿using Sistema_de_Biblioteca.Models;
+﻿using Microsoft.AspNetCore.Http;
+using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using System;
 
@@ -22,14 +23,21 @@ namespace Sistema_de_Biblioteca.Services
             var user = _funcionarioRepository.GetFuncionarioByUserName(username);
             if(user != null)
             {
-                if(user.Senha == password)
+                if(user.Senha.Equals(password))
                 {
                     Funcionario = user;
                     IsLogged = true;
                 }
-                throw new Exception("Senha incorreta!");
+                else
+                {
+                    throw new Exception("Senha incorreta!");
+                }
             }
-            throw new Exception("Usuário inexistente!");
+            else
+            {
+                throw new Exception("Usuário inexistente!");
+            }
+            
         }
         public Funcionario ObterFuncionarioLogado()
         {

@@ -8,6 +8,7 @@ using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.Services;
+using System;
 
 namespace Sistema_de_Biblioteca
 {
@@ -31,7 +32,13 @@ namespace Sistema_de_Biblioteca
             services.AddTransient<IAlunoRepository, AlunoRepository>();
             services.AddTransient<ILivroRepository, LivroRepository>();
             services.AddTransient<IEmprestimoRepository, EmprestimoRepository>();
-            
+
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
 
         }
 
@@ -51,6 +58,7 @@ namespace Sistema_de_Biblioteca
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseRouting();
             app.UseEndpoints(endpoints =>
