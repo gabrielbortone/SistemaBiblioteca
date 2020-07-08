@@ -4,6 +4,7 @@ using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.Services;
 using Sistema_de_Biblioteca.ViewModels;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
@@ -113,6 +114,10 @@ namespace Sistema_de_Biblioteca.Controllers
                 if (ModelState.IsValid)
                 {
                     IEnumerable<Livro> ListaLivros = _livroRepository.GetAllLivro();
+                    if (!ListaLivros.Any())
+                    {
+                        return View("ErroListaVazia");
+                    }
                     return View(ListaLivros);
                 }
                 return View("Error");

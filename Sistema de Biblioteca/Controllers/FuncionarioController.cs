@@ -5,6 +5,7 @@ using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.Services;
 using Sistema_de_Biblioteca.ViewModels;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
@@ -118,6 +119,10 @@ namespace Sistema_de_Biblioteca.Controllers
                 if (ModelState.IsValid)
                 {
                     IEnumerable<Funcionario> ListaFuncionario = _funcionarioRepository.GetAllFuncionario();
+                    if (!ListaFuncionario.Any())
+                    {
+                        return View("ErroListaVazia");
+                    }
                     return View(ListaFuncionario);
                 }
                 return View("Error");

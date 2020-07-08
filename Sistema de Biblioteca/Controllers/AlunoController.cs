@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
@@ -119,6 +120,10 @@ namespace Sistema_de_Biblioteca.Controllers
                 if (ModelState.IsValid)
                 {
                     IEnumerable<Aluno> ListaAlunos = _alunoRepository.GetAllAluno();
+                    if (!ListaAlunos.Any())
+                    {
+                        return View("ErroListaVazia");
+                    }
                     return View(ListaAlunos);
                 }
                 return View("Error");

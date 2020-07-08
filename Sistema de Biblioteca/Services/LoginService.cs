@@ -41,7 +41,7 @@ namespace Sistema_de_Biblioteca.Services
         }
         public Funcionario ObterFuncionarioLogado()
         {
-            if(Funcionario == null)
+            if (Funcionario == null)
             {
                 throw new Exception("Nenhum funcionário está logado!");
             }

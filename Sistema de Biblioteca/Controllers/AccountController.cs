@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Services;
 using Sistema_de_Biblioteca.ViewModels;
 using System;
@@ -28,7 +29,9 @@ namespace Sistema_de_Biblioteca.Controllers
                 _loginService.Logar(loginVM.Username, loginVM.Senha);
                 if (_loginService.ObterFuncionarioLogado() != null)
                 {
-
+                    HttpContext.Session.SetString("Username", loginVM.Username);
+                    HttpContext.Session.SetString("Password", loginVM.Senha);
+                    HttpContext.Session.SetInt32("EstaLogado", 1);
                     return View("../Home/Index");
                 }
             }
@@ -42,6 +45,9 @@ namespace Sistema_de_Biblioteca.Controllers
             if (_loginService.ObterFuncionarioLogado() != null)
             {
                 _loginService.Logout();
+                HttpContext.Session.SetString("Username", null);
+                HttpContext.Session.SetString("Password", null);
+                HttpContext.Session.SetInt32("IsLogged", 0);
                 return View("../Home/Index");
             }
             throw new Exception("Usuário não está logado!");
