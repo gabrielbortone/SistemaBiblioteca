@@ -11,29 +11,26 @@ namespace Sistema_de_Biblioteca.Controllers
 {
     public class FuncionarioController : Controller
     {
-        private IFuncionarioRepository _funcionarioRepository;
-        private ILoginService _loginService;
-        public FuncionarioController(IFuncionarioRepository funcionarioRepository, ILoginService loginService)
+        private IUnitOfWork _unitOfWork;
+        public FuncionarioController(IUnitOfWork unitOfWork)
         {
-            _funcionarioRepository = funcionarioRepository;
-            _loginService = loginService;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Cadastrar()
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 return View();
             }
             ViewBag.Mensagem = "Precisa estar logado para acessar essa área!";
-            RedirectToAction("Login", "Account");
-            return null;
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(FuncionarioViewModel funcionarioVM)
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
@@ -41,18 +38,18 @@ namespace Sistema_de_Biblioteca.Controllers
                         funcionarioVM.Username, funcionarioVM.Senha,
                         new Endereco(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado),
                         new Telefone(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero), funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
-                    _funcionarioRepository.AddFuncionario(funcionario);
+                    _unitOfWork.FuncionarioRepository.AddFuncionario(funcionario);
                     ViewBag.Mensagem = "Cadastro feito com sucesso!";
                 }
                 ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
                 return View(funcionarioVM);
             }
-            return View("../Account/Login");
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Editar()
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 return View();
             }
@@ -63,7 +60,7 @@ namespace Sistema_de_Biblioteca.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Editar(FuncionarioViewModel funcionarioVM)
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
@@ -71,19 +68,19 @@ namespace Sistema_de_Biblioteca.Controllers
                         funcionarioVM.Username, funcionarioVM.Senha,
                         new Endereco(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado),
                         new Telefone(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero), funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
-                    _funcionarioRepository.UpdateFuncionario(funcionario);
+                    _unitOfWork.FuncionarioRepository.UpdateFuncionario(funcionario);
                     ViewBag.Mensagem = "Edição feito com sucesso!";
                 }
                 ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
                 return View(funcionarioVM);
             }
-            
-            return View("../Account/Login");
+
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Deletar()
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 return View();
             }
@@ -94,31 +91,31 @@ namespace Sistema_de_Biblioteca.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
-                    Funcionario funcionario = _funcionarioRepository.GetFuncionarioById(id);
+                    Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
                     if (funcionario != null)
                     {
-                        _funcionarioRepository.RemoveFuncionario(funcionario);
+                        _unitOfWork.FuncionarioRepository.RemoveFuncionario(funcionario);
                         ViewBag.Mensagem = "Funcionário Removido feito com sucesso!";
                     }
                 }
                 ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
                 return View();
             }
-            
-            return View("../Account/Login");
+
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Listar()
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
-                    IEnumerable<Funcionario> ListaFuncionario = _funcionarioRepository.GetAllFuncionario();
+                    IEnumerable<Funcionario> ListaFuncionario = _unitOfWork.FuncionarioRepository.GetAllFuncionario();
                     if (!ListaFuncionario.Any())
                     {
                         return View("ErroListaVazia");
@@ -127,7 +124,7 @@ namespace Sistema_de_Biblioteca.Controllers
                 }
                 return View("Error");
             }
-            return View("../Account/Login");
+            return RedirectToAction("Login", "Account");
         }
     }
 }

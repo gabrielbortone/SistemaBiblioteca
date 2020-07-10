@@ -20,7 +20,6 @@ namespace Sistema_de_Biblioteca.Repositories
         public void AddFuncionario(Funcionario funcionario)
         {
             _context.Funcionarios.Add(funcionario);
-            _context.SaveChanges();
         }
 
         public IEnumerable<Funcionario> GetAllFuncionario()
@@ -36,13 +35,11 @@ namespace Sistema_de_Biblioteca.Repositories
         public void RemoveFuncionario(Funcionario funcionario)
         {
             _context.Funcionarios.Remove(funcionario);
-            _context.SaveChanges();
         }
 
         public void UpdateFuncionario(Funcionario funcionario)
         {
             _context.Funcionarios.Update(funcionario);
-            _context.SaveChanges();
         }
 
         public Funcionario GetFuncionarioByUserName(string userName)

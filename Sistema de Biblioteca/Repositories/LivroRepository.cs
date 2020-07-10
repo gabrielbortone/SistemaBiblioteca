@@ -17,7 +17,6 @@ namespace Sistema_de_Biblioteca.Repositories
         public void AddLivro(Livro livro)
         {
             _context.Livros.Add(livro);
-            _context.SaveChanges();
         }
 
         public IEnumerable<Livro> GetAllLivro()
@@ -43,13 +42,11 @@ namespace Sistema_de_Biblioteca.Repositories
         public void RemoveLivro(Livro livro)
         {
             _context.Livros.Remove(livro);
-            _context.SaveChanges();
         }
 
         public void UpdateLivro(Livro livro)
         {
             _context.Livros.Update(livro);
-            _context.SaveChanges();
         }
     }
 }

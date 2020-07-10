@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sistema_de_Biblioteca.Repositories;
+using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.Services;
 using Sistema_de_Biblioteca.ViewModels;
 using System;
@@ -8,11 +10,11 @@ namespace Sistema_de_Biblioteca.Controllers
 {
     public class AccountController : Controller
     {
-        private ILoginService _loginService { get; }
+        private IUnitOfWork _unitOfWork { get; }
 
-        public AccountController( ILoginService loginService)
+        public AccountController( IUnitOfWork unitOfWork)
         {
-            _loginService = loginService;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Login()
@@ -26,8 +28,8 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                _loginService.Logar(loginVM.Username, loginVM.Senha);
-                if (_loginService.ObterFuncionarioLogado() != null)
+                _unitOfWork.LoginService.Logar(loginVM.Username, loginVM.Senha);
+                if (_unitOfWork.LoginService.ObterFuncionarioLogado() != null)
                 {
                     HttpContext.Session.SetString("Username", loginVM.Username);
                     HttpContext.Session.SetString("Password", loginVM.Senha);
@@ -42,9 +44,9 @@ namespace Sistema_de_Biblioteca.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Logout()
         {
-            if (_loginService.ObterFuncionarioLogado() != null)
+            if (_unitOfWork.LoginService.ObterFuncionarioLogado() != null)
             {
-                _loginService.Logout();
+                _unitOfWork.LoginService.Logout();
                 HttpContext.Session.SetString("Username", null);
                 HttpContext.Session.SetString("Password", null);
                 HttpContext.Session.SetInt32("IsLogged", 0);

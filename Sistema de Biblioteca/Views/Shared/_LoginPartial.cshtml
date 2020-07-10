@@ -1,7 +1,7 @@
 ﻿
-    @inject ILoginService LoginService
+    @inject IUnitOfWork _unitOfWork
 
-    @if (LoginService.EstaLogado())
+    @if (_unitOfWork.LoginService.EstaLogado())
     {
         <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm"
               method="post" class="navbar-left text-dark">

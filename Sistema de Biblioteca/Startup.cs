@@ -27,12 +27,7 @@ namespace Sistema_de_Biblioteca
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
-            services.AddScoped<ILoginService, LoginService>();
-            services.AddTransient<IFuncionarioRepository, FuncionarioRepository>();
-            services.AddTransient<IAlunoRepository, AlunoRepository>();
-            services.AddTransient<ILivroRepository, LivroRepository>();
-            services.AddTransient<IEmprestimoRepository, EmprestimoRepository>();
-            
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(60);

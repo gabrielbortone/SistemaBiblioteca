@@ -11,110 +11,108 @@ namespace Sistema_de_Biblioteca.Controllers
 {
     public class EmprestimoController : Controller
     {
-        private IEmprestimoRepository _emprestimoRepository;
-        private ILoginService _loginService;
-        public EmprestimoController(IEmprestimoRepository emprestimoRepository, ILoginService loginService)
+        private IUnitOfWork _unitOfWork;
+        public EmprestimoController(IUnitOfWork unitOfWork)
         {
-            _emprestimoRepository = emprestimoRepository;
-            _loginService = loginService;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Cadastrar()
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 return View();
             }
-            return View("../Account/Login");
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(EmprestimoViewModel emprestimoVM)
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
                     Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, emprestimoVM.Livro, emprestimoVM.Aluno,
-                        _loginService.ObterFuncionarioLogado());
-                    _emprestimoRepository.AddEmprestimo(emprestimo);
+                        _unitOfWork.LoginService.ObterFuncionarioLogado());
+                    _unitOfWork.EmprestimoRepository.AddEmprestimo(emprestimo);
                     ViewBag.Mensagem = "Cadastro feito com sucesso!";
                 }
                 ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
                 return View(emprestimoVM);
             }
-            return View("../Account/Login");
-            
+            return RedirectToAction("Login", "Account");
+
         }
 
         public IActionResult Editar()
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 return View();
             }
-            return View("../Account/Login");
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Editar(EmprestimoViewModel emprestimoVM)
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
                     Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, emprestimoVM.Livro, emprestimoVM.Aluno,
-                        _loginService.ObterFuncionarioLogado());
-                    _emprestimoRepository.UpdateEmprestimo(emprestimo);
+                        _unitOfWork.LoginService.ObterFuncionarioLogado());
+                    _unitOfWork.EmprestimoRepository.UpdateEmprestimo(emprestimo);
                     ViewBag.Mensagem = "Edição feito com sucesso!";
                 }
                 ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
                 return View(emprestimoVM);
             }
-            return View("../Account/Login");
-            
+            return RedirectToAction("Login", "Account");
+
         }
 
         public IActionResult Deletar()
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 return View();
             }
-            return View("../Account/Login");
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
-                    Emprestimo emprestimo = _emprestimoRepository.GetEmprestimoById(id);
+                    Emprestimo emprestimo = _unitOfWork.EmprestimoRepository.GetEmprestimoById(id);
                     if (emprestimo != null)
                     {
-                        _emprestimoRepository.RemoveEmprestimo(emprestimo);
+                        _unitOfWork.EmprestimoRepository.RemoveEmprestimo(emprestimo);
                         ViewBag.Mensagem = "Emprestimo Removido feito com sucesso!";
                     }
                 }
                 ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
                 return View(id);
             }
-            return View("../Account/Login");
-            
+            return RedirectToAction("Login", "Account");
+
         }
 
         public IActionResult Listar()
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
-                    IEnumerable<Emprestimo> ListaEmprestimo = _emprestimoRepository.GetAllEmprestimo();
+                    IEnumerable<Emprestimo> ListaEmprestimo = _unitOfWork.EmprestimoRepository.GetAllEmprestimo();
                     if (!ListaEmprestimo.Any())
                     {
                         return View("ErroListaVazia");
@@ -123,7 +121,7 @@ namespace Sistema_de_Biblioteca.Controllers
                 }
                 return View("Error");
             }
-            return View("../Account/Login");
+            return RedirectToAction("Login", "Account");
         }
     }
 }

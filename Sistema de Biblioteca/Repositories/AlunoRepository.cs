@@ -19,13 +19,11 @@ namespace Sistema_de_Biblioteca.Repositories
         public void AddAluno(Aluno aluno)
         {
             _context.Alunos.Add(aluno);
-            _context.SaveChanges();
         }
 
         public void UpdateAluno(Aluno aluno)
         {
             _context.Alunos.Update(aluno);
-            _context.SaveChanges();
         }
 
         public IEnumerable<Aluno> GetAllAluno()
@@ -41,7 +39,6 @@ namespace Sistema_de_Biblioteca.Repositories
         public void RemoveAluno(Aluno aluno)
         {
             _context.Alunos.Remove(aluno);
-            _context.SaveChanges();
         }
 
        

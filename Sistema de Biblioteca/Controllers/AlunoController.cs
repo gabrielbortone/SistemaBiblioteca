@@ -15,111 +15,109 @@ namespace Sistema_de_Biblioteca.Controllers
 {
     public class AlunoController : Controller
     {
-        private IAlunoRepository _alunoRepository;
-        private ILoginService _loginService;
-        public AlunoController(IAlunoRepository alunoRepository, ILoginService loginService)
+        private IUnitOfWork _unitOfWork;
+        public AlunoController(IUnitOfWork unitOfWork)
         {
-            _alunoRepository = alunoRepository;
-            _loginService = loginService;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Cadastrar()
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 return View();
             }
-            return View("../Account/Login");
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(AlunoViewModel alunoVM)
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
                     Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, 
                         new Endereco(alunoVM.CEP,alunoVM.Bairro,alunoVM.Cidade,alunoVM.Estado),
                         new Telefone(alunoVM.Tipo,alunoVM.DDD,alunoVM.Numero), alunoVM.Email, alunoVM.Matricula);
-                    _alunoRepository.AddAluno(aluno);
+                    _unitOfWork.AlunoRepository.AddAluno(aluno);
                     ViewBag.Mensagem = "Cadastro feito com sucesso!";
                 }
                 ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
                 return View(alunoVM);
             }
-            return View("../Account/Login");
-            
+            return RedirectToAction("Login", "Account");
+
         }
 
         public IActionResult Editar()
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 return View();
             }
-            return View("../Account/Login");
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Editar(AlunoViewModel alunoVM)
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
                     Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF,
                         new Endereco(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado),
                         new Telefone(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero), alunoVM.Email, alunoVM.Matricula);
-                    _alunoRepository.UpdateAluno(aluno);
+                    _unitOfWork.AlunoRepository.UpdateAluno(aluno);
                     ViewBag.Mensagem = "Edição feito com sucesso!";
                     return View("Listar");
                 }
                 ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
                 return View(alunoVM);
             }
-           
-            return View("../Account/Login");
+
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Deletar()
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 return View();
             }
 
-            return View("../Account/Login");
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
-                    Aluno aluno = _alunoRepository.GetAlunoById(id);
+                    Aluno aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
                     if (aluno != null)
                     {
-                        _alunoRepository.RemoveAluno(aluno);
+                        _unitOfWork.AlunoRepository.RemoveAluno(aluno);
                         ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
                     }        
                 }
                 return View("Error");
             }
-            return View("../Account/Login");
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Listar()
         {
-            if (_loginService.EstaLogado())
+            if (_unitOfWork.LoginService.EstaLogado())
             {
                 if (ModelState.IsValid)
                 {
-                    IEnumerable<Aluno> ListaAlunos = _alunoRepository.GetAllAluno();
+                    IEnumerable<Aluno> ListaAlunos = _unitOfWork.AlunoRepository.GetAllAluno();
                     if (!ListaAlunos.Any())
                     {
                         return View("ErroListaVazia");
@@ -128,7 +126,7 @@ namespace Sistema_de_Biblioteca.Controllers
                 }
                 return View("Error");
             }
-            return View("../Account/Login");
+            return RedirectToAction("Login", "Account");
         }
 
 

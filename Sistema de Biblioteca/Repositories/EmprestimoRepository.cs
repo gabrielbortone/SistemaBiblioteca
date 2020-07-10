@@ -19,7 +19,6 @@ namespace Sistema_de_Biblioteca.Repositories
         public void AddEmprestimo(Emprestimo emprestimo)
         {
             _context.Emprestimos.Add(emprestimo);
-            _context.SaveChanges();
         }
 
         public IEnumerable<Emprestimo> GetAllEmprestimo()
@@ -45,13 +44,11 @@ namespace Sistema_de_Biblioteca.Repositories
         public void RemoveEmprestimo(Emprestimo emprestimo)
         {
             _context.Emprestimos.Remove(emprestimo);
-            _context.SaveChanges();
         }
 
         public void UpdateEmprestimo(Emprestimo emprestimo)
         {
             _context.Emprestimos.Update(emprestimo);
-            _context.SaveChanges();
         }
     }
 }

@@ -13,12 +13,10 @@ namespace Sistema_de_Biblioteca.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ILoginService _loginService;
 
-        public HomeController(ILogger<HomeController> logger, ILoginService loginService)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _loginService = loginService;
         }
 
         public IActionResult Index()
