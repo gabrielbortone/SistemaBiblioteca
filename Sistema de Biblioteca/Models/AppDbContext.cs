@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sistema_de_Biblioteca.Models.ValueObjects;
-using Sistema_de_Biblioteca.ViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Sistema_de_Biblioteca.Models
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<Account>
     {
         public DbSet<Aluno> Alunos { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }

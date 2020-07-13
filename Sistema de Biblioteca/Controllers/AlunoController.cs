@@ -8,7 +8,6 @@ using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
-using Sistema_de_Biblioteca.Services;
 using Sistema_de_Biblioteca.ViewModels;
 
 namespace Sistema_de_Biblioteca.Controllers
@@ -22,111 +21,81 @@ namespace Sistema_de_Biblioteca.Controllers
         }
         public IActionResult Cadastrar()
         {
-            if (_unitOfWork.LoginService.EstaLogado())
-            {
-                return View();
-            }
-            return RedirectToAction("Login", "Account");
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(AlunoViewModel alunoVM)
         {
-            if (_unitOfWork.LoginService.EstaLogado())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, 
-                        new Endereco(alunoVM.CEP,alunoVM.Bairro,alunoVM.Cidade,alunoVM.Estado),
-                        new Telefone(alunoVM.Tipo,alunoVM.DDD,alunoVM.Numero), alunoVM.Email, alunoVM.Matricula);
-                    _unitOfWork.AlunoRepository.AddAluno(aluno);
-                    ViewBag.Mensagem = "Cadastro feito com sucesso!";
-                }
-                ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
-                return View(alunoVM);
+                Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, 
+                              new Endereco(alunoVM.CEP,alunoVM.Bairro,alunoVM.Cidade,alunoVM.Estado),
+                              new Telefone(alunoVM.Tipo,alunoVM.DDD,alunoVM.Numero), alunoVM.Email, alunoVM.Matricula);
+                _unitOfWork.AlunoRepository.AddAluno(aluno);
+                ViewBag.Mensagem = "Cadastro feito com sucesso!";
             }
-            return RedirectToAction("Login", "Account");
-
+            ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
+            return View(alunoVM);
         }
 
         public IActionResult Editar()
         {
-            if (_unitOfWork.LoginService.EstaLogado())
-            {
-                return View();
-            }
-            return RedirectToAction("Login", "Account");
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Editar(AlunoViewModel alunoVM)
         {
-            if (_unitOfWork.LoginService.EstaLogado())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF,
-                        new Endereco(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado),
-                        new Telefone(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero), alunoVM.Email, alunoVM.Matricula);
-                    _unitOfWork.AlunoRepository.UpdateAluno(aluno);
-                    ViewBag.Mensagem = "Edição feito com sucesso!";
-                    return View("Listar");
-                }
-                ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
-                return View(alunoVM);
+                Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF,
+                    new Endereco(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado),
+                    new Telefone(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero), alunoVM.Email, alunoVM.Matricula);
+                _unitOfWork.AlunoRepository.UpdateAluno(aluno);
+                ViewBag.Mensagem = "Edição feito com sucesso!";
+                return View("Listar");
             }
-
-            return RedirectToAction("Login", "Account");
+            ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
+            return View(alunoVM);
         }
 
         public IActionResult Deletar()
         {
-            if (_unitOfWork.LoginService.EstaLogado())
-            {
-                return View();
-            }
-
-            return RedirectToAction("Login", "Account");
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
-            if (_unitOfWork.LoginService.EstaLogado())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                Aluno aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
+                if (aluno != null)
                 {
-                    Aluno aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
-                    if (aluno != null)
-                    {
-                        _unitOfWork.AlunoRepository.RemoveAluno(aluno);
-                        ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
-                    }        
-                }
-                return View("Error");
+                    _unitOfWork.AlunoRepository.RemoveAluno(aluno);
+                    ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
+                }        
+                return View(aluno);
             }
-            return RedirectToAction("Login", "Account");
+            return View("Error");
         }
 
         public IActionResult Listar()
         {
-            if (_unitOfWork.LoginService.EstaLogado())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                IEnumerable<Aluno> ListaAlunos = _unitOfWork.AlunoRepository.GetAllAluno();
+                if (!ListaAlunos.Any())
                 {
-                    IEnumerable<Aluno> ListaAlunos = _unitOfWork.AlunoRepository.GetAllAluno();
-                    if (!ListaAlunos.Any())
-                    {
-                        return View("ErroListaVazia");
-                    }
-                    return View(ListaAlunos);
+                    return View("ErroListaVazia");
                 }
-                return View("Error");
+                return View(ListaAlunos);
             }
-            return RedirectToAction("Login", "Account");
+            return View("Error");
         }
 
 

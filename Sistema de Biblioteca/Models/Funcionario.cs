@@ -28,15 +28,8 @@ namespace Sistema_de_Biblioteca.Models
         [StringLength(11, MinimumLength = 11)]
         public string CPF { get; set; }
 
-        [Display(Name = "Informe seu UserName")]
-        [StringLength(12, MinimumLength = 3)]
-        public string Username { get; set; }
-
-        [Display(Name = "Informe a sua senha")]
-        [StringLength(12, MinimumLength = 3)]
-        [DataType(DataType.Password)]
-        public string Senha { get; set; }
-
+        public Account Account { get; set; }
+        public int AccountId { get; set; }
 
         [Required]
         [ForeignKey("EnderecoId")]
@@ -70,8 +63,8 @@ namespace Sistema_de_Biblioteca.Models
             Nome = nome;
             Sobrenome = sobrenome;
             CPF = cpf;
-            Username = username;
-            Senha = password;
+            Account.UserName = username;
+            Account.PasswordHash = password;
             Endereco = endereco;
             Telefone = telefone;
             Email = email;

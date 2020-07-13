@@ -1,20 +1,32 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Sistema_de_Biblioteca.Repositories;
+using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
-using Sistema_de_Biblioteca.Services;
 using Sistema_de_Biblioteca.ViewModels;
+using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly UserManager<Account> _userManager;
+        private readonly SignInManager<Account> _signInManager;
         private IUnitOfWork _unitOfWork { get; }
 
-        public AccountController( IUnitOfWork unitOfWork)
+        public AccountController(UserManager<Account> userManager,
+            SignInManager<Account> signInManager, IUnitOfWork unitOfWork)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
             _unitOfWork = unitOfWork;
+        }
+
+        public Funcionario ObterFuncionarioLogado()
+        {
+            return null;
         }
 
         public IActionResult Login()
@@ -24,35 +36,31 @@ namespace Sistema_de_Biblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(LoginViewModel loginVM)
+        public async Task<IActionResult> Login(LoginViewModel loginVM)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.LoginService.Logar(loginVM.Username, loginVM.Senha);
-                if (_unitOfWork.LoginService.ObterFuncionarioLogado() != null)
+                var user = await _userManager.FindByNameAsync(loginVM.Username);
+                
+                if (user != null)
                 {
-                    HttpContext.Session.SetString("Username", loginVM.Username);
-                    HttpContext.Session.SetString("Password", loginVM.Senha);
-                    HttpContext.Session.SetInt32("EstaLogado", 1);
-                    return View("../Home/Index");
+                    var result = await _signInManager.PasswordSignInAsync(user, loginVM.Senha, false, false);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
+            ModelState.AddModelError("", "Usuário/Senha inválidos ou não localizados!!");
             return View(loginVM);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Logout()
+        [Authorize]
+        public async Task<IActionResult> Logout()
         {
-            if (_unitOfWork.LoginService.ObterFuncionarioLogado() != null)
-            {
-                _unitOfWork.LoginService.Logout();
-                HttpContext.Session.SetString("Username", null);
-                HttpContext.Session.SetString("Password", null);
-                HttpContext.Session.SetInt32("IsLogged", 0);
-                return View("../Home/Index");
-            }
-            throw new Exception("Usuário não está logado!");
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
-using Sistema_de_Biblioteca.Services;
 using Sistema_de_Biblioteca.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,109 +17,78 @@ namespace Sistema_de_Biblioteca.Controllers
 
         public IActionResult Cadastrar()
         {
-            if (_unitOfWork.LoginService.EstaLogado())
-            {
-                return View();
-            }
-            return RedirectToAction("Login", "Account");
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(LivroViewModel livroVM)
         {
-            if (_unitOfWork.LoginService.EstaLogado())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    Livro livro = new Livro(livroVM.Titulo,livroVM.Autor,livroVM.Edicao, livroVM.Ano, livroVM.Paginas,
-                        livroVM.Genero, livroVM.Editora);
-                    _unitOfWork.LivroRepository.AddLivro(livro);
-                    ViewBag.Mensagem = "Cadastro feito com sucesso!";
-                }
-                ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
-                return View(livroVM);
+                Livro livro = new Livro(livroVM.Titulo,livroVM.Autor,livroVM.Edicao, livroVM.Ano, livroVM.Paginas,
+                    livroVM.Genero, livroVM.Editora);
+                _unitOfWork.LivroRepository.AddLivro(livro);
+                ViewBag.Mensagem = "Cadastro feito com sucesso!";
             }
-            return RedirectToAction("Login", "Account");
-
+            ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
+            return View(livroVM);;
         }
 
         public IActionResult Editar()
         {
-            if (_unitOfWork.LoginService.EstaLogado())
-            {
-                return View();
-            }
-            return RedirectToAction("Login", "Account");
+           return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Editar(LivroViewModel livroVM)
         {
-            if (_unitOfWork.LoginService.EstaLogado())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    Livro livro = new Livro(livroVM.Titulo, livroVM.Autor, livroVM.Edicao, livroVM.Ano, livroVM.Paginas,
-                        livroVM.Genero, livroVM.Editora);
-                    _unitOfWork.LivroRepository.UpdateLivro(livro);
-                    ViewBag.Mensagem = "Edição feito com sucesso!";
-                }
-                ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
-                return View(livroVM);
+                Livro livro = new Livro(livroVM.Titulo, livroVM.Autor, livroVM.Edicao, livroVM.Ano, livroVM.Paginas,
+                livroVM.Genero, livroVM.Editora);
+                _unitOfWork.LivroRepository.UpdateLivro(livro);
+                ViewBag.Mensagem = "Edição feito com sucesso!";
             }
-            return RedirectToAction("Login", "Account");
-
+            ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
+            return View(livroVM);
         }
 
         public IActionResult Deletar()
         {
-            if (_unitOfWork.LoginService.EstaLogado())
-            {
-                return View();
-            }
-            return RedirectToAction("Login", "Account");
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
-            if (_unitOfWork.LoginService.EstaLogado())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                Livro livro = _unitOfWork.LivroRepository.GetLivroById(id);
+                if (livro != null)
                 {
-                    Livro livro = _unitOfWork.LivroRepository.GetLivroById(id);
-                    if (livro != null)
-                    {
-                        _unitOfWork.LivroRepository.RemoveLivro(livro);
-                        ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
-                    }
+                    _unitOfWork.LivroRepository.RemoveLivro(livro);
+                    ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
                 }
-                ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
-                return View(id);
             }
-            return RedirectToAction("Login", "Account");
-
+            ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
+            return View(id);
         }
 
         public IActionResult Listar()
         {
-            if (_unitOfWork.LoginService.EstaLogado())
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                IEnumerable<Livro> ListaLivros = _unitOfWork.LivroRepository.GetAllLivro();
+                if (!ListaLivros.Any())
                 {
-                    IEnumerable<Livro> ListaLivros = _unitOfWork.LivroRepository.GetAllLivro();
-                    if (!ListaLivros.Any())
-                    {
-                        return View("ErroListaVazia");
-                    }
-                    return View(ListaLivros);
+                    return View("ErroListaVazia");
                 }
-                return View("Error");
+                return View(ListaLivros);
             }
-            return RedirectToAction("Login", "Account");
+            return View("Error");
         }
     }
 }

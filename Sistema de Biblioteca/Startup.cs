@@ -30,7 +30,7 @@ namespace Sistema_de_Biblioteca
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(60);
+                options.IdleTimeout = TimeSpan.FromMinutes(600);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });

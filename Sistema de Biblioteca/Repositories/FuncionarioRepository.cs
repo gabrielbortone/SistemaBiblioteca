@@ -44,7 +44,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public Funcionario GetFuncionarioByUserName(string userName)
         {
-            return _context.Funcionarios.Where(f => f.Username == userName).FirstOrDefault();
+            return _context.Funcionarios.Where(f => f.Account.UserName == userName).FirstOrDefault();
         }
     }
 }
