@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
-using Sistema_de_Biblioteca.Services;
 using System;
 
 namespace Sistema_de_Biblioteca
@@ -29,12 +29,14 @@ namespace Sistema_de_Biblioteca
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(600);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
+            services.AddIdentity<Account, IdentityRole>()
+               .AddEntityFrameworkStores<AppDbContext>()
+               .AddDefaultTokenProviders();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+            });
 
         }
 
@@ -54,7 +56,6 @@ namespace Sistema_de_Biblioteca
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSession();
 
             app.UseRouting();
             app.UseEndpoints(endpoints =>

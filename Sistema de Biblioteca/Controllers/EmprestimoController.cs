@@ -1,19 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
+    [Authorize]
     public class EmprestimoController : Controller
     {
         private IUnitOfWork _unitOfWork;
-        public EmprestimoController(IUnitOfWork unitOfWork)
+        private UserManager<Account> _userManager;
+        public EmprestimoController(IUnitOfWork unitOfWork, UserManager<Account> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
 
         public IActionResult Cadastrar()
@@ -23,12 +29,13 @@ namespace Sistema_de_Biblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Cadastrar(EmprestimoViewModel emprestimoVM)
+        public async Task<IActionResult> CadastrarAsync(EmprestimoViewModel emprestimoVM)
         {
             if (ModelState.IsValid)
             {
+                Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioByAccount(await _userManager.GetUserAsync(User));
                 Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, emprestimoVM.Livro, emprestimoVM.Aluno,
-                    _unitOfWork.LoginService.ObterFuncionarioLogado());
+                    funcionario);
                     _unitOfWork.EmprestimoRepository.AddEmprestimo(emprestimo);
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
             }
@@ -44,12 +51,13 @@ namespace Sistema_de_Biblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Editar(EmprestimoViewModel emprestimoVM)
+        public async Task<IActionResult> Editar(EmprestimoViewModel emprestimoVM)
         {
             if (ModelState.IsValid)
             {
+                Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioByAccount(await _userManager.GetUserAsync(User));
                 Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, emprestimoVM.Livro, emprestimoVM.Aluno,
-                    _unitOfWork.LoginService.ObterFuncionarioLogado());
+                    funcionario);
                     _unitOfWork.EmprestimoRepository.UpdateEmprestimo(emprestimo);
                 ViewBag.Mensagem = "Edição feito com sucesso!";
             }

@@ -24,11 +24,6 @@ namespace Sistema_de_Biblioteca.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public Funcionario ObterFuncionarioLogado()
-        {
-            return null;
-        }
-
         public IActionResult Login()
         {
             return View();

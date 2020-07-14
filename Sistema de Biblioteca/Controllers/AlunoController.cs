@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
-using Sistema_de_Biblioteca.Repositories;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
+    [Authorize]
     public class AlunoController : Controller
     {
         private IUnitOfWork _unitOfWork;

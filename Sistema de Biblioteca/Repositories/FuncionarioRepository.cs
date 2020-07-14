@@ -1,17 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Repositories
 {
     public class FuncionarioRepository : IFuncionarioRepository
     {
         private readonly AppDbContext _context;
-
         public FuncionarioRepository(AppDbContext context)
         {
             _context = context;
@@ -32,6 +29,11 @@ namespace Sistema_de_Biblioteca.Repositories
             return _context.Funcionarios.Find(id);
         }
 
+        public Funcionario GetFuncionarioByAccount(Account account)
+        {
+            return _context.Funcionarios.FirstOrDefault(F => F.Account == account);
+        }
+
         public void RemoveFuncionario(Funcionario funcionario)
         {
             _context.Funcionarios.Remove(funcionario);
@@ -46,5 +48,7 @@ namespace Sistema_de_Biblioteca.Repositories
         {
             return _context.Funcionarios.Where(f => f.Account.UserName == userName).FirstOrDefault();
         }
+
+       
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
+    [Authorize]
     public class FuncionarioController : Controller
     {
         private IUnitOfWork _unitOfWork;
