@@ -7,6 +7,7 @@ namespace Sistema_de_Biblioteca.Models
     public class AppDbContext : IdentityDbContext<Account>
     {
         public DbSet<Aluno> Alunos { get; set; }
+        public DbSet<Account> Accounts { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<Telefone> Telefones { get; set; }
