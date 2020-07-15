@@ -4,9 +4,9 @@
     ViewData["Title"] = "Deletar";
 }
 
-<h1>Deletar</h1>
+<h1>Deletar Empréstimo</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Você tem certeza que deseja deletar esse empréstimo?</h3>
 <div>
     <h4>Emprestimo</h4>
     <hr />
@@ -51,7 +51,7 @@
     
     <form asp-action="Deletar">
         <input type="hidden" asp-for="EmprestimoId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Deletar" class="btn btn-danger" /> |
+        <a asp-action="Listar">Voltar para a lista</a>
     </form>
 </div>

@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class FuncionarioController : Controller
     {
         private IUnitOfWork _unitOfWork;
@@ -90,7 +90,8 @@ namespace Sistema_de_Biblioteca.Controllers
                 IEnumerable<Funcionario> ListaFuncionario = _unitOfWork.FuncionarioRepository.GetAllFuncionario();
                 if (!ListaFuncionario.Any())
                 {
-                    return View("ErroListaVazia");
+                    ViewData["Url"] = "/Funcionario";
+                    return View("ErroListaVazia", ViewData["Url"]);
                 }
                 return View(ListaFuncionario);
             }

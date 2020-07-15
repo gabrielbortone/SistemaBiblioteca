@@ -32,12 +32,14 @@ namespace Sistema_de_Biblioteca
             services.AddIdentity<Account, IdentityRole>()
                .AddEntityFrameworkStores<AppDbContext>()
                .AddDefaultTokenProviders();
-
+            
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/Login";
             });
 
+            services.AddAuthentication();
+            services.AddAuthorization();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext ctx)
@@ -52,12 +54,16 @@ namespace Sistema_de_Biblioteca
                 
                 app.UseHsts();
             }
-
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

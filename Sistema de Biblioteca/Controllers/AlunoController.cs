@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AlunoController : Controller
     {
         private IUnitOfWork _unitOfWork;
@@ -90,7 +90,8 @@ namespace Sistema_de_Biblioteca.Controllers
                 IEnumerable<Aluno> ListaAlunos = _unitOfWork.AlunoRepository.GetAllAluno();
                 if (!ListaAlunos.Any())
                 {
-                    return View("ErroListaVazia");
+                    ViewData["Url"] = "/Aluno";
+                    return View("ErroListaVazia", ViewData["Url"]);
                 }
                 return View(ListaAlunos);
             }

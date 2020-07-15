@@ -1,6 +1,8 @@
 ﻿
 @{
-    ViewData["Title"] = "ErroListaVazia";
+    var url = ViewData["Url"];
 }
 
 <p>Nada a ser exibido! Por favor, Cadastre novos items para serem exibidos!</p>
+
+<a href="@url/Cadastrar">Cadastre novo item</a>

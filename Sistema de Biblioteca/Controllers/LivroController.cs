@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class LivroController : Controller
     {
         private IUnitOfWork _unitOfWork;
@@ -86,7 +86,8 @@ namespace Sistema_de_Biblioteca.Controllers
                 IEnumerable<Livro> ListaLivros = _unitOfWork.LivroRepository.GetAllLivro();
                 if (!ListaLivros.Any())
                 {
-                    return View("ErroListaVazia");
+                    ViewData["Url"] = "/Livro";
+                    return View("ErroListaVazia", ViewData["Url"]);
                 }
                 return View(ListaLivros);
             }

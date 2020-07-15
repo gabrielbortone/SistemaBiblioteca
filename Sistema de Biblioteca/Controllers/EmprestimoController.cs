@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class EmprestimoController : Controller
     {
         private IUnitOfWork _unitOfWork;
@@ -95,7 +95,8 @@ namespace Sistema_de_Biblioteca.Controllers
                 IEnumerable<Emprestimo> ListaEmprestimo = _unitOfWork.EmprestimoRepository.GetAllEmprestimo();
                 if (!ListaEmprestimo.Any())
                 {
-                    return View("ErroListaVazia");
+                    ViewData["Url"] = "/Emprestimo";
+                    return View("ErroListaVazia", ViewData["Url"]);
                 }
                 return View(ListaEmprestimo);
             }
