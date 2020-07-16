@@ -6,7 +6,7 @@
 
 <h1>Editar</h1>
 
-<h4>Editar informações sobre o empréstimo: </h4>
+<h4>Editar o Empréstimo: </h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -22,6 +22,16 @@
                 <label asp-for="DataEntrega" class="control-label"></label>
                 <input asp-for="DataEntrega" class="form-control" />
                 <span asp-validation-for="DataEntrega" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AlunoId" class="control-label"></label>
+                <input asp-for="AlunoId" class="form-control" />
+                <span asp-validation-for="AlunoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LivroId" class="control-label"></label>
+                <input asp-for="LivroId" class="form-control" />
+                <span asp-validation-for="LivroId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

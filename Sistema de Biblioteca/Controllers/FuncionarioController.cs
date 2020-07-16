@@ -28,10 +28,12 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
+                Endereco endereco = new Endereco(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado);
+                _unitOfWork.EnderecoRepository.AddEndereco(endereco);
+                Telefone telefone = new Telefone(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero);
+                _unitOfWork.TelefoneRepository.AddTelefone(telefone);
                 Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF, 
-                    funcionarioVM.Username, funcionarioVM.Senha,
-                    new Endereco(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado),
-                    new Telefone(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero), funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
+                    funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
                 _unitOfWork.FuncionarioRepository.AddFuncionario(funcionario);
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
             }
@@ -50,11 +52,13 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
+                Endereco endereco = new Endereco(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado);
+                _unitOfWork.EnderecoRepository.UpdateEndereco(endereco);
+                Telefone telefone = new Telefone(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero);
+                _unitOfWork.TelefoneRepository.UpdateTelefone(telefone);
                 Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF,
-                    funcionarioVM.Username, funcionarioVM.Senha,
-                    new Endereco(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado),
-                    new Telefone(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero), funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
-                 _unitOfWork.FuncionarioRepository.UpdateFuncionario(funcionario);
+                    funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
+                _unitOfWork.FuncionarioRepository.UpdateFuncionario(funcionario);
                  ViewBag.Mensagem = "Edição feito com sucesso!";
             }
             ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
@@ -75,6 +79,8 @@ namespace Sistema_de_Biblioteca.Controllers
                 Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
                 if (funcionario != null)
                 {
+                    _unitOfWork.RemoveEnderecoByFuncionario(id);
+                    _unitOfWork.RemoveTelefoneByFuncionario(id);
                     _unitOfWork.FuncionarioRepository.RemoveFuncionario(funcionario);
                     ViewBag.Mensagem = "Funcionário Removido feito com sucesso!";
                 }

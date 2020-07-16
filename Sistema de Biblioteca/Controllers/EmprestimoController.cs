@@ -34,8 +34,8 @@ namespace Sistema_de_Biblioteca.Controllers
             if (ModelState.IsValid)
             {
                 Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioByAccount(await _userManager.GetUserAsync(User));
-                Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, emprestimoVM.Livro, emprestimoVM.Aluno,
-                    funcionario);
+                Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, _unitOfWork.LivroRepository.GetLivroById(emprestimoVM.LivroId), 
+                    _unitOfWork.AlunoRepository.GetAlunoById(emprestimoVM.AlunoId),funcionario);
                     _unitOfWork.EmprestimoRepository.AddEmprestimo(emprestimo);
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
             }
@@ -56,9 +56,9 @@ namespace Sistema_de_Biblioteca.Controllers
             if (ModelState.IsValid)
             {
                 Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioByAccount(await _userManager.GetUserAsync(User));
-                Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, emprestimoVM.Livro, emprestimoVM.Aluno,
-                    funcionario);
-                    _unitOfWork.EmprestimoRepository.UpdateEmprestimo(emprestimo);
+                Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, _unitOfWork.LivroRepository.GetLivroById(emprestimoVM.LivroId),
+                    _unitOfWork.AlunoRepository.GetAlunoById(emprestimoVM.AlunoId), funcionario);
+                _unitOfWork.EmprestimoRepository.UpdateEmprestimo(emprestimo);
                 ViewBag.Mensagem = "Edição feito com sucesso!";
             }
             ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";

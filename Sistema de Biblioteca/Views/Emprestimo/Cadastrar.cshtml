@@ -4,7 +4,7 @@
     ViewData["Title"] = "Cadastrar";
 }
 
-<h1>Tela de Cadastro</h1>
+<h1>Cadastrar</h1>
 
 <h4>Cadastrar novo Empréstimo de livro</h4>
 <hr />
@@ -23,6 +23,16 @@
                 <span asp-validation-for="DataEntrega" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="AlunoId" class="control-label"></label>
+                <input asp-for="AlunoId" class="form-control" />
+                <span asp-validation-for="AlunoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LivroId" class="control-label"></label>
+                <input asp-for="LivroId" class="form-control" />
+                <span asp-validation-for="LivroId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -30,6 +40,6 @@
 </div>
 
 <div>
-    <a asp-action="Listar">Voltar para a lista</a>
+    <a asp-action="Listar">Volta para a lista</a>
 </div>
 

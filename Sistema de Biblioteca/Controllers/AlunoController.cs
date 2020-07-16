@@ -29,9 +29,15 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, 
-                              new Endereco(alunoVM.CEP,alunoVM.Bairro,alunoVM.Cidade,alunoVM.Estado),
-                              new Telefone(alunoVM.Tipo,alunoVM.DDD,alunoVM.Numero), alunoVM.Email, alunoVM.Matricula);
+                Endereco endereco = new Endereco(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado);
+                _unitOfWork.EnderecoRepository.AddEndereco(endereco);
+
+                Telefone telefone = new Telefone(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero);
+                _unitOfWork.TelefoneRepository.AddTelefone(telefone);
+
+                Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, endereco, 
+                    telefone, alunoVM.Email, alunoVM.Matricula);
+
                 _unitOfWork.AlunoRepository.AddAluno(aluno);
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
             }
@@ -50,10 +56,17 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF,
-                    new Endereco(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado),
-                    new Telefone(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero), alunoVM.Email, alunoVM.Matricula);
+                Endereco endereco = new Endereco(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado);
+                _unitOfWork.EnderecoRepository.UpdateEndereco(endereco);
+
+                Telefone telefone = new Telefone(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero);
+                _unitOfWork.TelefoneRepository.UpdateTelefone(telefone);
+
+                Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, endereco,
+                    telefone, alunoVM.Email, alunoVM.Matricula);
+
                 _unitOfWork.AlunoRepository.UpdateAluno(aluno);
+
                 ViewBag.Mensagem = "Edição feito com sucesso!";
                 return View("Listar");
             }
@@ -75,6 +88,8 @@ namespace Sistema_de_Biblioteca.Controllers
                 Aluno aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
                 if (aluno != null)
                 {
+                    _unitOfWork.RemoveEnderecoByAluno(id);
+                    _unitOfWork.RemoveTelefoneByAluno(id);
                     _unitOfWork.AlunoRepository.RemoveAluno(aluno);
                     ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
                 }        

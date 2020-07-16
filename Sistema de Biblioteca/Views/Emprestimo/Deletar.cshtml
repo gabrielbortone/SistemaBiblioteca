@@ -1,22 +1,15 @@
-﻿@model Sistema_de_Biblioteca.Models.Emprestimo
+﻿@model Sistema_de_Biblioteca.ViewModels.EmprestimoViewModel
 
 @{
     ViewData["Title"] = "Deletar";
 }
 
-<h1>Deletar Empréstimo</h1>
+<h1>Deletar</h1>
 
-<h3>Você tem certeza que deseja deletar esse empréstimo?</h3>
+<h3>Você tem certeza que deseja excluir esse empréstimo?</h3>
 <div>
-    <h4>Emprestimo</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataEmprestimo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataEmprestimo)
-        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DataLimiteEntrega)
         </dt>
@@ -30,28 +23,22 @@
             @Html.DisplayFor(model => model.DataEntrega)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Livro)
+            @Html.DisplayNameFor(model => model.AlunoId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Livro.Autor)
-        </dd class>
+            @Html.DisplayFor(model => model.AlunoId)
+        </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Aluno)
+            @Html.DisplayNameFor(model => model.LivroId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Aluno.Email)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Funcionario)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Funcionario.Cargo)
-        </dd class>
+            @Html.DisplayFor(model => model.LivroId)
+        </dd>
     </dl>
     
     <form asp-action="Deletar">
-        <input type="hidden" asp-for="EmprestimoId" />
-        <input type="submit" value="Deletar" class="btn btn-danger" /> |
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Listar">Voltar para a lista</a>
     </form>
 </div>
