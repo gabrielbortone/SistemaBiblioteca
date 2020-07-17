@@ -22,6 +22,8 @@
     <Compile Remove="Migrations\20200706184646_InitialMigration2.Designer.cs" />
     <Compile Remove="Migrations\20200715175929_AddIdentity.cs" />
     <Compile Remove="Migrations\20200715175929_AddIdentity.Designer.cs" />
+    <Compile Remove="Migrations\20200717194919_CorretingRelationships.cs" />
+    <Compile Remove="Migrations\20200717194919_CorretingRelationships.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

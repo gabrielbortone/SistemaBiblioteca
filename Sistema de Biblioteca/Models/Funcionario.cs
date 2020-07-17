@@ -16,19 +16,19 @@ namespace Sistema_de_Biblioteca.Models
 
         [Required]
         [Display(Name = "Informe o seu nome")]
-        [StringLength(30, MinimumLength = 4)]
+        [StringLength(30, MinimumLength = 3)]
         public string Nome { get; set; }
 
         [Required]
         [Display(Name = "Informe o seu sobrenome")]
-        [StringLength(30, MinimumLength = 4)]
+        [StringLength(30, MinimumLength = 3)]
         public string Sobrenome { get; set; }
 
         [Display(Name = "Informe o seu número de CPF")]
         [StringLength(11, MinimumLength = 11)]
         public string CPF { get; set; }
 
-        public Account Account { get; set; }
+        public virtual Account Account { get; set; }
         public int AccountId { get; set; }
 
         [Required]

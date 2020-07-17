@@ -12,5 +12,9 @@ namespace Sistema_de_Biblioteca.Repositories.Interfaces
         public void RemoveTelefone(int idTelefone);
         public void UpdateTelefone(Telefone telefone);
         public Telefone GetTelefoneById(int? id);
+        public Telefone GetTelefoneByAluno(int idAluno);
+        public Telefone GetTelefoneByFuncionario(int idFuncionario);
+        public void RemoveTelefoneByAluno(int idAluno);
+        public void RemoveTelefoneByFuncionario(int idFuncionario);
     }
 }

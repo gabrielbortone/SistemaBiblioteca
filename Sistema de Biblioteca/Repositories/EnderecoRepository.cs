@@ -35,5 +35,27 @@ namespace Sistema_de_Biblioteca.Repositories
         {
             _context.Enderecos.Update(endereco);
         }
+
+        public Endereco GetEnderecoByAluno(int idAluno)
+        {
+            return _context.Enderecos.FirstOrDefault(e => e.AlunoId == idAluno);
+        }
+
+        public Endereco GetEnderecoByFuncionario(int idFuncionario)
+        {
+            return _context.Enderecos.FirstOrDefault(e => e.FuncionarioId == idFuncionario);
+        }
+
+        public void RemoveEnderecoByAluno(int idAluno)
+        {
+            var endereco = GetEnderecoByAluno(idAluno);
+            RemoveEndereco(endereco.EnderecoId);
+        }
+
+        public void RemoveEnderecoByFuncionario(int idFuncionario)
+        {
+            var endereco = GetEnderecoByFuncionario(idFuncionario);
+            RemoveEndereco(endereco.EnderecoId);
+        }
     }
 }

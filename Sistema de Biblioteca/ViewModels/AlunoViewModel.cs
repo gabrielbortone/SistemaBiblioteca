@@ -1,4 +1,5 @@
 ﻿using Sistema_de_Biblioteca.Models;
+using Sistema_de_Biblioteca.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,12 +13,12 @@ namespace Sistema_de_Biblioteca.ViewModels
         public int Id { get; set; }
         [Required]
         [Display(Name = "Informe o seu nome")]
-        [StringLength(30, MinimumLength = 4)]
+        [StringLength(30, MinimumLength = 3)]
         public string Nome { get; set; }
 
         [Required]
         [Display(Name = "Informe o seu sobrenome")]
-        [StringLength(30, MinimumLength = 4)]
+        [StringLength(30, MinimumLength = 3)]
         public string Sobrenome { get; set; }
 
         [Display(Name = "Informe o seu número de CPF")]
@@ -55,7 +56,7 @@ namespace Sistema_de_Biblioteca.ViewModels
 
         [Required]
         [Display(Name = "Informe o seu número:")]
-        [StringLength(11, MinimumLength = 10)]
+        [StringLength(11, MinimumLength = 8)]
         public string Numero { get; set; }
 
 

@@ -1,4 +1,5 @@
-﻿using Sistema_de_Biblioteca.Models.ValueObjects;
+﻿using Sistema_de_Biblioteca.Models.Enums;
+using Sistema_de_Biblioteca.Models.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

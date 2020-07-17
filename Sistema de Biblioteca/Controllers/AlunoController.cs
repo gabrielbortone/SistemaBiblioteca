@@ -88,8 +88,8 @@ namespace Sistema_de_Biblioteca.Controllers
                 Aluno aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
                 if (aluno != null)
                 {
-                    _unitOfWork.RemoveEnderecoByAluno(id);
-                    _unitOfWork.RemoveTelefoneByAluno(id);
+                    _unitOfWork.EnderecoRepository.RemoveEnderecoByAluno(id);
+                    _unitOfWork.TelefoneRepository.RemoveTelefoneByAluno(id);
                     _unitOfWork.AlunoRepository.RemoveAluno(aluno);
                     ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
                 }        

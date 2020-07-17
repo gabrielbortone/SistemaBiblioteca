@@ -1,4 +1,5 @@
 ﻿using Sistema_de_Biblioteca.Models;
+using Sistema_de_Biblioteca.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,12 +13,12 @@ namespace Sistema_de_Biblioteca.ViewModels
         public int Id { get; set; }
         [Required]
         [Display(Name = "Informe o seu nome")]
-        [StringLength(30, MinimumLength = 4)]
+        [StringLength(30, MinimumLength = 3)]
         public string Nome { get; set; }
 
         [Required]
         [Display(Name = "Informe o seu sobrenome")]
-        [StringLength(30, MinimumLength = 4)]
+        [StringLength(30, MinimumLength = 3)]
         public string Sobrenome { get; set; }
 
         [Display(Name = "Informe o seu número de CPF")]
@@ -29,7 +30,7 @@ namespace Sistema_de_Biblioteca.ViewModels
         public string Username { get; set; }
 
         [Display(Name = "Informe a sua senha")]
-        [StringLength(12, MinimumLength = 3)]
+        [StringLength(20, MinimumLength = 3)]
         [DataType(DataType.Password)]
         public string Senha { get; set; }
 
@@ -63,14 +64,12 @@ namespace Sistema_de_Biblioteca.ViewModels
 
         [Required]
         [Display(Name = "Informe o seu número:")]
-        [StringLength(11, MinimumLength = 10)]
+        [StringLength(11, MinimumLength = 8)]
         public string Numero { get; set; }
-
 
         [Required(ErrorMessage = "Informe o seu email")]
         [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido...")]
         public string Email { get; set; }
-
 
         [Required]
         [Display(Name = "Informe o cargo do funcionário")]
@@ -78,7 +77,7 @@ namespace Sistema_de_Biblioteca.ViewModels
         public string Cargo { get; set; }
 
         [Required]
-        [Display(Name = "Informe o seu nome")]
+        [Display(Name = "Informe a data de admissão")]
         public DateTime DataAdmissao { get; set; }
 
     }

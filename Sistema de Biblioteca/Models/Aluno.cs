@@ -14,12 +14,12 @@ namespace Sistema_de_Biblioteca.Models
 
         [Required]
         [Display(Name = "Informe o seu nome")]
-        [StringLength(30, MinimumLength = 4)]
+        [StringLength(30, MinimumLength = 3)]
         public string Nome { get; set; }
 
         [Required]
         [Display(Name = "Informe o seu sobrenome")]
-        [StringLength(30, MinimumLength = 4)]
+        [StringLength(30, MinimumLength = 3)]
         public string Sobrenome { get; set; }
 
         [Display(Name = "Informe o seu número de CPF")]
@@ -42,6 +42,7 @@ namespace Sistema_de_Biblioteca.Models
         [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido...")]
         public string Email { get; set; }
         [Display(Name = "Informe o seu número de matrícula")]
+
         [StringLength(12, MinimumLength = 12)]
         public string Matricula { get; set; }
 

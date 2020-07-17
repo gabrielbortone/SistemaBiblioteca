@@ -33,52 +33,6 @@ namespace Sistema_de_Biblioteca.Repositories
             _context.SaveChanges();
         }
 
-        public Endereco GetEnderecoByAluno(int idAluno)
-        {
-            var aluno = AlunoRepository.GetAlunoById(idAluno);
-            return EnderecoRepository.GetEnderecoById(aluno.EnderecoId);
-        }
-
-        public Endereco GetEnderecoByFuncionario(int idFuncionario)
-        {
-            var funcionario = FuncionarioRepository.GetFuncionarioById(idFuncionario);
-            return EnderecoRepository.GetEnderecoById(funcionario.EnderecoId);
-        }
-
-        public void RemoveEnderecoByAluno(int idAluno)
-        {
-            var aluno = AlunoRepository.GetAlunoById(idAluno);
-            EnderecoRepository.RemoveEndereco(aluno.EnderecoId);
-        }
-
-        public void RemoveEnderecoByFuncionario(int idFuncionario)
-        {
-            var funcionario = FuncionarioRepository.GetFuncionarioById(idFuncionario);
-            EnderecoRepository.RemoveEndereco(funcionario.EnderecoId);
-        }
-
-        public Telefone GetTelefoneByAluno(int idAluno)
-        {
-            var aluno = AlunoRepository.GetAlunoById(idAluno);
-            return TelefoneRepository.GetTelefoneById(aluno.TelefoneId);
-        }
-
-        public Telefone GetTelefoneByFuncionario(int idFuncionario)
-        {
-            var funcionario = FuncionarioRepository.GetFuncionarioById(idFuncionario);
-            return TelefoneRepository.GetTelefoneById(funcionario.TelefoneId);
-        }
-
-        public void RemoveTelefoneByAluno(int idAluno)
-        {
-            var aluno = AlunoRepository.GetAlunoById(idAluno);
-            TelefoneRepository.RemoveTelefone(aluno.TelefoneId);
-        }
-
-        public void RemoveTelefoneByFuncionario(int idFuncionario)
-        {
-            var funcionario = FuncionarioRepository.GetFuncionarioById(idFuncionario);
-            TelefoneRepository.RemoveTelefone(funcionario.TelefoneId);
-        }
+        
     }
 }

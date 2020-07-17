@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sistema_de_Biblioteca.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,8 +22,14 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
 
         [Required]
         [Display(Name = "Informe o seu número:")]
-        [StringLength(11, MinimumLength = 10)]
+        [StringLength(11, MinimumLength = 8)]
         public string Numero { get; set; }
+
+        public int FuncionarioId { get; set; }
+        public virtual Funcionario Funcionario { get; set; }
+
+        public int AlunoId { get; set; }
+        public virtual Aluno Aluno { get; set; }
 
         public Telefone() { }
         public Telefone(TipoTelefone tipo, int ddd, string numero)

@@ -2,6 +2,7 @@
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using System;
+using System.Linq;
 
 namespace Sistema_de_Biblioteca.Repositories
 {
@@ -30,6 +31,28 @@ namespace Sistema_de_Biblioteca.Repositories
         public void UpdateTelefone(Telefone telefone)
         {
             _context.Telefones.Update(telefone);
+        }
+
+        public Telefone GetTelefoneByAluno(int idAluno)
+        {
+            return _context.Telefones.FirstOrDefault(t => t.AlunoId == idAluno);
+        }
+
+        public Telefone GetTelefoneByFuncionario(int idFuncionario)
+        {
+            return _context.Telefones.FirstOrDefault(t => t.FuncionarioId == idFuncionario);
+        }
+
+        public void RemoveTelefoneByAluno(int idAluno)
+        {
+            Telefone telefone = GetTelefoneByAluno(idAluno);
+            RemoveTelefone(telefone.AlunoId);
+        }
+
+        public void RemoveTelefoneByFuncionario(int idFuncionario)
+        {
+            Telefone telefone = GetTelefoneByFuncionario(idFuncionario);
+            RemoveTelefone(telefone.AlunoId);
         }
     }
 }
