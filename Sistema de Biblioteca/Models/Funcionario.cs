@@ -60,6 +60,7 @@ namespace Sistema_de_Biblioteca.Models
         public Funcionario(){}
         public Funcionario(string nome, string sobrenome, string cpf, string username, string password, Endereco endereco, Telefone telefone, string email, string cargo, DateTime dataAdmissao)
         {
+            Account = new Account();
             Nome = nome;
             Sobrenome = sobrenome;
             CPF = cpf;

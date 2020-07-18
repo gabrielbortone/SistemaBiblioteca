@@ -35,18 +35,50 @@ namespace Sistema_de_Biblioteca.Controllers
                 Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF, 
                     funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
                 _unitOfWork.FuncionarioRepository.AddFuncionario(funcionario);
+                _unitOfWork.Commit();
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
+                return RedirectToAction("Listar");
             }
                 ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
                 return View(funcionarioVM);
         }
 
-        public IActionResult Editar()
+        public IActionResult Editar(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
+            FuncionarioViewModel funcionarioVM = new FuncionarioViewModel()
+            {
+                Id = funcionario.FuncionarioId,
+                Nome = funcionario.Nome,
+                Sobrenome = funcionario.Sobrenome,
+                CPF = funcionario.CPF,
+                CEP = funcionario.Endereco.CEP,
+                Bairro = funcionario.Endereco.Bairro,
+                Cidade = funcionario.Endereco.Cidade,
+                Estado = funcionario.Endereco.Estado,
+                Tipo = funcionario.Telefone.Tipo,
+                DDD = funcionario.Telefone.DDD,
+                Numero = funcionario.Telefone.Numero,
+                Email = funcionario.Email,
+                Username = funcionario.Account.UserName,
+                Senha = funcionario.Account.PasswordHash,
+                Cargo = funcionario.Cargo
+            };
+
+            if (funcionario == null)
+            {
+                return NotFound();
+            }
+
+            return View(funcionarioVM);
         }
 
-        [HttpPost]
+        [HttpPost("Editar/{funcionarioVM}")]
         [ValidateAntiForgeryToken]
         public IActionResult Editar(FuncionarioViewModel funcionarioVM)
         {
@@ -60,17 +92,31 @@ namespace Sistema_de_Biblioteca.Controllers
                     funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
                 _unitOfWork.FuncionarioRepository.UpdateFuncionario(funcionario);
                  ViewBag.Mensagem = "Edição feito com sucesso!";
+                _unitOfWork.Commit();
+                return RedirectToAction("Listar");
             }
             ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
             return View(funcionarioVM);
         }
 
-        public IActionResult Deletar()
+        public IActionResult Deletar(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
+
+            if (funcionario == null)
+            {
+                return NotFound();
+            }
+
+            return View(funcionario);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Deletar")]
         [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
@@ -83,6 +129,8 @@ namespace Sistema_de_Biblioteca.Controllers
                     _unitOfWork.TelefoneRepository.RemoveTelefoneByFuncionario(id);
                     _unitOfWork.FuncionarioRepository.RemoveFuncionario(funcionario);
                     ViewBag.Mensagem = "Funcionário Removido feito com sucesso!";
+                    _unitOfWork.Commit();
+                    return RedirectToAction("Listar");
                 }
             }
             ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
@@ -94,10 +142,33 @@ namespace Sistema_de_Biblioteca.Controllers
             if (ModelState.IsValid)
             {
                 IEnumerable<Funcionario> ListaFuncionario = _unitOfWork.FuncionarioRepository.GetAllFuncionario();
+                List<FuncionarioViewModel> ListaFuncionarioViewModels = new List<FuncionarioViewModel>();
                 if (!ListaFuncionario.Any())
                 {
                     ViewData["Url"] = "/Funcionario";
                     return View("ErroListaVazia", ViewData["Url"]);
+                }
+                foreach (Funcionario funcionario in ListaFuncionario)
+                {
+                    FuncionarioViewModel funcionarioVM = new FuncionarioViewModel()
+                    {
+                        Id = funcionario.FuncionarioId,
+                        Nome = funcionario.Nome,
+                        Sobrenome = funcionario.Sobrenome,
+                        CPF = funcionario.CPF,
+                        CEP = funcionario.Endereco.CEP,
+                        Bairro = funcionario.Endereco.Bairro,
+                        Cidade = funcionario.Endereco.Cidade,
+                        Estado = funcionario.Endereco.Estado,
+                        Tipo = funcionario.Telefone.Tipo,
+                        DDD = funcionario.Telefone.DDD,
+                        Numero = funcionario.Telefone.Numero,
+                        Email = funcionario.Email,
+                        Username = funcionario.Account.UserName,
+                        Senha = funcionario.Account.PasswordHash,
+                        Cargo = funcionario.Cargo
+                    };
+                    ListaFuncionarioViewModels.Add(funcionarioVM);
                 }
                 return View(ListaFuncionario);
             }

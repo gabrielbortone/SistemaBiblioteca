@@ -36,20 +36,40 @@ namespace Sistema_de_Biblioteca.Controllers
                 Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioByAccount(await _userManager.GetUserAsync(User));
                 Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, _unitOfWork.LivroRepository.GetLivroById(emprestimoVM.LivroId), 
                     _unitOfWork.AlunoRepository.GetAlunoById(emprestimoVM.AlunoId),funcionario);
-                    _unitOfWork.EmprestimoRepository.AddEmprestimo(emprestimo);
+                _unitOfWork.EmprestimoRepository.AddEmprestimo(emprestimo);
+                _unitOfWork.Commit();
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
             }
             ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
             return View(emprestimoVM);
-
         }
 
-        public IActionResult Editar()
+        public IActionResult Editar(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var emprestimo = _unitOfWork.EmprestimoRepository.GetEmprestimoById(id);
+            EmprestimoViewModel emprestimoVM = new EmprestimoViewModel()
+            {
+                Id = emprestimo.EmprestimoId,
+                DataEntrega = emprestimo.DataEntrega,
+                DataLimiteEntrega = emprestimo.DataLimiteEntrega,
+                AlunoId = emprestimo.AlunoId,
+                LivroId = emprestimo.LivroId
+            };
+
+            if (emprestimo == null)
+            {
+                return NotFound();
+            }
+
+            return View(emprestimoVM);
         }
 
-        [HttpPost]
+        [HttpPost("Editar/{emprestimoVM}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Editar(EmprestimoViewModel emprestimoVM)
         {
@@ -60,18 +80,40 @@ namespace Sistema_de_Biblioteca.Controllers
                     _unitOfWork.AlunoRepository.GetAlunoById(emprestimoVM.AlunoId), funcionario);
                 _unitOfWork.EmprestimoRepository.UpdateEmprestimo(emprestimo);
                 ViewBag.Mensagem = "Edição feito com sucesso!";
+                _unitOfWork.Commit();
+                return RedirectToAction("Listar");
             }
             ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
             return View(emprestimoVM);
 
         }
 
-        public IActionResult Deletar()
+        public IActionResult Deletar(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var emprestimo = _unitOfWork.EmprestimoRepository.GetEmprestimoById(id);
+            EmprestimoViewModel emprestimoVM = new EmprestimoViewModel()
+            {
+                Id = emprestimo.EmprestimoId,
+                DataEntrega = emprestimo.DataEntrega,
+                DataLimiteEntrega = emprestimo.DataLimiteEntrega,
+                AlunoId = emprestimo.AlunoId,
+                LivroId = emprestimo.LivroId
+            };
+
+            if (emprestimo == null)
+            {
+                return NotFound();
+            }
+
+            return View(emprestimoVM);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Deletar")]
         [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
@@ -82,6 +124,8 @@ namespace Sistema_de_Biblioteca.Controllers
                 {
                     _unitOfWork.EmprestimoRepository.RemoveEmprestimo(emprestimo);
                     ViewBag.Mensagem = "Emprestimo Removido feito com sucesso!";
+                    _unitOfWork.Commit();
+                    return RedirectToAction("Listar");
                 }
             }
             ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
@@ -93,10 +137,25 @@ namespace Sistema_de_Biblioteca.Controllers
             if (ModelState.IsValid)
             {
                 IEnumerable<Emprestimo> ListaEmprestimo = _unitOfWork.EmprestimoRepository.GetAllEmprestimo();
+                List<EmprestimoViewModel> ListaEmprestimoVM = new List<EmprestimoViewModel>();
+
                 if (!ListaEmprestimo.Any())
                 {
                     ViewData["Url"] = "/Emprestimo";
                     return View("ErroListaVazia", ViewData["Url"]);
+                }
+
+                foreach(Emprestimo emprestimo in ListaEmprestimo)
+                {
+                    EmprestimoViewModel emprestimoVM = new EmprestimoViewModel()
+                    {
+                        Id = emprestimo.EmprestimoId,
+                        DataEntrega = emprestimo.DataEntrega,
+                        DataLimiteEntrega = emprestimo.DataLimiteEntrega,
+                        AlunoId = emprestimo.AlunoId,
+                        LivroId = emprestimo.LivroId
+                    };
+                    ListaEmprestimoVM.Add(emprestimoVM);
                 }
                 return View(ListaEmprestimo);
             }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
@@ -35,22 +33,52 @@ namespace Sistema_de_Biblioteca.Controllers
                 Telefone telefone = new Telefone(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero);
                 _unitOfWork.TelefoneRepository.AddTelefone(telefone);
 
-                Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, endereco, 
+                Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, endereco,
                     telefone, alunoVM.Email, alunoVM.Matricula);
 
                 _unitOfWork.AlunoRepository.AddAluno(aluno);
+                _unitOfWork.Commit();
+
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
             }
             ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
             return View(alunoVM);
         }
 
-        public IActionResult Editar()
+        public IActionResult Editar(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
+            AlunoViewModel alunoVM = new AlunoViewModel()
+            {
+                Id = aluno.AlunoId,
+                Nome = aluno.Nome,
+                Sobrenome = aluno.Sobrenome,
+                CPF = aluno.CPF,
+                CEP = aluno.Endereco.CEP,
+                Bairro = aluno.Endereco.Bairro,
+                Cidade = aluno.Endereco.Cidade,
+                Estado = aluno.Endereco.Estado,
+                Tipo = aluno.Telefone.Tipo,
+                DDD = aluno.Telefone.DDD,
+                Numero = aluno.Telefone.Numero,
+                Email = aluno.Email,
+                Matricula = aluno.Matricula
+            };
+
+            if (aluno == null)
+            {
+                return NotFound();
+            }
+
+            return View(alunoVM);
         }
 
-        [HttpPost]
+        [HttpPost("Editar/{alunoVM}")]
         [ValidateAntiForgeryToken]
         public IActionResult Editar(AlunoViewModel alunoVM)
         {
@@ -74,45 +102,79 @@ namespace Sistema_de_Biblioteca.Controllers
             return View(alunoVM);
         }
 
-        public IActionResult Deletar()
+        public IActionResult Deletar(int? id)
         {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Deletar(int id)
-        {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-                Aluno aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
-                if (aluno != null)
-                {
-                    _unitOfWork.EnderecoRepository.RemoveEnderecoByAluno(id);
-                    _unitOfWork.TelefoneRepository.RemoveTelefoneByAluno(id);
-                    _unitOfWork.AlunoRepository.RemoveAluno(aluno);
-                    ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
-                }        
-                return View(aluno);
+                return NotFound();
             }
-            return View("Error");
+
+            var aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
+
+            if (aluno == null)
+            {
+                return NotFound();
+            }
+
+            return View(aluno);
         }
 
-        public IActionResult Listar()
+    [HttpPost, ActionName("Deletar")]
+    [ValidateAntiForgeryToken]
+    public IActionResult Deletar(int id)
+    {
+        Aluno aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
+        if (aluno != null)
         {
-            if (ModelState.IsValid)
+            _unitOfWork.EnderecoRepository.RemoveEnderecoByAluno(id);
+            _unitOfWork.TelefoneRepository.RemoveTelefoneByAluno(id);
+            _unitOfWork.AlunoRepository.RemoveAluno(aluno);
+            _unitOfWork.Commit();
+            ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
+            return RedirectToAction("Listar");
+        }
+        return View(aluno);
+    }
+
+    public IActionResult Listar()
+    {
+        if (ModelState.IsValid)
+        {
+            IEnumerable<Aluno> ListaAlunos = _unitOfWork.AlunoRepository.GetAllAluno();
+            List<AlunoViewModel> ListaAlunosViewModel = new List<AlunoViewModel>();
+
+            if (!ListaAlunos.Any())
             {
-                IEnumerable<Aluno> ListaAlunos = _unitOfWork.AlunoRepository.GetAllAluno();
-                if (!ListaAlunos.Any())
+                ViewData["Url"] = "/Aluno";
+                return View("ErroListaVazia", ViewData["Url"]);
+            }
+
+                foreach (Aluno aluno in ListaAlunos)
                 {
-                    ViewData["Url"] = "/Aluno";
-                    return View("ErroListaVazia", ViewData["Url"]);
+                    AlunoViewModel alunoVM = new AlunoViewModel()
+                    {
+                        Id = aluno.AlunoId,
+                        Nome = aluno.Nome,
+                        Sobrenome = aluno.Sobrenome,
+                        CPF = aluno.CPF,
+                        CEP = aluno.Endereco.CEP,
+                        Bairro = aluno.Endereco.Bairro,
+                        Cidade = aluno.Endereco.Cidade,
+                        Estado = aluno.Endereco.Estado,
+                        Tipo = aluno.Telefone.Tipo,
+                        DDD = aluno.Telefone.DDD,
+                        Numero = aluno.Telefone.Numero,
+                        Email = aluno.Email,
+                        Matricula = aluno.Matricula
+                    };
+                    ListaAlunosViewModel.Add(alunoVM);
                 }
-                return View(ListaAlunos);
-            }
-            return View("Error");
-        }
 
+
+                return View(ListaAlunos);
+        }
+        return View("Error");
+    }
 
     }
 }

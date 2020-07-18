@@ -28,21 +28,48 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                Livro livro = new Livro(livroVM.Titulo,livroVM.Autor,livroVM.Edicao, livroVM.Ano, livroVM.Paginas,
+                Livro livro = new Livro(livroVM.Titulo, livroVM.Autor, livroVM.Edicao, livroVM.Ano, livroVM.Paginas,
                     livroVM.Genero, livroVM.Editora);
+
                 _unitOfWork.LivroRepository.AddLivro(livro);
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
+                _unitOfWork.Commit();
+                
+                return RedirectToAction("Listar");
             }
             ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
-            return View(livroVM);;
+            return View(livroVM); ;
         }
 
-        public IActionResult Editar()
+        public IActionResult Editar(int? id)
         {
-           return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var livro = _unitOfWork.LivroRepository.GetLivroById(id);
+            LivroViewModel livroVM = new LivroViewModel()
+            {
+                Id = livro.LivroId,
+                Titulo = livro.Titulo,
+                Autor = livro.Autor,
+                Edicao = livro.Edicao,
+                Ano = livro.Ano,
+                Paginas = livro.Paginas,
+                Genero = livro.Genero,
+                Editora = livro.Editora
+            };
+
+            if (livro == null)
+            {
+                return NotFound();
+            }
+
+            return View(livroVM);
         }
 
-        [HttpPost]
+        [HttpPost("Editar/{livroVM}")]
         [ValidateAntiForgeryToken]
         public IActionResult Editar(LivroViewModel livroVM)
         {
@@ -50,30 +77,46 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 Livro livro = new Livro(livroVM.Titulo, livroVM.Autor, livroVM.Edicao, livroVM.Ano, livroVM.Paginas,
                 livroVM.Genero, livroVM.Editora);
+
                 _unitOfWork.LivroRepository.UpdateLivro(livro);
+                _unitOfWork.Commit();
+
                 ViewBag.Mensagem = "Edição feito com sucesso!";
+
+                return RedirectToAction("Listar");
             }
             ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
             return View(livroVM);
         }
 
-        public IActionResult Deletar()
+        public IActionResult Deletar(int? id)
         {
-            return View();
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var livro = _unitOfWork.LivroRepository.GetLivroById(id);
+
+            if(livro == null)
+            {
+                return NotFound();
+            }
+
+            return View(livro);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Deletar")]
         [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
-            if (ModelState.IsValid)
+            Livro livro = _unitOfWork.LivroRepository.GetLivroById(id);
+            if (livro != null)
             {
-                Livro livro = _unitOfWork.LivroRepository.GetLivroById(id);
-                if (livro != null)
-                {
-                    _unitOfWork.LivroRepository.RemoveLivro(livro);
-                    ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
-                }
+                _unitOfWork.LivroRepository.RemoveLivro(livro);
+                _unitOfWork.Commit();
+                ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
+                return RedirectToAction("Listar");
             }
             ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
             return View(id);
@@ -84,12 +127,28 @@ namespace Sistema_de_Biblioteca.Controllers
             if (ModelState.IsValid)
             {
                 IEnumerable<Livro> ListaLivros = _unitOfWork.LivroRepository.GetAllLivro();
+                List<LivroViewModel> ListaLivrosViewModels = new List<LivroViewModel>();
                 if (!ListaLivros.Any())
                 {
                     ViewData["Url"] = "/Livro";
                     return View("ErroListaVazia", ViewData["Url"]);
                 }
-                return View(ListaLivros);
+                foreach (Livro L in ListaLivros)
+                {
+                    LivroViewModel livroViewModel = new LivroViewModel()
+                    {
+                        Id = L.LivroId,
+                        Titulo = L.Titulo,
+                        Autor = L.Autor,
+                        Edicao = L.Edicao,
+                        Ano = L.Ano,
+                        Paginas = L.Paginas,
+                        Genero = L.Genero,
+                        Editora = L.Editora
+                    };
+                    ListaLivrosViewModels.Add(livroViewModel);
+                }
+                return View(ListaLivrosViewModels);
             }
             return View("Error");
         }
