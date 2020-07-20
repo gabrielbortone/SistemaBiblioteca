@@ -21,8 +21,5 @@ namespace Sistema_de_Biblioteca.Models
 
         }
 
-
-        public DbSet<Sistema_de_Biblioteca.ViewModels.EmprestimoViewModel> EmprestimoViewModel { get; set; }
-
     }
 }

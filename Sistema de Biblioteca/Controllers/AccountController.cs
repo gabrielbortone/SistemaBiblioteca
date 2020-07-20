@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.ViewModels;
 using System.Threading.Tasks;
-using System;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Sistema_de_Biblioteca.Controllers
 {

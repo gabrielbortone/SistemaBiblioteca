@@ -1,4 +1,5 @@
-﻿using Sistema_de_Biblioteca.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,12 +29,12 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public IEnumerable<Aluno> GetAllAluno()
         {
-            return _context.Alunos.ToList();
+            return _context.Alunos.Include(a=> a.Endereco).Include(a=>a.Telefone).ToList();
         }
 
         public Aluno GetAlunoById(int? id)
         {
-            return _context.Alunos.Find(id);
+            return _context.Alunos.Include(a => a.Endereco).Include(a => a.Telefone).FirstOrDefault(a => a.AlunoId == id);
         }
 
         public void RemoveAluno(Aluno aluno)

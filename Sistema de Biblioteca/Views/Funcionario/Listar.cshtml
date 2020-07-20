@@ -4,7 +4,7 @@
     ViewData["Title"] = "Listar";
 }
 
-<h1>Listar</h1>
+<h1>Listar todos os funcionários cadastrados</h1>
 
 <p>
     <a asp-action="Cadastrar">Cadastrar novo</a>
@@ -13,49 +13,46 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                Nome
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sobrenome)
+                Sobrenome
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CPF)
+                CP)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Username)
+                UserName
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Senha)
+                Endereço - CEP
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CEP)
+                Endereço - Bairro
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Bairro)
+                Endereço - Cidade
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Cidade)
+                Endereço - Estado
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Estado)
+                Telefone - Tipo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tipo)
+                Telefone - DDD
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DDD)
+                Telefone - Numero
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Numero)
+                Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Cargo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Cargo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataAdmissao)
+                Data de Admissao
             </th>
             <th></th>
         </tr>
@@ -74,9 +71,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Senha)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CEP)

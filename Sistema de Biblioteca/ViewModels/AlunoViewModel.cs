@@ -1,10 +1,6 @@
-﻿using Sistema_de_Biblioteca.Models;
-using Sistema_de_Biblioteca.Models.Enums;
+﻿using Sistema_de_Biblioteca.Models.Enums;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.ViewModels
 {

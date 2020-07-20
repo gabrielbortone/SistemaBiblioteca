@@ -149,29 +149,29 @@ namespace Sistema_de_Biblioteca.Controllers
                 return View("ErroListaVazia", ViewData["Url"]);
             }
 
-                foreach (Aluno aluno in ListaAlunos)
+            foreach (Aluno aluno in ListaAlunos)
+            {
+                AlunoViewModel alunoVM = new AlunoViewModel()
                 {
-                    AlunoViewModel alunoVM = new AlunoViewModel()
-                    {
-                        Id = aluno.AlunoId,
-                        Nome = aluno.Nome,
-                        Sobrenome = aluno.Sobrenome,
-                        CPF = aluno.CPF,
-                        CEP = aluno.Endereco.CEP,
-                        Bairro = aluno.Endereco.Bairro,
-                        Cidade = aluno.Endereco.Cidade,
-                        Estado = aluno.Endereco.Estado,
-                        Tipo = aluno.Telefone.Tipo,
-                        DDD = aluno.Telefone.DDD,
-                        Numero = aluno.Telefone.Numero,
-                        Email = aluno.Email,
-                        Matricula = aluno.Matricula
-                    };
-                    ListaAlunosViewModel.Add(alunoVM);
-                }
+                    Id = aluno.AlunoId,
+                    Nome = aluno.Nome,
+                    Sobrenome = aluno.Sobrenome,
+                    CPF = aluno.CPF,
+                    CEP = aluno.Endereco.CEP,
+                    Bairro = aluno.Endereco.Bairro,
+                    Cidade = aluno.Endereco.Cidade,
+                    Estado = aluno.Endereco.Estado,
+                    Tipo = aluno.Telefone.Tipo,
+                    DDD = aluno.Telefone.DDD,
+                    Numero = aluno.Telefone.Numero,
+                    Email = aluno.Email,
+                    Matricula = aluno.Matricula
+                };
+            ListaAlunosViewModel.Add(alunoVM);
+            }
 
 
-                return View(ListaAlunos);
+                return View(ListaAlunosViewModel);
         }
         return View("Error");
     }

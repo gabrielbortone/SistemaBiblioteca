@@ -1,5 +1,4 @@
-﻿using Sistema_de_Biblioteca.Models;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sistema_de_Biblioteca.ViewModels

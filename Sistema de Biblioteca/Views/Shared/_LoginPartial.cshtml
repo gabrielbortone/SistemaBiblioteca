@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
 
 @inject SignInManager<Account> SignInManager
 
@@ -16,6 +15,5 @@ else
 {
     <ul class="nav navbar-nav navbar-left">
         <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">&nbsp; Log in&nbsp; </a>
-        @*<a class="nav-link text-dark" asp-controller="Account" asp-action="Register" >&nbsp;Registro&nbsp;&nbsp;&nbsp; </a>*@
     </ul>
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using System.Collections.Generic;
@@ -21,17 +22,17 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public IEnumerable<Funcionario> GetAllFuncionario()
         {
-            return _context.Funcionarios.ToList();
+            return _context.Funcionarios.Include(f=>f.Endereco).Include(f=>f.Telefone).Include(f=>f.Account).ToList();
         }
 
         public Funcionario GetFuncionarioById(int? id)
         {
-            return _context.Funcionarios.Find(id);
+            return _context.Funcionarios.Include(f => f.Endereco).Include(f => f.Telefone).Include(f => f.Account).FirstOrDefault(f=>f.FuncionarioId == id);
         }
 
         public Funcionario GetFuncionarioByAccount(Account account)
         {
-            return _context.Funcionarios.FirstOrDefault(F => F.Account == account);
+            return _context.Funcionarios.Include(f => f.Endereco).Include(f => f.Telefone).Include(f => f.Account).FirstOrDefault(F => F.Account == account);
         }
 
         public void RemoveFuncionario(Funcionario funcionario)
@@ -46,7 +47,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public Funcionario GetFuncionarioByUserName(string userName)
         {
-            return _context.Funcionarios.Where(f => f.Account.UserName == userName).FirstOrDefault();
+            return _context.Funcionarios.Include(f => f.Endereco).Include(f => f.Telefone).Include(f => f.Account).FirstOrDefault(f => f.Account.UserName == userName);
         }
 
        
