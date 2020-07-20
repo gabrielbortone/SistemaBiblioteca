@@ -1,20 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class FuncionarioController : Controller
     {
         private IUnitOfWork _unitOfWork;
-        public FuncionarioController(IUnitOfWork unitOfWork)
+        private UserManager<Account> _userManager;
+        public FuncionarioController(IUnitOfWork unitOfWork, UserManager<Account> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
         public IActionResult Cadastrar()
         {
@@ -23,7 +28,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Cadastrar(FuncionarioViewModel funcionarioVM)
+        public async Task<IActionResult> Cadastrar(FuncionarioViewModel funcionarioVM)
         {
             if (ModelState.IsValid)
             {
@@ -34,6 +39,14 @@ namespace Sistema_de_Biblioteca.Controllers
                 Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF, 
                     funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
                 _unitOfWork.FuncionarioRepository.AddFuncionario(funcionario);
+
+                var user = new Account() { UserName = funcionarioVM.Username};
+                var result = await _userManager.CreateAsync(user, funcionarioVM.Senha);
+
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "Funcionário");
+                }
                 _unitOfWork.Commit();
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
                 return RedirectToAction("Listar");

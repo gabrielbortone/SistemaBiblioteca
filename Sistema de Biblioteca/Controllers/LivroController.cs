@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.ViewModels;
@@ -7,7 +8,7 @@ using System.Linq;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class LivroController : Controller
     {
         private IUnitOfWork _unitOfWork;

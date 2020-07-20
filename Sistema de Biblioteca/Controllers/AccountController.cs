@@ -12,19 +12,17 @@ namespace Sistema_de_Biblioteca.Controllers
     {
         private readonly UserManager<Account> _userManager;
         private readonly SignInManager<Account> _signInManager;
-        private IUnitOfWork _unitOfWork { get; }
 
         public AccountController(UserManager<Account> userManager,
-            SignInManager<Account> signInManager, IUnitOfWork unitOfWork)
+            SignInManager<Account> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Login()
         {
-            return View();
+            return View(new LoginViewModel());
         }
 
         [HttpPost]
