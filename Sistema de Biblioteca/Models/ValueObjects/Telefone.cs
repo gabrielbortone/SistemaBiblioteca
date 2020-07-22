@@ -13,7 +13,7 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
         public int TelefoneId { get; set; }
 
         [Required]
-        public TipoTelefone Tipo { get; set; }
+        public string Tipo { get; set; }
 
         [Required]
         [Display(Name = "Informe o seu DDD")]
@@ -32,7 +32,7 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
         public virtual Aluno Aluno { get; set; }
 
         public Telefone() { }
-        public Telefone(TipoTelefone tipo, int ddd, string numero)
+        public Telefone(string tipo, int ddd, string numero)
         {
             Tipo = tipo;
             DDD = ddd;

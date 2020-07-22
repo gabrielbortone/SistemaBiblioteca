@@ -7,6 +7,7 @@ namespace Sistema_de_Biblioteca.ViewModels
     public class AlunoViewModel
     {
         public int Id { get; set; }
+
         [Required]
         [Display(Name = "Informe o seu nome")]
         [StringLength(30, MinimumLength = 3)]
@@ -43,7 +44,7 @@ namespace Sistema_de_Biblioteca.ViewModels
         public string Estado { get; set; }
 
         [Required]
-        public TipoTelefone Tipo { get; set; }
+        public string Tipo { get; set; }
 
         [Required]
         [Display(Name = "Informe o seu DDD")]
@@ -59,8 +60,9 @@ namespace Sistema_de_Biblioteca.ViewModels
         [Required(ErrorMessage = "Informe o seu email")]
         [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido...")]
         public string Email { get; set; }
+
         [Display(Name = "Informe o seu número de matrícula")]
-        [StringLength(12, MinimumLength = 12)]
+        [StringLength(12, MinimumLength = 8)]
         public string Matricula { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
@@ -9,7 +8,7 @@ using System.Linq;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AlunoController : Controller
     {
         private IUnitOfWork _unitOfWork;
@@ -41,6 +40,7 @@ namespace Sistema_de_Biblioteca.Controllers
                 _unitOfWork.Commit();
 
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
+                return RedirectToAction("Listar");
             }
             ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
             return View(alunoVM);
@@ -127,8 +127,8 @@ namespace Sistema_de_Biblioteca.Controllers
         Aluno aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
         if (aluno != null)
         {
-            _unitOfWork.EnderecoRepository.RemoveEnderecoByAluno(id);
-            _unitOfWork.TelefoneRepository.RemoveTelefoneByAluno(id);
+            _unitOfWork.EnderecoRepository.RemoveEndereco(aluno.EnderecoId);
+            _unitOfWork.TelefoneRepository.RemoveTelefone(aluno.TelefoneId);
             _unitOfWork.AlunoRepository.RemoveAluno(aluno);
             _unitOfWork.Commit();
             ViewBag.Mensagem = "Aluno Removido feito com sucesso!";

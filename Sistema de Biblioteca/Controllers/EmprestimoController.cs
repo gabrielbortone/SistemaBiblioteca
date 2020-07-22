@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class EmprestimoController : Controller
     {
         private IUnitOfWork _unitOfWork;
@@ -31,14 +31,26 @@ namespace Sistema_de_Biblioteca.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CadastrarAsync(EmprestimoViewModel emprestimoVM)
         {
+            Funcionario funcionario;
+            Aluno aluno;
+            Livro livro;
+
             if (ModelState.IsValid)
             {
-                Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioByAccount(await _userManager.GetUserAsync(User));
-                Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, _unitOfWork.LivroRepository.GetLivroById(emprestimoVM.LivroId), 
-                    _unitOfWork.AlunoRepository.GetAlunoById(emprestimoVM.AlunoId),funcionario);
-                _unitOfWork.EmprestimoRepository.AddEmprestimo(emprestimo);
-                _unitOfWork.Commit();
-                ViewBag.Mensagem = "Cadastro feito com sucesso!";
+                try
+                {
+                    funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioByAccount(await _userManager.GetUserAsync(User));
+                    aluno = _unitOfWork.AlunoRepository.GetAlunoById(emprestimoVM.AlunoId);
+                    livro = _unitOfWork.LivroRepository.GetLivroById(emprestimoVM.LivroId);
+                    Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, livro, aluno, funcionario);
+                    _unitOfWork.EmprestimoRepository.AddEmprestimo(emprestimo);
+                    _unitOfWork.Commit();
+                    ViewBag.Mensagem = "Cadastro feito com sucesso!";
+                }
+                catch(Exception ex)
+                {
+                    throw new Exception("Referência Invalida");
+                }
             }
             ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
             return View(emprestimoVM);
@@ -78,6 +90,7 @@ namespace Sistema_de_Biblioteca.Controllers
                 Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioByAccount(await _userManager.GetUserAsync(User));
                 Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, _unitOfWork.LivroRepository.GetLivroById(emprestimoVM.LivroId),
                     _unitOfWork.AlunoRepository.GetAlunoById(emprestimoVM.AlunoId), funcionario);
+                emprestimo.EmprestimoId = emprestimoVM.Id;
                 _unitOfWork.EmprestimoRepository.UpdateEmprestimo(emprestimo);
                 ViewBag.Mensagem = "Edição feito com sucesso!";
                 _unitOfWork.Commit();

@@ -22,7 +22,7 @@ namespace Sistema_de_Biblioteca.ViewModels
         public string CPF { get; set; }
 
         [Display(Name = "Informe seu UserName")]
-        [StringLength(12, MinimumLength = 3)]
+        [StringLength(20, MinimumLength = 3)]
         public string Username { get; set; }
 
         [Display(Name = "Informe a sua senha")]
@@ -51,7 +51,7 @@ namespace Sistema_de_Biblioteca.ViewModels
         public string Estado { get; set; }
 
         [Required]
-        public TipoTelefone Tipo { get; set; }
+        public string Tipo { get; set; }
 
         [Required]
         [Display(Name = "Informe o seu DDD")]

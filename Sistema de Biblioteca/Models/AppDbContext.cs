@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Sistema_de_Biblioteca.Models.ValueObjects;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Sistema_de_Biblioteca.ViewModels;
 
 namespace Sistema_de_Biblioteca.Models
 {
@@ -19,6 +18,29 @@ namespace Sistema_de_Biblioteca.Models
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
 
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Aluno>()
+                .HasOne(a => a.Telefone)
+                .WithOne(t => t.Aluno)
+                .HasForeignKey<Telefone>(t => t.AlunoId);
+
+            modelBuilder.Entity<Aluno>()
+                .HasOne(a => a.Endereco)
+                .WithOne(e => e.Aluno)
+                .HasForeignKey<Endereco>(e => e.AlunoId);
+
+            modelBuilder.Entity<Funcionario>()
+                .HasOne(f => f.Telefone)
+                .WithOne(t => t.Funcionario)
+                .HasForeignKey<Telefone>(t => t.FuncionarioId);
+
+            modelBuilder.Entity<Funcionario>()
+                .HasOne(f => f.Endereco)
+                .WithOne(e => e.Funcionario)
+                .HasForeignKey<Endereco>(e => e.FuncionarioId);
         }
 
     }

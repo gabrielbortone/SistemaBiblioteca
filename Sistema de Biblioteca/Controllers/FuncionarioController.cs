@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class FuncionarioController : Controller
     {
         private IUnitOfWork _unitOfWork;
@@ -47,7 +46,9 @@ namespace Sistema_de_Biblioteca.Controllers
                 {
                     await _userManager.AddToRoleAsync(user, "Funcionário");
                 }
+
                 _unitOfWork.Commit();
+
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
                 return RedirectToAction("Listar");
             }
@@ -97,11 +98,17 @@ namespace Sistema_de_Biblioteca.Controllers
             if (ModelState.IsValid)
             {
                 Endereco endereco = new Endereco(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado);
-                _unitOfWork.EnderecoRepository.UpdateEndereco(endereco);
                 Telefone telefone = new Telefone(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero);
-                _unitOfWork.TelefoneRepository.UpdateTelefone(telefone);
                 Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF,
                     funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
+                funcionario.FuncionarioId = funcionarioVM.Id;
+
+                //endereco.EnderecoId = _unitOfWork.EnderecoRepository.GetEnderecoByFuncionario(funcionario.FuncionarioId).EnderecoId;
+                //telefone.TelefoneId = _unitOfWork.TelefoneRepository.GetTelefoneByFuncionario(funcionario.FuncionarioId).TelefoneId;
+
+                _unitOfWork.EnderecoRepository.UpdateEndereco(endereco);
+                _unitOfWork.TelefoneRepository.UpdateTelefone(telefone);
+                
                 _unitOfWork.FuncionarioRepository.UpdateFuncionario(funcionario);
                  ViewBag.Mensagem = "Edição feito com sucesso!";
                 _unitOfWork.Commit();
@@ -137,8 +144,8 @@ namespace Sistema_de_Biblioteca.Controllers
                 Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
                 if (funcionario != null)
                 {
-                    _unitOfWork.EnderecoRepository.RemoveEnderecoByFuncionario(id);
-                    _unitOfWork.TelefoneRepository.RemoveTelefoneByFuncionario(id);
+                    _unitOfWork.EnderecoRepository.RemoveEndereco(funcionario.EnderecoId);
+                    _unitOfWork.TelefoneRepository.RemoveTelefone(funcionario.TelefoneId);
                     _unitOfWork.FuncionarioRepository.RemoveFuncionario(funcionario);
                     ViewBag.Mensagem = "Funcionário Removido feito com sucesso!";
                     _unitOfWork.Commit();

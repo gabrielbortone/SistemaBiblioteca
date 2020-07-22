@@ -1,7 +1,6 @@
 ﻿using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
-using System;
 using System.Linq;
 
 namespace Sistema_de_Biblioteca.Repositories

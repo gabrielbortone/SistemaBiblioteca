@@ -24,6 +24,12 @@
     <Compile Remove="Migrations\20200715175929_AddIdentity.Designer.cs" />
     <Compile Remove="Migrations\20200717194919_CorretingRelationships.cs" />
     <Compile Remove="Migrations\20200717194919_CorretingRelationships.Designer.cs" />
+    <Compile Remove="Migrations\20200720214033_ApplyingSomeFixes.cs" />
+    <Compile Remove="Migrations\20200720214033_ApplyingSomeFixes.Designer.cs" />
+    <Compile Remove="Migrations\20200722201729_AddFixes.cs" />
+    <Compile Remove="Migrations\20200722201729_AddFixes.Designer.cs" />
+    <Compile Remove="Migrations\20200722202014_ApplyingSomeFixes.cs" />
+    <Compile Remove="Migrations\20200722202014_ApplyingSomeFixes.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

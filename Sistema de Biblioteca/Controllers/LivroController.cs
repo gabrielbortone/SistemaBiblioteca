@@ -69,7 +69,7 @@ namespace Sistema_de_Biblioteca.Controllers
             return View(livroVM);
         }
 
-        [HttpPost("Editar/{livroVM}")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Editar(LivroViewModel livroVM)
         {
@@ -77,6 +77,7 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 Livro livro = new Livro(livroVM.Titulo, livroVM.Autor, livroVM.Edicao, livroVM.Ano, livroVM.Paginas,
                 livroVM.Genero, livroVM.Editora);
+                livro.LivroId = livroVM.Id;
 
                 _unitOfWork.LivroRepository.UpdateLivro(livro);
                 _unitOfWork.Commit();

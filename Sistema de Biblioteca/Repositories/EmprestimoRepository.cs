@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Repositories
 {

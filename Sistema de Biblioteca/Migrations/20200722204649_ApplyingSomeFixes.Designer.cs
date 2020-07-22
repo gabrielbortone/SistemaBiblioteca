@@ -10,7 +10,7 @@ using Sistema_de_Biblioteca.Models;
 namespace Sistema_de_Biblioteca.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200720214033_ApplyingSomeFixes")]
+    [Migration("20200722204649_ApplyingSomeFixes")]
     partial class ApplyingSomeFixes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,6 +171,9 @@ namespace Sistema_de_Biblioteca.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("FuncionarioId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -205,6 +208,9 @@ namespace Sistema_de_Biblioteca.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FuncionarioId")
+                        .IsUnique();
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -309,9 +315,6 @@ namespace Sistema_de_Biblioteca.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<string>("AccountId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CPF")
                         .HasColumnType("nvarchar(11)")
                         .HasMaxLength(11);
@@ -348,8 +351,6 @@ namespace Sistema_de_Biblioteca.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("FuncionarioId");
-
-                    b.HasIndex("AccountId1");
 
                     b.HasIndex("EnderecoId")
                         .IsUnique();
@@ -463,8 +464,9 @@ namespace Sistema_de_Biblioteca.Migrations
                         .HasColumnType("nvarchar(11)")
                         .HasMaxLength(11);
 
-                    b.Property<int>("Tipo")
-                        .HasColumnType("int");
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TelefoneId");
 
@@ -522,6 +524,15 @@ namespace Sistema_de_Biblioteca.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Sistema_de_Biblioteca.Models.Account", b =>
+                {
+                    b.HasOne("Sistema_de_Biblioteca.Models.Funcionario", "Funcionario")
+                        .WithOne("Account")
+                        .HasForeignKey("Sistema_de_Biblioteca.Models.Account", "FuncionarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Sistema_de_Biblioteca.Models.Aluno", b =>
                 {
                     b.HasOne("Sistema_de_Biblioteca.Models.ValueObjects.Endereco", "Endereco")
@@ -560,10 +571,6 @@ namespace Sistema_de_Biblioteca.Migrations
 
             modelBuilder.Entity("Sistema_de_Biblioteca.Models.Funcionario", b =>
                 {
-                    b.HasOne("Sistema_de_Biblioteca.Models.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId1");
-
                     b.HasOne("Sistema_de_Biblioteca.Models.ValueObjects.Endereco", "Endereco")
                         .WithOne("Funcionario")
                         .HasForeignKey("Sistema_de_Biblioteca.Models.Funcionario", "EnderecoId")

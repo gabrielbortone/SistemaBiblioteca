@@ -1,10 +1,6 @@
 ﻿using Sistema_de_Biblioteca.Models.ValueObjects;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Models
 {

@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Sistema_de_Biblioteca.Models;
+﻿using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Repositories
 {
@@ -23,7 +19,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public Endereco GetEnderecoById(int? id)
         {
-            return _context.Enderecos.Find(id);
+            return _context.Enderecos.FirstOrDefault(f=>f.FuncionarioId == id);
         }
 
         public void RemoveEndereco(int idEndereco)
@@ -36,26 +32,5 @@ namespace Sistema_de_Biblioteca.Repositories
             _context.Enderecos.Update(endereco);
         }
 
-        public Endereco GetEnderecoByAluno(int idAluno)
-        {
-            return _context.Enderecos.FirstOrDefault(e => e.AlunoId == idAluno);
-        }
-
-        public Endereco GetEnderecoByFuncionario(int idFuncionario)
-        {
-            return _context.Enderecos.FirstOrDefault(e => e.FuncionarioId == idFuncionario);
-        }
-
-        public void RemoveEnderecoByAluno(int idAluno)
-        {
-            var endereco = GetEnderecoByAluno(idAluno);
-            RemoveEndereco(endereco.EnderecoId);
-        }
-
-        public void RemoveEnderecoByFuncionario(int idFuncionario)
-        {
-            var endereco = GetEnderecoByFuncionario(idFuncionario);
-            RemoveEndereco(endereco.EnderecoId);
-        }
     }
 }
