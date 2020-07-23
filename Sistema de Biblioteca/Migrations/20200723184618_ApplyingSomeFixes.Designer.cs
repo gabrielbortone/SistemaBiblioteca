@@ -10,7 +10,7 @@ using Sistema_de_Biblioteca.Models;
 namespace Sistema_de_Biblioteca.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200722204649_ApplyingSomeFixes")]
+    [Migration("20200723184618_ApplyingSomeFixes")]
     partial class ApplyingSomeFixes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -312,9 +312,6 @@ namespace Sistema_de_Biblioteca.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CPF")
                         .HasColumnType("nvarchar(11)")
                         .HasMaxLength(11);
@@ -334,9 +331,6 @@ namespace Sistema_de_Biblioteca.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EnderecoId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)")
@@ -347,16 +341,7 @@ namespace Sistema_de_Biblioteca.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
-                    b.Property<int>("TelefoneId")
-                        .HasColumnType("int");
-
                     b.HasKey("FuncionarioId");
-
-                    b.HasIndex("EnderecoId")
-                        .IsUnique();
-
-                    b.HasIndex("TelefoneId")
-                        .IsUnique();
 
                     b.ToTable("Funcionarios");
                 });
@@ -440,6 +425,9 @@ namespace Sistema_de_Biblioteca.Migrations
 
                     b.HasKey("EnderecoId");
 
+                    b.HasIndex("FuncionarioId")
+                        .IsUnique();
+
                     b.ToTable("Enderecos");
                 });
 
@@ -469,6 +457,9 @@ namespace Sistema_de_Biblioteca.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TelefoneId");
+
+                    b.HasIndex("FuncionarioId")
+                        .IsUnique();
 
                     b.ToTable("Telefones");
                 });
@@ -569,17 +560,20 @@ namespace Sistema_de_Biblioteca.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Sistema_de_Biblioteca.Models.Funcionario", b =>
+            modelBuilder.Entity("Sistema_de_Biblioteca.Models.ValueObjects.Endereco", b =>
                 {
-                    b.HasOne("Sistema_de_Biblioteca.Models.ValueObjects.Endereco", "Endereco")
-                        .WithOne("Funcionario")
-                        .HasForeignKey("Sistema_de_Biblioteca.Models.Funcionario", "EnderecoId")
+                    b.HasOne("Sistema_de_Biblioteca.Models.Funcionario", "Funcionario")
+                        .WithOne("Endereco")
+                        .HasForeignKey("Sistema_de_Biblioteca.Models.ValueObjects.Endereco", "FuncionarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.HasOne("Sistema_de_Biblioteca.Models.ValueObjects.Telefone", "Telefone")
-                        .WithOne("Funcionario")
-                        .HasForeignKey("Sistema_de_Biblioteca.Models.Funcionario", "TelefoneId")
+            modelBuilder.Entity("Sistema_de_Biblioteca.Models.ValueObjects.Telefone", b =>
+                {
+                    b.HasOne("Sistema_de_Biblioteca.Models.Funcionario", "Funcionario")
+                        .WithOne("Telefone")
+                        .HasForeignKey("Sistema_de_Biblioteca.Models.ValueObjects.Telefone", "FuncionarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

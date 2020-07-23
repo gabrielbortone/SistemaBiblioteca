@@ -30,6 +30,8 @@
     <Compile Remove="Migrations\20200722201729_AddFixes.Designer.cs" />
     <Compile Remove="Migrations\20200722202014_ApplyingSomeFixes.cs" />
     <Compile Remove="Migrations\20200722202014_ApplyingSomeFixes.Designer.cs" />
+    <Compile Remove="Migrations\20200722204649_ApplyingSomeFixes.cs" />
+    <Compile Remove="Migrations\20200722204649_ApplyingSomeFixes.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

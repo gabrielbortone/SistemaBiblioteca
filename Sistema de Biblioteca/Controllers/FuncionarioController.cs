@@ -144,8 +144,8 @@ namespace Sistema_de_Biblioteca.Controllers
                 Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
                 if (funcionario != null)
                 {
-                    _unitOfWork.EnderecoRepository.RemoveEndereco(funcionario.EnderecoId);
-                    _unitOfWork.TelefoneRepository.RemoveTelefone(funcionario.TelefoneId);
+                    //_unitOfWork.EnderecoRepository.RemoveEndereco(funcionario.EnderecoId);
+                    //_unitOfWork.TelefoneRepository.RemoveTelefone(funcionario.TelefoneId);
                     _unitOfWork.FuncionarioRepository.RemoveFuncionario(funcionario);
                     ViewBag.Mensagem = "Funcionário Removido feito com sucesso!";
                     _unitOfWork.Commit();

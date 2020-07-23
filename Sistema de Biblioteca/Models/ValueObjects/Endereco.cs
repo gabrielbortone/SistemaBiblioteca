@@ -31,10 +31,10 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
         public string Estado { get; set; }
 
         public int FuncionarioId { get; set; }
-        public virtual Funcionario Funcionario { get; set; }
+        public Funcionario Funcionario { get; set; }
 
         public int AlunoId { get; set; }
-        public virtual Aluno Aluno { get; set; }
+        public Aluno Aluno { get; set; }
 
         public Endereco() { }
         public Endereco(string cep, string bairro, string cidade, string estado)

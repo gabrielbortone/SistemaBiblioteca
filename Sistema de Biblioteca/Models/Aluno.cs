@@ -25,12 +25,12 @@ namespace Sistema_de_Biblioteca.Models
 
         [Required]
         [ForeignKey("EnderecoId")]
-        public virtual Endereco Endereco { get; set; }
+        public Endereco Endereco { get; set; }
         public int EnderecoId { get; set; }
 
         [Required]
         [ForeignKey("TelefoneId")]
-        public virtual Telefone Telefone { get; set; }
+        public Telefone Telefone { get; set; }
         public int TelefoneId { get; set; }
 
 

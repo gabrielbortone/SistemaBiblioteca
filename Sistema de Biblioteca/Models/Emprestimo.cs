@@ -22,17 +22,17 @@ namespace Sistema_de_Biblioteca.Models
 
         [Required]
         [ForeignKey("LivroId")]
-        public virtual Livro Livro { get; set; }
+        public Livro Livro { get; set; }
         public int LivroId { get; set; }
 
         [Required]
         [ForeignKey("AlunoId")]
-        public virtual Aluno Aluno { get; set; }
+        public Aluno Aluno { get; set; }
         public int AlunoId { get; set; }
 
         [Required]
         [ForeignKey("FuncionarioId")]
-        public virtual Funcionario Funcionario { get; set; }
+        public Funcionario Funcionario { get; set; }
         public int FuncionarioId { get; set; }
 
         public Emprestimo(){}

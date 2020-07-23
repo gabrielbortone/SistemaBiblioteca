@@ -26,10 +26,10 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
         public string Numero { get; set; }
 
         public int FuncionarioId { get; set; }
-        public virtual Funcionario Funcionario { get; set; }
+        public Funcionario Funcionario { get; set; }
 
         public int AlunoId { get; set; }
-        public virtual Aluno Aluno { get; set; }
+        public Aluno Aluno { get; set; }
 
         public Telefone() { }
         public Telefone(string tipo, int ddd, string numero)

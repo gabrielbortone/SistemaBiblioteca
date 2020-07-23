@@ -24,18 +24,14 @@ namespace Sistema_de_Biblioteca.Models
         [StringLength(11, MinimumLength = 11)]
         public string CPF { get; set; }
 
-        public virtual Account Account { get; set; }
-        public int AccountId { get; set; }
+        [Required]
+        public Account Account { get; set; }
 
         [Required]
-        [ForeignKey("EnderecoId")]
-        public virtual Endereco Endereco { get; set; }
-        public int EnderecoId { get; set; }
+        public Endereco Endereco { get; set; }
 
         [Required]
-        [ForeignKey("TelefoneId")]
-        public virtual Telefone Telefone { get; set; }
-        public int TelefoneId { get; set; }
+        public Telefone Telefone { get; set; }
 
 
         [Required(ErrorMessage = "Informe o seu email")]
