@@ -31,7 +31,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public Funcionario GetFuncionarioByAccount(Account account)
         {
-            return _context.Funcionarios.Include(f => f.Endereco).Include(f => f.Telefone).Include(f => f.Account).FirstOrDefault(F => F.Account == account);
+            return _context.Funcionarios.AsNoTracking().FirstOrDefault(F => F.Account == account);
         }
 
         public void RemoveFuncionario(Funcionario funcionario)
@@ -44,11 +44,9 @@ namespace Sistema_de_Biblioteca.Repositories
             _context.Funcionarios.Update(funcionario);
         }
 
-        public Funcionario GetFuncionarioByUserName(string userName)
+        public Funcionario GetFuncionarioByCPF(string cpf)
         {
-            return _context.Funcionarios.Include(f => f.Endereco).Include(f => f.Telefone).Include(f => f.Account).FirstOrDefault(f => f.Account.UserName == userName);
+            return _context.Funcionarios.AsNoTracking().FirstOrDefault(F => F.CPF == cpf);
         }
-
-       
     }
 }

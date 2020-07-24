@@ -4,6 +4,7 @@ using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,13 +32,13 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                Endereco endereco = new Endereco(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado);
-                _unitOfWork.EnderecoRepository.AddEndereco(endereco);
-                Telefone telefone = new Telefone(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero);
-                _unitOfWork.TelefoneRepository.AddTelefone(telefone);
+                EnderecoFuncionario endereco = new EnderecoFuncionario(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado);
+                
+                TelefoneFuncionario telefone = new TelefoneFuncionario(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero);
+                
                 Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF, 
                     funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
-                _unitOfWork.FuncionarioRepository.AddFuncionario(funcionario);
+                
 
                 var user = new Account() { UserName = funcionarioVM.Username};
                 var result = await _userManager.CreateAsync(user, funcionarioVM.Senha);
@@ -45,6 +46,15 @@ namespace Sistema_de_Biblioteca.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "Funcionário");
+                    _unitOfWork.FuncionarioRepository.AddFuncionario(funcionario);
+                    Funcionario aux = _unitOfWork.FuncionarioRepository.GetFuncionarioByCPF(funcionario.CPF);
+                    endereco.Funcionario = aux;
+                    endereco.FuncionarioId = aux.FuncionarioId;
+                    telefone.Funcionario = aux;
+                    telefone.FuncionarioId = aux.FuncionarioId;
+
+                    _unitOfWork.EnderecoFuncionarioRepository.AddEndereco(endereco);
+                    _unitOfWork.TelefoneFuncionarioRepository.AddTelefone(telefone);
                 }
 
                 _unitOfWork.Commit();
@@ -97,19 +107,24 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                Endereco endereco = new Endereco(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado);
-                Telefone telefone = new Telefone(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero);
+                EnderecoFuncionario endereco = new EnderecoFuncionario(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado);
+                TelefoneFuncionario telefone = new TelefoneFuncionario(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero);
+                
                 Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF,
                     funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
                 funcionario.FuncionarioId = funcionarioVM.Id;
 
-                //endereco.EnderecoId = _unitOfWork.EnderecoRepository.GetEnderecoByFuncionario(funcionario.FuncionarioId).EnderecoId;
-                //telefone.TelefoneId = _unitOfWork.TelefoneRepository.GetTelefoneByFuncionario(funcionario.FuncionarioId).TelefoneId;
+                Funcionario aux = _unitOfWork.FuncionarioRepository.GetFuncionarioByCPF(funcionario.CPF);
+                funcionario.FuncionarioId = aux.FuncionarioId;
+                endereco.Funcionario = aux;
+                endereco.FuncionarioId = aux.FuncionarioId;
+                telefone.Funcionario = aux;
+                telefone.FuncionarioId = aux.FuncionarioId;
 
-                _unitOfWork.EnderecoRepository.UpdateEndereco(endereco);
-                _unitOfWork.TelefoneRepository.UpdateTelefone(telefone);
-                
+                _unitOfWork.EnderecoFuncionarioRepository.UpdateEndereco(endereco);
+                _unitOfWork.TelefoneFuncionarioRepository.UpdateTelefone(telefone);
                 _unitOfWork.FuncionarioRepository.UpdateFuncionario(funcionario);
+
                  ViewBag.Mensagem = "Edição feito com sucesso!";
                 _unitOfWork.Commit();
                 return RedirectToAction("Listar");
@@ -135,17 +150,18 @@ namespace Sistema_de_Biblioteca.Controllers
             return View(funcionario);
         }
 
-        [HttpPost, ActionName("Deletar")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Deletar(int id)
         {
             if (ModelState.IsValid)
             {
                 Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
+
                 if (funcionario != null)
                 {
-                    //_unitOfWork.EnderecoRepository.RemoveEndereco(funcionario.EnderecoId);
-                    //_unitOfWork.TelefoneRepository.RemoveTelefone(funcionario.TelefoneId);
+                    _unitOfWork.EnderecoFuncionarioRepository.RemoveEnderecoByFuncionario(funcionario.FuncionarioId);
+                    _unitOfWork.TelefoneFuncionarioRepository.RemoveTelefoneByFuncionario(funcionario.FuncionarioId);
                     _unitOfWork.FuncionarioRepository.RemoveFuncionario(funcionario);
                     ViewBag.Mensagem = "Funcionário Removido feito com sucesso!";
                     _unitOfWork.Commit();
@@ -169,6 +185,11 @@ namespace Sistema_de_Biblioteca.Controllers
                 }
                 foreach (Funcionario funcionario in ListaFuncionario)
                 {
+                    EnderecoFuncionario enderecoFuncionario = _unitOfWork.EnderecoFuncionarioRepository.GetEnderecoByFuncionario(funcionario);
+                    TelefoneFuncionario telefoneFuncionario = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByFuncionario(funcionario);
+                    funcionario.Endereco = enderecoFuncionario;
+                    funcionario.Telefone = telefoneFuncionario;
+
                     FuncionarioViewModel funcionarioVM = new FuncionarioViewModel()
                     {
                         Id = funcionario.FuncionarioId,
@@ -183,8 +204,6 @@ namespace Sistema_de_Biblioteca.Controllers
                         DDD = funcionario.Telefone.DDD,
                         Numero = funcionario.Telefone.Numero,
                         Email = funcionario.Email,
-                        Username = funcionario.Account.UserName,
-                        Senha = funcionario.Account.PasswordHash,
                         Cargo = funcionario.Cargo
                     };
                     ListaFuncionarioViewModels.Add(funcionarioVM);

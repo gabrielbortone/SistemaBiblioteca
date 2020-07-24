@@ -12,6 +12,7 @@ namespace Sistema_de_Biblioteca.Repositories.Interfaces
         public void RemoveAluno(Aluno aluno);
         public void UpdateAluno(Aluno aluno);
         public Aluno GetAlunoById(int? id);
+        public Aluno GetAlunoByCPF(string cpf);
         public IEnumerable<Aluno> GetAllAluno();
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Models.ValueObjects
 {
-    public class Telefone
+    public abstract class Telefone
     {
         [Key]
         public int TelefoneId { get; set; }
@@ -25,13 +25,6 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
         [StringLength(11, MinimumLength = 8)]
         public string Numero { get; set; }
 
-        public int FuncionarioId { get; set; }
-        public Funcionario Funcionario { get; set; }
-
-        public int AlunoId { get; set; }
-        public Aluno Aluno { get; set; }
-
-        public Telefone() { }
         public Telefone(string tipo, int ddd, string numero)
         {
             Tipo = tipo;

@@ -8,8 +8,10 @@ namespace Sistema_de_Biblioteca.Repositories.Interfaces
         AlunoRepository AlunoRepository { get; }
         LivroRepository LivroRepository { get; }
         EmprestimoRepository EmprestimoRepository { get; }
-        EnderecoRepository EnderecoRepository { get;}
-        TelefoneRepository TelefoneRepository { get; }
+        EnderecoAlunoRepository EnderecoAlunoRepository { get;}
+        EnderecoFuncionarioRepository EnderecoFuncionarioRepository { get; }
+        TelefoneAlunoRepository TelefoneAlunoRepository { get; }
+        TelefoneFuncionarioRepository TelefoneFuncionarioRepository { get; }
         void Commit();
     }
 }

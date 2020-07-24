@@ -6,41 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200629193403_InitialMigration.cs" />
-    <Compile Remove="Migrations\20200629193403_InitialMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200629195133_InitialMigration2.cs" />
-    <Compile Remove="Migrations\20200629195133_InitialMigration2.Designer.cs" />
-    <Compile Remove="Migrations\20200630190144_InitialMigration.cs" />
-    <Compile Remove="Migrations\20200630190144_InitialMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200630192601_Add Password.cs" />
-    <Compile Remove="Migrations\20200630192601_Add Password.Designer.cs" />
-    <Compile Remove="Migrations\20200630192846_InitialMigration.cs" />
-    <Compile Remove="Migrations\20200630192846_InitialMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200630195145_InitialMigration.cs" />
-    <Compile Remove="Migrations\20200630195145_InitialMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200706184646_InitialMigration2.cs" />
-    <Compile Remove="Migrations\20200706184646_InitialMigration2.Designer.cs" />
-    <Compile Remove="Migrations\20200715175929_AddIdentity.cs" />
-    <Compile Remove="Migrations\20200715175929_AddIdentity.Designer.cs" />
-    <Compile Remove="Migrations\20200715180405_AddIdentity.cs" />
-    <Compile Remove="Migrations\20200715180405_AddIdentity.Designer.cs" />
-    <Compile Remove="Migrations\20200717194919_CorretingRelationships.cs" />
-    <Compile Remove="Migrations\20200717194919_CorretingRelationships.Designer.cs" />
-    <Compile Remove="Migrations\20200717203956_FixingManyIssues.cs" />
-    <Compile Remove="Migrations\20200717203956_FixingManyIssues.Designer.cs" />
-    <Compile Remove="Migrations\20200720214033_ApplyingSomeFixes.cs" />
-    <Compile Remove="Migrations\20200720214033_ApplyingSomeFixes.Designer.cs" />
-    <Compile Remove="Migrations\20200722201729_AddFixes.cs" />
-    <Compile Remove="Migrations\20200722201729_AddFixes.Designer.cs" />
-    <Compile Remove="Migrations\20200722202014_ApplyingSomeFixes.cs" />
-    <Compile Remove="Migrations\20200722202014_ApplyingSomeFixes.Designer.cs" />
-    <Compile Remove="Migrations\20200722204649_ApplyingSomeFixes.cs" />
-    <Compile Remove="Migrations\20200722204649_ApplyingSomeFixes.Designer.cs" />
-    <Compile Remove="Migrations\20200723184618_ApplyingSomeFixes.cs" />
-    <Compile Remove="Migrations\20200723184618_ApplyingSomeFixes.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />

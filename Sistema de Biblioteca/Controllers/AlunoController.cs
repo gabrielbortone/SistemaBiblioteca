@@ -3,6 +3,7 @@ using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,16 +28,20 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                Endereco endereco = new Endereco(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado);
-                _unitOfWork.EnderecoRepository.AddEndereco(endereco);
-
-                Telefone telefone = new Telefone(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero);
-                _unitOfWork.TelefoneRepository.AddTelefone(telefone);
-
+                EnderecoAluno endereco = new EnderecoAluno(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado);
+                TelefoneAluno telefone = new TelefoneAluno(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero);
+                
                 Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, endereco,
                     telefone, alunoVM.Email, alunoVM.Matricula);
 
                 _unitOfWork.AlunoRepository.AddAluno(aluno);
+                Aluno aux = _unitOfWork.AlunoRepository.GetAlunoByCPF(aluno.CPF);
+                aluno.AlunoId = aux.AlunoId;
+                endereco.Aluno = aluno;
+                endereco.AlunoId = aluno.AlunoId;
+
+                _unitOfWork.EnderecoAlunoRepository.AddEndereco(endereco);
+                _unitOfWork.TelefoneAlunoRepository.AddTelefone(telefone);
                 _unitOfWork.Commit();
 
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
@@ -85,14 +90,14 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                Endereco endereco = new Endereco(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado);
-                _unitOfWork.EnderecoRepository.UpdateEndereco(endereco);
-
-                Telefone telefone = new Telefone(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero);
-                _unitOfWork.TelefoneRepository.UpdateTelefone(telefone);
+                EnderecoAluno endereco = new EnderecoAluno(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado);
+                TelefoneAluno telefone = new TelefoneAluno(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero);
 
                 Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, endereco,
                     telefone, alunoVM.Email, alunoVM.Matricula);
+                Aluno aux = _unitOfWork.AlunoRepository.GetAlunoByCPF(aluno.CPF);
+                aluno.AlunoId = aux.AlunoId;
+
 
                 _unitOfWork.AlunoRepository.UpdateAluno(aluno);
 

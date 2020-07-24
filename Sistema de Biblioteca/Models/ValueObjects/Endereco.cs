@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Models.ValueObjects
 {
-    public class Endereco
+    public abstract class Endereco
     {
         public int EnderecoId { get; set; }
 
@@ -30,13 +30,6 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
         [StringLength(35, MinimumLength = 4)]
         public string Estado { get; set; }
 
-        public int FuncionarioId { get; set; }
-        public Funcionario Funcionario { get; set; }
-
-        public int AlunoId { get; set; }
-        public Aluno Aluno { get; set; }
-
-        public Endereco() { }
         public Endereco(string cep, string bairro, string cidade, string estado)
         {
             CEP = cep;

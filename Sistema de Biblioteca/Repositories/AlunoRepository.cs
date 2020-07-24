@@ -27,12 +27,12 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public IEnumerable<Aluno> GetAllAluno()
         {
-            return _context.Alunos.Include(a=> a.Endereco).Include(a=>a.Telefone).ToList();
+            return _context.Alunos.AsNoTracking().ToList();
         }
 
         public Aluno GetAlunoById(int? id)
         {
-            return _context.Alunos.Include(a => a.Endereco).Include(a => a.Telefone).FirstOrDefault(a => a.AlunoId == id);
+            return _context.Alunos.AsNoTracking().FirstOrDefault(a => a.AlunoId == id);
         }
 
         public void RemoveAluno(Aluno aluno)
@@ -40,6 +40,9 @@ namespace Sistema_de_Biblioteca.Repositories
             _context.Alunos.Remove(aluno);
         }
 
-       
+        public Aluno GetAlunoByCPF(string cpf)
+        {
+            return _context.Alunos.AsNoTracking().FirstOrDefault(a => a.CPF == cpf);
+        }
     }
 }
