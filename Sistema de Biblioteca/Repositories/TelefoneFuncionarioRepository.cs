@@ -37,7 +37,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public void RemoveTelefoneByFuncionario(int idFuncionario)
         {
-            var telefone = _context.TelefoneDeFuncionarios.AsNoTracking().FirstOrDefault(tf => tf.FuncionarioId == idFuncionario);
+            var telefone = _context.TelefoneDeFuncionarios.FirstOrDefault(tf => tf.FuncionarioId == idFuncionario);
             _context.TelefoneDeFuncionarios.Remove(telefone);
         }
 

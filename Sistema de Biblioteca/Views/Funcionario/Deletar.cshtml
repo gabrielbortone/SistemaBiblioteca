@@ -1,81 +1,111 @@
-﻿@model Sistema_de_Biblioteca.Models.Funcionario
+﻿@model Sistema_de_Biblioteca.ViewModels.FuncionarioViewModel
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Deletar";
 }
 
-<h1>Deletar funcionário</h1>
+<h1>Deletar</h1>
 
-<h3>Você tem certeza que quer deletar esse registro?</h3>
+<h3>Tem certeza que deseja deletar esse aluno?</h3>
 <div>
-    <h4>Funcionario</h4>
+    <h4>FuncionarioViewModel</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
+            Nome
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Nome)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sobrenome)
+            Sobrenome
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Sobrenome)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CPF)
+            CPF
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CPF)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Account.UserName)
-        </dt>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Account.PasswordHash)
-        </dt>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Endereco)
+            Username
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Endereco.Bairro)
-        </dd class>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefone)
+            Senha
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telefone.Numero)
-        </dd class>
+            @Html.DisplayFor(model => model.Senha)
+        </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+            Endereço - CEP
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CEP)
+        </dd>
+        <dt class="col-sm-2">
+            Endereço - Bairro
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Bairro)
+        </dd>
+        <dt class="col-sm-2">
+            Endereço - Cidade
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cidade)
+        </dd>
+        <dt class="col-sm-2">
+            Endereço - Estado
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+        <dt class = "col-sm-2">
+            Telefone - Tipo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Tipo)
+        </dd>
+        <dt class="col-sm-2">
+            Telefone - DDD
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DDD)
+        </dd>
+        <dt class="col-sm-2">
+            Telefone - Numero
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Numero)
+        </dd>
+        <dt class = "col-sm-2">
+            Email
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cargo)
+            Cargo
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Cargo)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataAdmissao)
+            Data de Admissao
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DataAdmissao)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataDemissao)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataDemissao)
-        </dd>
     </dl>
     
     <form asp-action="Deletar">
-        <input type="hidden" asp-for="FuncionarioId" />
-        <input type="submit" value="Deletar" class="btn btn-danger" /> |
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Listar">Voltar para a lista</a>
     </form>
 </div>

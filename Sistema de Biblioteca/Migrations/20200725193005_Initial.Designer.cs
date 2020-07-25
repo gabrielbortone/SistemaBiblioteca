@@ -10,7 +10,7 @@ using Sistema_de_Biblioteca.Models;
 namespace Sistema_de_Biblioteca.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200725183940_Initial")]
+    [Migration("20200725193005_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,7 +171,7 @@ namespace Sistema_de_Biblioteca.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("FuncionarioId")
+                    b.Property<int>("Id_Funcionario")
                         .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
@@ -209,7 +209,7 @@ namespace Sistema_de_Biblioteca.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FuncionarioId")
+                    b.HasIndex("Id_Funcionario")
                         .IsUnique();
 
                     b.HasIndex("NormalizedEmail")
@@ -569,7 +569,7 @@ namespace Sistema_de_Biblioteca.Migrations
                 {
                     b.HasOne("Sistema_de_Biblioteca.Models.Funcionario", "Funcionario")
                         .WithOne("Account")
-                        .HasForeignKey("Sistema_de_Biblioteca.Models.Account", "FuncionarioId")
+                        .HasForeignKey("Sistema_de_Biblioteca.Models.Account", "Id_Funcionario")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -37,7 +37,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public void RemoveEnderecoByFuncionario(int idFuncionario)
         {
-            var endereco = _context.EnderecoDeFuncionarios.AsNoTracking().FirstOrDefault(ef => ef.FuncionarioId == idFuncionario);
+            var endereco = _context.EnderecoDeFuncionarios.FirstOrDefault(ef => ef.FuncionarioId == idFuncionario);
             _context.Remove(endereco);
         }
 

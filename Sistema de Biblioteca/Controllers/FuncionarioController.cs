@@ -38,16 +38,16 @@ namespace Sistema_de_Biblioteca.Controllers
                 Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF, 
                     funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
 
+                _unitOfWork.FuncionarioRepository.AddFuncionario(funcionario);
+
                 var user = new Account() { UserName = funcionarioVM.Username};
                 var result = await _userManager.CreateAsync(user, funcionarioVM.Senha);
+                
 
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "Funcionário");
-                    _unitOfWork.FuncionarioRepository.AddFuncionario(funcionario);
-
                     _unitOfWork.Commit();
-
                     Funcionario aux = _unitOfWork.FuncionarioRepository.GetFuncionarioByCPF(funcionario.CPF);
                     endereco.Funcionario = aux;
                     endereco.FuncionarioId = aux.FuncionarioId;
@@ -74,7 +74,7 @@ namespace Sistema_de_Biblioteca.Controllers
                 return View(funcionarioVM);
         }
 
-        public async Task<IActionResult> Editar(int? id)
+        public IActionResult Editar(int? id)
         {
             if (id == null)
             {
@@ -84,9 +84,7 @@ namespace Sistema_de_Biblioteca.Controllers
             var funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
             var endereco = _unitOfWork.EnderecoFuncionarioRepository.GetEnderecoByFuncionario(funcionario);
             var telefone = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByFuncionario(funcionario);
-            var account = _unitOfWork.FuncionarioRepository.GetFuncionarioByAccount(await _userManager.GetUserAsync(User));
-
-            funcionario.Account = account;
+            
             funcionario.Endereco = endereco;
             funcionario.Telefone = telefone; 
 
@@ -104,8 +102,6 @@ namespace Sistema_de_Biblioteca.Controllers
                 DDD = funcionario.Telefone.DDD,
                 Numero = funcionario.Telefone.Numero,
                 Email = funcionario.Email,
-                Username = funcionario.Account.UserName,
-                Senha = funcionario.Account.PasswordHash,
                 Cargo = funcionario.Cargo
             };
 
@@ -117,7 +113,7 @@ namespace Sistema_de_Biblioteca.Controllers
             return View(funcionarioVM);
         }
 
-        [HttpPost("Editar/{funcionarioVM}")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Editar(FuncionarioViewModel funcionarioVM)
         {

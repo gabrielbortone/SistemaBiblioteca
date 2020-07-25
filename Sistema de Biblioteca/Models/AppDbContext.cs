@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Sistema_de_Biblioteca.Models.ValueObjects;
+using Sistema_de_Biblioteca.ViewModels;
 
 namespace Sistema_de_Biblioteca.Models
 {
@@ -38,7 +39,7 @@ namespace Sistema_de_Biblioteca.Models
             builder.Entity<Funcionario>()
                 .HasOne(f => f.Account)
                 .WithOne(a => a.Funcionario)
-                .HasForeignKey<Account>(a => a.FuncionarioId);
+                .HasForeignKey<Account>(a => a.Id_Funcionario);
 
             builder.Entity<Aluno>()
                 .HasOne(a => a.Endereco)
@@ -50,6 +51,8 @@ namespace Sistema_de_Biblioteca.Models
                 .WithOne(af => af.Aluno)
                 .HasForeignKey<TelefoneAluno>(af => af.AlunoId);
         }
+
+        public DbSet<Sistema_de_Biblioteca.ViewModels.FuncionarioViewModel> FuncionarioViewModel { get; set; }
 
     }
 }

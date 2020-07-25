@@ -162,14 +162,14 @@ namespace Sistema_de_Biblioteca.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    FuncionarioId = table.Column<int>(nullable: false)
+                    Id_Funcionario = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Funcionarios_FuncionarioId",
-                        column: x => x.FuncionarioId,
+                        name: "FK_AspNetUsers_Funcionarios_Id_Funcionario",
+                        column: x => x.Id_Funcionario,
                         principalTable: "Funcionarios",
                         principalColumn: "FuncionarioId",
                         onDelete: ReferentialAction.Cascade);
@@ -369,9 +369,9 @@ namespace Sistema_de_Biblioteca.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_FuncionarioId",
+                name: "IX_AspNetUsers_Id_Funcionario",
                 table: "AspNetUsers",
-                column: "FuncionarioId",
+                column: "Id_Funcionario",
                 unique: true);
 
             migrationBuilder.CreateIndex(
