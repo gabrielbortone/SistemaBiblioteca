@@ -4,7 +4,6 @@ using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,7 +37,6 @@ namespace Sistema_de_Biblioteca.Controllers
                 
                 Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF, 
                     funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
-                
 
                 var user = new Account() { UserName = funcionarioVM.Username};
                 var result = await _userManager.CreateAsync(user, funcionarioVM.Senha);
@@ -47,6 +45,9 @@ namespace Sistema_de_Biblioteca.Controllers
                 {
                     await _userManager.AddToRoleAsync(user, "Funcionário");
                     _unitOfWork.FuncionarioRepository.AddFuncionario(funcionario);
+
+                    _unitOfWork.Commit();
+
                     Funcionario aux = _unitOfWork.FuncionarioRepository.GetFuncionarioByCPF(funcionario.CPF);
                     endereco.Funcionario = aux;
                     endereco.FuncionarioId = aux.FuncionarioId;
@@ -55,6 +56,13 @@ namespace Sistema_de_Biblioteca.Controllers
 
                     _unitOfWork.EnderecoFuncionarioRepository.AddEndereco(endereco);
                     _unitOfWork.TelefoneFuncionarioRepository.AddTelefone(telefone);
+                }
+                else
+                {
+                    var errors = result.Errors;
+                    var message = string.Join(", ", errors);
+                    ModelState.AddModelError("", message);
+                    return View(funcionarioVM);
                 }
 
                 _unitOfWork.Commit();
@@ -66,7 +74,7 @@ namespace Sistema_de_Biblioteca.Controllers
                 return View(funcionarioVM);
         }
 
-        public IActionResult Editar(int? id)
+        public async Task<IActionResult> Editar(int? id)
         {
             if (id == null)
             {
@@ -74,6 +82,14 @@ namespace Sistema_de_Biblioteca.Controllers
             }
 
             var funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
+            var endereco = _unitOfWork.EnderecoFuncionarioRepository.GetEnderecoByFuncionario(funcionario);
+            var telefone = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByFuncionario(funcionario);
+            var account = _unitOfWork.FuncionarioRepository.GetFuncionarioByAccount(await _userManager.GetUserAsync(User));
+
+            funcionario.Account = account;
+            funcionario.Endereco = endereco;
+            funcionario.Telefone = telefone; 
+
             FuncionarioViewModel funcionarioVM = new FuncionarioViewModel()
             {
                 Id = funcionario.FuncionarioId,
@@ -120,6 +136,7 @@ namespace Sistema_de_Biblioteca.Controllers
                 endereco.FuncionarioId = aux.FuncionarioId;
                 telefone.Funcionario = aux;
                 telefone.FuncionarioId = aux.FuncionarioId;
+                funcionario.Account = aux.Account;
 
                 _unitOfWork.EnderecoFuncionarioRepository.UpdateEndereco(endereco);
                 _unitOfWork.TelefoneFuncionarioRepository.UpdateTelefone(telefone);
@@ -141,6 +158,10 @@ namespace Sistema_de_Biblioteca.Controllers
             }
 
             var funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
+            var endereco = _unitOfWork.EnderecoFuncionarioRepository.GetEnderecoByFuncionario(funcionario);
+            var telefone = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByFuncionario(funcionario);
+            funcionario.Endereco = endereco;
+            funcionario.Telefone = telefone;
 
             if (funcionario == null)
             {
@@ -189,6 +210,7 @@ namespace Sistema_de_Biblioteca.Controllers
                     TelefoneFuncionario telefoneFuncionario = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByFuncionario(funcionario);
                     funcionario.Endereco = enderecoFuncionario;
                     funcionario.Telefone = telefoneFuncionario;
+
 
                     FuncionarioViewModel funcionarioVM = new FuncionarioViewModel()
                     {

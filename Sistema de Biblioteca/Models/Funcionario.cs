@@ -1,7 +1,6 @@
 ﻿using Sistema_de_Biblioteca.Models.ValueObjects;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistema_de_Biblioteca.Models
 {
@@ -24,14 +23,9 @@ namespace Sistema_de_Biblioteca.Models
         [StringLength(11, MinimumLength = 11)]
         public string CPF { get; set; }
 
-        [Required]
         public Account Account { get; set; }
-
-        [Required]
-        public Endereco Endereco { get; set; }
-
-        [Required]
-        public Telefone Telefone { get; set; }
+        public EnderecoFuncionario Endereco { get; set; }
+        public TelefoneFuncionario Telefone { get; set; }
 
 
         [Required(ErrorMessage = "Informe o seu email")]
@@ -50,7 +44,8 @@ namespace Sistema_de_Biblioteca.Models
         public DateTime? DataDemissao { get; set; }
 
         public Funcionario(){}
-        public Funcionario(string nome, string sobrenome, string cpf, string username, string password, Endereco endereco, Telefone telefone, string email, string cargo, DateTime dataAdmissao)
+        public Funcionario(string nome, string sobrenome, string cpf, string username, string password, 
+            EnderecoFuncionario endereco, TelefoneFuncionario telefone, string email, string cargo, DateTime dataAdmissao)
         {
             Account = new Account();
             Nome = nome;

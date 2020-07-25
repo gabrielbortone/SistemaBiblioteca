@@ -10,7 +10,7 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
     public abstract class Telefone
     {
         [Key]
-        public int TelefoneId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Tipo { get; set; }
@@ -25,6 +25,10 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
         [StringLength(11, MinimumLength = 8)]
         public string Numero { get; set; }
 
+        public Telefone()
+        {
+
+        }
         public Telefone(string tipo, int ddd, string numero)
         {
             Tipo = tipo;

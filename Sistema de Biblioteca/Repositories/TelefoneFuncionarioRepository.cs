@@ -26,7 +26,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public TelefoneFuncionario GetTelefoneById(int? id)
         {
-            return _context.TelefoneDeFuncionarios.AsNoTracking().FirstOrDefault(tf => tf.TelefoneId == id);
+            return _context.TelefoneDeFuncionarios.AsNoTracking().FirstOrDefault(tf => tf.Id == id);
         }
 
         public void RemoveTelefone(int idTelefone)

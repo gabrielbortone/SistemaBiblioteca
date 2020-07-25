@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
@@ -29,7 +28,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CadastrarAsync(EmprestimoViewModel emprestimoVM)
+        public async Task<IActionResult> Cadastrar(EmprestimoViewModel emprestimoVM)
         {
             Funcionario funcionario;
             Aluno aluno;

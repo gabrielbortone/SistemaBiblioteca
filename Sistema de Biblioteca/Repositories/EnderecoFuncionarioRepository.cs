@@ -26,7 +26,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public EnderecoFuncionario GetEnderecoById(int? id)
         {
-            return _context.EnderecoDeFuncionarios.AsNoTracking().FirstOrDefault(ef => ef.EnderecoId == id);
+            return _context.EnderecoDeFuncionarios.AsNoTracking().FirstOrDefault(ef => ef.Id == id);
         }
 
         public void RemoveEndereco(int idEndereco)

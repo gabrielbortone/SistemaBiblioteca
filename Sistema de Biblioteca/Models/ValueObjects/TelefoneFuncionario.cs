@@ -9,6 +9,10 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
     {
         public int FuncionarioId { get; set; }
         public Funcionario Funcionario { get; set; }
+        public TelefoneFuncionario() : base()
+        {
+
+        }
 
         public TelefoneFuncionario(string tipo, int ddd, string numero) : base(tipo, ddd, numero)
         {

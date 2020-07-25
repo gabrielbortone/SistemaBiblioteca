@@ -9,6 +9,10 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
     {
         public int AlunoId { get; set; }
         public Aluno Aluno { get; set; }
+        public EnderecoAluno() : base()
+        {
+
+        }
         public EnderecoAluno(string cep, string bairro, string cidade, string estado) : base(cep, bairro, cidade, estado)
         {
 

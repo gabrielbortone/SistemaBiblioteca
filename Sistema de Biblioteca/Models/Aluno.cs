@@ -1,6 +1,5 @@
 ﻿using Sistema_de_Biblioteca.Models.ValueObjects;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistema_de_Biblioteca.Models
 {
@@ -22,16 +21,8 @@ namespace Sistema_de_Biblioteca.Models
         [StringLength(11, MinimumLength = 11)]
         public string CPF { get; set; }
 
-
-        [Required]
-        [ForeignKey("EnderecoId")]
-        public Endereco Endereco { get; set; }
-        public int EnderecoId { get; set; }
-
-        [Required]
-        [ForeignKey("TelefoneId")]
-        public Telefone Telefone { get; set; }
-        public int TelefoneId { get; set; }
+        public EnderecoAluno Endereco { get; set; }
+        public TelefoneAluno Telefone { get; set; }
 
 
         [Required(ErrorMessage = "Informe o seu email")]
@@ -43,7 +34,7 @@ namespace Sistema_de_Biblioteca.Models
         public string Matricula { get; set; }
 
         public Aluno(){}
-        public Aluno(string nome, string sobrenome, string CPF, Endereco endereco, Telefone telefone, string email, string matricula)
+        public Aluno(string nome, string sobrenome, string CPF, EnderecoAluno endereco, TelefoneAluno telefone, string email, string matricula)
         {
             Nome = nome;
             Sobrenome = sobrenome;

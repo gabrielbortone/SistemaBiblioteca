@@ -35,10 +35,14 @@ namespace Sistema_de_Biblioteca.Controllers
                     telefone, alunoVM.Email, alunoVM.Matricula);
 
                 _unitOfWork.AlunoRepository.AddAluno(aluno);
+                _unitOfWork.Commit();
+
                 Aluno aux = _unitOfWork.AlunoRepository.GetAlunoByCPF(aluno.CPF);
                 aluno.AlunoId = aux.AlunoId;
                 endereco.Aluno = aluno;
                 endereco.AlunoId = aluno.AlunoId;
+                telefone.Aluno = aluno;
+                telefone.AlunoId = aluno.AlunoId;
 
                 _unitOfWork.EnderecoAlunoRepository.AddEndereco(endereco);
                 _unitOfWork.TelefoneAlunoRepository.AddTelefone(telefone);
@@ -59,6 +63,13 @@ namespace Sistema_de_Biblioteca.Controllers
             }
 
             var aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
+            var endereco = _unitOfWork.EnderecoAlunoRepository.GetEnderecoByAluno(aluno);
+            var telefone = _unitOfWork.TelefoneAlunoRepository.GetTelefoneByAluno(aluno);
+
+            aluno.Endereco = endereco;
+            aluno.Telefone = telefone;
+
+
             AlunoViewModel alunoVM = new AlunoViewModel()
             {
                 Id = aluno.AlunoId,
@@ -98,8 +109,16 @@ namespace Sistema_de_Biblioteca.Controllers
                 Aluno aux = _unitOfWork.AlunoRepository.GetAlunoByCPF(aluno.CPF);
                 aluno.AlunoId = aux.AlunoId;
 
+                endereco.Aluno = aluno;
+                endereco.AlunoId = aluno.AlunoId;
 
+                telefone.Aluno = aluno;
+                telefone.AlunoId = aluno.AlunoId;
+
+                _unitOfWork.TelefoneAlunoRepository.UpdateTelefone(telefone);
+                _unitOfWork.EnderecoAlunoRepository.UpdateEndereco(endereco);
                 _unitOfWork.AlunoRepository.UpdateAluno(aluno);
+                _unitOfWork.Commit();
 
                 ViewBag.Mensagem = "Edição feito com sucesso!";
                 return View("Listar");
@@ -116,6 +135,11 @@ namespace Sistema_de_Biblioteca.Controllers
             }
 
             var aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
+            var endereco = _unitOfWork.EnderecoAlunoRepository.GetEnderecoByAluno(aluno);
+            var telefone = _unitOfWork.TelefoneAlunoRepository.GetTelefoneByAluno(aluno);
+
+            aluno.Endereco = endereco;
+            aluno.Telefone = telefone;
 
             if (aluno == null)
             {
@@ -125,15 +149,15 @@ namespace Sistema_de_Biblioteca.Controllers
             return View(aluno);
         }
 
-    [HttpPost, ActionName("Deletar")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Deletar(int id)
     {
         Aluno aluno = _unitOfWork.AlunoRepository.GetAlunoById(id);
         if (aluno != null)
         {
-            _unitOfWork.EnderecoRepository.RemoveEndereco(aluno.EnderecoId);
-            _unitOfWork.TelefoneRepository.RemoveTelefone(aluno.TelefoneId);
+            _unitOfWork.EnderecoAlunoRepository.RemoveEnderecoByAluno(aluno.AlunoId);
+            _unitOfWork.TelefoneAlunoRepository.RemoveTelefoneByAluno(aluno.AlunoId);
             _unitOfWork.AlunoRepository.RemoveAluno(aluno);
             _unitOfWork.Commit();
             ViewBag.Mensagem = "Aluno Removido feito com sucesso!";
@@ -157,6 +181,12 @@ namespace Sistema_de_Biblioteca.Controllers
 
             foreach (Aluno aluno in ListaAlunos)
             {
+                EnderecoAluno endereco = _unitOfWork.EnderecoAlunoRepository.GetEnderecoByAluno(aluno);
+                TelefoneAluno telefone = _unitOfWork.TelefoneAlunoRepository.GetTelefoneByAluno(aluno);
+
+                aluno.Endereco = endereco;
+                aluno.Telefone = telefone;
+
                 AlunoViewModel alunoVM = new AlunoViewModel()
                 {
                     Id = aluno.AlunoId,
@@ -175,8 +205,6 @@ namespace Sistema_de_Biblioteca.Controllers
                 };
             ListaAlunosViewModel.Add(alunoVM);
             }
-
-
                 return View(ListaAlunosViewModel);
         }
         return View("Error");

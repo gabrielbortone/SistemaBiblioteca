@@ -21,7 +21,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public IEnumerable<Funcionario> GetAllFuncionario()
         {
-            return _context.Funcionarios.Include(f=>f.Endereco).Include(f=>f.Telefone).Include(f=>f.Account).ToList();
+            return _context.Funcionarios.AsNoTracking().ToList();
         }
 
         public Funcionario GetFuncionarioById(int? id)

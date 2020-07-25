@@ -29,7 +29,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public EnderecoAluno GetEnderecoById(int? id)
         {
-            return _context.EnderecoDeAlunos.AsNoTracking().FirstOrDefault(ea => ea.EnderecoId == id);
+            return _context.EnderecoDeAlunos.AsNoTracking().FirstOrDefault(ea => ea.Id == id);
         }
 
         public void RemoveEndereco(int idEndereco)

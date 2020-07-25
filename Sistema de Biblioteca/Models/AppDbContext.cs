@@ -22,6 +22,34 @@ namespace Sistema_de_Biblioteca.Models
 
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<Funcionario>()
+                .HasOne(f => f.Endereco)
+                .WithOne(ef => ef.Funcionario)
+                .HasForeignKey<EnderecoFuncionario>(ef => ef.FuncionarioId);
+
+            builder.Entity<Funcionario>()
+                .HasOne(f => f.Telefone)
+                .WithOne(tf => tf.Funcionario)
+                .HasForeignKey<TelefoneFuncionario>(tf => tf.FuncionarioId);
+
+            builder.Entity<Funcionario>()
+                .HasOne(f => f.Account)
+                .WithOne(a => a.Funcionario)
+                .HasForeignKey<Account>(a => a.FuncionarioId);
+
+            builder.Entity<Aluno>()
+                .HasOne(a => a.Endereco)
+                .WithOne(ea => ea.Aluno)
+                .HasForeignKey<EnderecoAluno>(ea => ea.AlunoId);
+
+            builder.Entity<Aluno>()
+                .HasOne(a => a.Telefone)
+                .WithOne(af => af.Aluno)
+                .HasForeignKey<TelefoneAluno>(af => af.AlunoId);
+        }
 
     }
 }
