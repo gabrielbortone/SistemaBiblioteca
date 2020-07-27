@@ -21,17 +21,17 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public IEnumerable<Funcionario> GetAllFuncionario()
         {
-            return _context.Funcionarios.AsNoTracking().ToList();
+            return _context.Funcionarios.ToList();
         }
 
         public Funcionario GetFuncionarioById(int? id)
         {
-            return _context.Funcionarios.Include(f => f.Endereco).Include(f => f.Telefone).Include(f => f.Account).FirstOrDefault(f=>f.FuncionarioId == id);
+            return _context.Funcionarios.FirstOrDefault(f=>f.FuncionarioId == id);
         }
 
         public Funcionario GetFuncionarioByAccount(Account account)
         {
-            return _context.Funcionarios.AsNoTracking().FirstOrDefault(F => F.Account == account);
+            return _context.Funcionarios.FirstOrDefault(F => F.Account == account);
         }
 
         public void RemoveFuncionario(Funcionario funcionario)
@@ -46,7 +46,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public Funcionario GetFuncionarioByCPF(string cpf)
         {
-            return _context.Funcionarios.AsNoTracking().FirstOrDefault(F => F.CPF == cpf);
+            return _context.Funcionarios.FirstOrDefault(F => F.CPF == cpf);
         }
     }
 }

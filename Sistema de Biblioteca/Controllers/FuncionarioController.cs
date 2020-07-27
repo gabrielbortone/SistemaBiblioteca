@@ -39,21 +39,21 @@ namespace Sistema_de_Biblioteca.Controllers
                     funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
 
                 _unitOfWork.FuncionarioRepository.AddFuncionario(funcionario);
+                _unitOfWork.Commit();
 
-                var user = new Account() { UserName = funcionarioVM.Username};
+                Funcionario aux = _unitOfWork.FuncionarioRepository.GetFuncionarioByCPF(funcionario.CPF);
+                endereco.Funcionario = aux;
+                endereco.FuncionarioId = aux.FuncionarioId;
+                telefone.Funcionario = aux;
+                telefone.FuncionarioId = aux.FuncionarioId;
+
+                var user = new Account() { Id_Funcionario=aux.FuncionarioId,UserName = funcionarioVM.Username};
                 var result = await _userManager.CreateAsync(user, funcionarioVM.Senha);
-                
+
 
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "Funcionário");
-                    _unitOfWork.Commit();
-                    Funcionario aux = _unitOfWork.FuncionarioRepository.GetFuncionarioByCPF(funcionario.CPF);
-                    endereco.Funcionario = aux;
-                    endereco.FuncionarioId = aux.FuncionarioId;
-                    telefone.Funcionario = aux;
-                    telefone.FuncionarioId = aux.FuncionarioId;
-
                     _unitOfWork.EnderecoFuncionarioRepository.AddEndereco(endereco);
                     _unitOfWork.TelefoneFuncionarioRepository.AddTelefone(telefone);
                 }
@@ -159,12 +159,29 @@ namespace Sistema_de_Biblioteca.Controllers
             funcionario.Endereco = endereco;
             funcionario.Telefone = telefone;
 
+            FuncionarioViewModel funcionarioVM = new FuncionarioViewModel()
+            {
+                Id = funcionario.FuncionarioId,
+                Nome = funcionario.Nome,
+                Sobrenome = funcionario.Sobrenome,
+                CPF = funcionario.CPF,
+                CEP = funcionario.Endereco.CEP,
+                Bairro = funcionario.Endereco.Bairro,
+                Cidade = funcionario.Endereco.Cidade,
+                Estado = funcionario.Endereco.Estado,
+                Tipo = funcionario.Telefone.Tipo,
+                DDD = funcionario.Telefone.DDD,
+                Numero = funcionario.Telefone.Numero,
+                Email = funcionario.Email,
+                Cargo = funcionario.Cargo
+            };
+
             if (funcionario == null)
             {
                 return NotFound();
             }
 
-            return View(funcionario);
+            return View(funcionarioVM);
         }
 
         [HttpPost]
@@ -186,7 +203,7 @@ namespace Sistema_de_Biblioteca.Controllers
                 }
             }
             ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
-            return View();
+            return View(id);
         }
 
         public IActionResult Listar()

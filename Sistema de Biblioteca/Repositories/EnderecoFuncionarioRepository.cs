@@ -21,12 +21,12 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public EnderecoFuncionario GetEnderecoByFuncionario(Funcionario funcionario)
         {
-            return _context.EnderecoDeFuncionarios.AsNoTracking().FirstOrDefault(ef => ef.Funcionario == funcionario);
+            return _context.EnderecoDeFuncionarios.FirstOrDefault(ef => ef.Funcionario == funcionario);
         }
 
         public EnderecoFuncionario GetEnderecoById(int? id)
         {
-            return _context.EnderecoDeFuncionarios.AsNoTracking().FirstOrDefault(ef => ef.Id == id);
+            return _context.EnderecoDeFuncionarios.FirstOrDefault(ef => ef.Id == id);
         }
 
         public void RemoveEndereco(int idEndereco)

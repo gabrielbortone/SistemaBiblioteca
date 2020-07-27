@@ -26,12 +26,12 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public IEnumerable<Livro> GetLivroByAuthor(string autor)
         {
-            return _context.Livros.Where(l => l.Autor == autor).AsNoTracking().ToList();
+            return _context.Livros.Where(l => l.Autor == autor).ToList();
         }
 
         public IEnumerable<Livro> GetLivroByGenre(string genero)
         {
-            return _context.Livros.Where(l => l.Genero == genero).AsNoTracking().ToList();
+            return _context.Livros.Where(l => l.Genero == genero).ToList();
         }
 
         public Livro GetLivroById(int? id)

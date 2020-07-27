@@ -95,7 +95,7 @@ namespace Sistema_de_Biblioteca.Controllers
             return View(alunoVM);
         }
 
-        [HttpPost("Editar/{alunoVM}")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Editar(AlunoViewModel alunoVM)
         {

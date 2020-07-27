@@ -21,12 +21,12 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public TelefoneAluno GetTelefoneByAluno(Aluno aluno)
         {
-            return _context.TelefoneDeAlunos.AsNoTracking().FirstOrDefault(ta => ta.Aluno == aluno);
+            return _context.TelefoneDeAlunos.FirstOrDefault(ta => ta.Aluno == aluno);
         }
 
         public TelefoneAluno GetTelefoneById(int? id)
         {
-            return _context.TelefoneDeAlunos.AsNoTracking().FirstOrDefault(ta => ta.Id == id);
+            return _context.TelefoneDeAlunos.FirstOrDefault(ta => ta.Id == id);
         }
 
         public void RemoveTelefone(int idTelefone)
@@ -37,7 +37,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public void RemoveTelefoneByAluno(int idAluno)
         {
-            var telefone = _context.TelefoneDeAlunos.AsNoTracking().FirstOrDefault(ta => ta.AlunoId == idAluno);
+            var telefone = _context.TelefoneDeAlunos.FirstOrDefault(ta => ta.AlunoId == idAluno);
             _context.TelefoneDeAlunos.Remove(telefone);
         }
 

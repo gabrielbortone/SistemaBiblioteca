@@ -24,12 +24,12 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public EnderecoAluno GetEnderecoByAluno(Aluno aluno)
         {
-            return _context.EnderecoDeAlunos.AsNoTracking().FirstOrDefault(ea => ea.Aluno == aluno);
+            return _context.EnderecoDeAlunos.FirstOrDefault(ea => ea.Aluno == aluno);
         }
 
         public EnderecoAluno GetEnderecoById(int? id)
         {
-            return _context.EnderecoDeAlunos.AsNoTracking().FirstOrDefault(ea => ea.Id == id);
+            return _context.EnderecoDeAlunos.FirstOrDefault(ea => ea.Id == id);
         }
 
         public void RemoveEndereco(int idEndereco)
@@ -40,7 +40,7 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public void RemoveEnderecoByAluno(int idAluno)
         {
-            var endereco = _context.EnderecoDeAlunos.AsNoTracking().FirstOrDefault(ea => ea.AlunoId == idAluno);
+            var endereco = _context.EnderecoDeAlunos.FirstOrDefault(ea => ea.AlunoId == idAluno);
             _context.Remove(endereco);
         }
 

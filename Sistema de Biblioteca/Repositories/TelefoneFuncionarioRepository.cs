@@ -21,12 +21,12 @@ namespace Sistema_de_Biblioteca.Repositories
 
         public TelefoneFuncionario GetTelefoneByFuncionario(Funcionario funcionario)
         {
-            return _context.TelefoneDeFuncionarios.AsNoTracking().FirstOrDefault(tf => tf.Funcionario == funcionario);
+            return _context.TelefoneDeFuncionarios.FirstOrDefault(tf => tf.Funcionario == funcionario);
         }
 
         public TelefoneFuncionario GetTelefoneById(int? id)
         {
-            return _context.TelefoneDeFuncionarios.AsNoTracking().FirstOrDefault(tf => tf.Id == id);
+            return _context.TelefoneDeFuncionarios.FirstOrDefault(tf => tf.Id == id);
         }
 
         public void RemoveTelefone(int idTelefone)
