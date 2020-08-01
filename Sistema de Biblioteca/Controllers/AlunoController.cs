@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class AlunoController : Controller
     {
         private IUnitOfWork _unitOfWork;

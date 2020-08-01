@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class EmprestimoController : Controller
     {
         private IUnitOfWork _unitOfWork;
