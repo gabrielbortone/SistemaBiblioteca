@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
@@ -41,13 +42,12 @@ namespace Sistema_de_Biblioteca.Controllers
                 _unitOfWork.FuncionarioRepository.AddFuncionario(funcionario);
                 _unitOfWork.Commit();
 
-                Funcionario aux = _unitOfWork.FuncionarioRepository.GetFuncionarioByCPF(funcionario.CPF);
-                endereco.Funcionario = aux;
-                endereco.FuncionarioId = aux.FuncionarioId;
-                telefone.Funcionario = aux;
-                telefone.FuncionarioId = aux.FuncionarioId;
+                endereco.Funcionario = funcionario;
+                endereco.FuncionarioId = funcionario.FuncionarioId;
+                telefone.Funcionario = funcionario;
+                telefone.FuncionarioId = funcionario.FuncionarioId;
 
-                var user = new Account() { Id_Funcionario=aux.FuncionarioId,UserName = funcionarioVM.Username};
+                var user = new Account() { Id_Funcionario= funcionario.FuncionarioId,UserName = funcionarioVM.Username};
                 var result = await _userManager.CreateAsync(user, funcionarioVM.Senha);
 
 

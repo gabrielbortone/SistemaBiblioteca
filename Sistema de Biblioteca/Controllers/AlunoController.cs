@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using Sistema_de_Biblioteca.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -37,8 +37,6 @@ namespace Sistema_de_Biblioteca.Controllers
                 _unitOfWork.AlunoRepository.AddAluno(aluno);
                 _unitOfWork.Commit();
 
-                Aluno aux = _unitOfWork.AlunoRepository.GetAlunoByCPF(aluno.CPF);
-                aluno.AlunoId = aux.AlunoId;
                 endereco.Aluno = aluno;
                 endereco.AlunoId = aluno.AlunoId;
                 telefone.Aluno = aluno;

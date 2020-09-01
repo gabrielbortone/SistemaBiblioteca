@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
@@ -48,7 +49,7 @@ namespace Sistema_de_Biblioteca.Controllers
                 }
                 catch(Exception ex)
                 {
-                    throw new Exception("Referência Invalida");
+                    throw new Exception("Referência Invalida" + ex.Message);
                 }
             }
             ViewBag.Mensagem = "Cadastro não efetuado! Verifique as informações e tente novamente";
