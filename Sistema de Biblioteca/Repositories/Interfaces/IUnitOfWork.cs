@@ -1,6 +1,4 @@
-﻿using Sistema_de_Biblioteca.Models.ValueObjects;
-
-namespace Sistema_de_Biblioteca.Repositories.Interfaces
+﻿namespace Sistema_de_Biblioteca.Repositories.Interfaces
 {
     public interface IUnitOfWork
     {

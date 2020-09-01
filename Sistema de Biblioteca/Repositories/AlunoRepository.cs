@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Sistema_de_Biblioteca.Models;
+﻿using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;

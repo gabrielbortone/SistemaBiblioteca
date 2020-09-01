@@ -104,6 +104,7 @@ namespace Sistema_de_Biblioteca.Controllers
 
                 Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, endereco,
                     telefone, alunoVM.Email, alunoVM.Matricula);
+                
                 Aluno aux = _unitOfWork.AlunoRepository.GetAlunoByCPF(aluno.CPF);
                 aluno.AlunoId = aux.AlunoId;
 

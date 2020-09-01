@@ -126,13 +126,12 @@ namespace Sistema_de_Biblioteca.Controllers
                     funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
                 funcionario.FuncionarioId = funcionarioVM.Id;
 
-                Funcionario aux = _unitOfWork.FuncionarioRepository.GetFuncionarioByCPF(funcionario.CPF);
-                funcionario.FuncionarioId = aux.FuncionarioId;
-                endereco.Funcionario = aux;
-                endereco.FuncionarioId = aux.FuncionarioId;
-                telefone.Funcionario = aux;
-                telefone.FuncionarioId = aux.FuncionarioId;
-                funcionario.Account = aux.Account;
+                funcionario.FuncionarioId = funcionario.FuncionarioId;
+                endereco.Funcionario = funcionario;
+                endereco.FuncionarioId = funcionario.FuncionarioId;
+                telefone.Funcionario = funcionario;
+                telefone.FuncionarioId = funcionario.FuncionarioId;
+                funcionario.Account = funcionario.Account;
 
                 _unitOfWork.EnderecoFuncionarioRepository.UpdateEndereco(endereco);
                 _unitOfWork.TelefoneFuncionarioRepository.UpdateTelefone(telefone);
