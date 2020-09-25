@@ -10,10 +10,10 @@ using System.Linq;
 namespace Sistema_de_Biblioteca.Controllers
 {
     [Authorize]
-    public class AlunoController : Controller
+    public class ClienteController : Controller
     {
         private IUnitOfWork _unitOfWork;
-        public AlunoController(IUnitOfWork unitOfWork)
+        public ClienteController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -28,22 +28,17 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                EnderecoAluno endereco = new EnderecoAluno(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado);
-                TelefoneAluno telefone = new TelefoneAluno(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero);
-                
+                Endereco endereco = new Endereco(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado);
+                Telefone telefone = new Telefone(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero);
+                EnderecoAluno enderecoAluno = new EnderecoAluno();
+
                 Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, endereco,
                     telefone, alunoVM.Email, alunoVM.Matricula);
 
-                _unitOfWork.AlunoRepository.AddAluno(aluno);
-                _unitOfWork.Commit();
-
-                endereco.Aluno = aluno;
-                endereco.AlunoId = aluno.AlunoId;
-                telefone.Aluno = aluno;
-                telefone.AlunoId = aluno.AlunoId;
-
                 _unitOfWork.EnderecoAlunoRepository.AddEndereco(endereco);
                 _unitOfWork.TelefoneAlunoRepository.AddTelefone(telefone);
+                _unitOfWork.AlunoRepository.AddAluno(aluno);
+
                 _unitOfWork.Commit();
 
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
@@ -99,8 +94,8 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                EnderecoAluno endereco = new EnderecoAluno(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado);
-                TelefoneAluno telefone = new TelefoneAluno(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero);
+                Endereco endereco = new Endereco(alunoVM.CEP, alunoVM.Bairro, alunoVM.Cidade, alunoVM.Estado);
+                Telefone telefone = new Telefone(alunoVM.Tipo, alunoVM.DDD, alunoVM.Numero);
 
                 Aluno aluno = new Aluno(alunoVM.Nome, alunoVM.Sobrenome, alunoVM.CPF, endereco,
                     telefone, alunoVM.Email, alunoVM.Matricula);

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Sistema_de_Biblioteca.Models.ValueObjects
 {
-    public abstract class Telefone
+    public class Telefone
     {
         [Key]
         public int Id { get; set; }

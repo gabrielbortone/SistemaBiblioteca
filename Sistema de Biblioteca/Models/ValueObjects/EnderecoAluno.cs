@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Sistema_de_Biblioteca.Models.ValueObjects
 {
-    public class EnderecoAluno : Endereco
+    public class EnderecoAluno
     {
+        [Required]
         public int AlunoId { get; set; }
         public Aluno Aluno { get; set; }
-        public EnderecoAluno() : base()
-        {
 
-        }
-        public EnderecoAluno(string cep, string bairro, string cidade, string estado) : base(cep, bairro, cidade, estado)
-        {
-
-        }
+        [Required]
+        public int EnderecoId { get; set; }
+        public Endereco Endereco { get; set; }
     }
 }

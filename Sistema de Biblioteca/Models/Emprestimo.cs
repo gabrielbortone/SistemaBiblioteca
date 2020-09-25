@@ -27,8 +27,8 @@ namespace Sistema_de_Biblioteca.Models
 
         [Required]
         [ForeignKey("AlunoId")]
-        public Aluno Aluno { get; set; }
-        public int AlunoId { get; set; }
+        public Aluno Cliente { get; set; }
+        public int ClienteId { get; set; }
 
         [Required]
         [ForeignKey("FuncionarioId")]
@@ -36,12 +36,12 @@ namespace Sistema_de_Biblioteca.Models
         public int FuncionarioId { get; set; }
 
         public Emprestimo(){}
-        public Emprestimo(DateTime dataLimiteEntrega, Livro livro, Aluno aluno, Funcionario funcionario)
+        public Emprestimo(DateTime dataLimiteEntrega, Livro livro, Aluno cliente, Funcionario funcionario)
         {
             DataEmprestimo = DateTime.Now;
             DataLimiteEntrega = dataLimiteEntrega;
             Livro = livro;
-            Aluno = aluno;
+            Cliente = cliente;
             Funcionario = funcionario;
         }
 

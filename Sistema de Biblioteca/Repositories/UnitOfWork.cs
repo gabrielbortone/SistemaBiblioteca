@@ -9,9 +9,9 @@ namespace Sistema_de_Biblioteca.Repositories
         public AlunoRepository AlunoRepository { get; }
         public LivroRepository LivroRepository { get; }
         public EmprestimoRepository EmprestimoRepository { get; }
-        public EnderecoAlunoRepository EnderecoAlunoRepository { get; }
+        public EnderecoRepository EnderecoAlunoRepository { get; }
         public EnderecoFuncionarioRepository EnderecoFuncionarioRepository { get; }
-        public TelefoneAlunoRepository TelefoneAlunoRepository { get; }
+        public TelefoneRepository TelefoneAlunoRepository { get; }
         public TelefoneFuncionarioRepository TelefoneFuncionarioRepository { get; }
 
         private AppDbContext _context;
@@ -23,9 +23,9 @@ namespace Sistema_de_Biblioteca.Repositories
             AlunoRepository = new AlunoRepository(contexto);
             LivroRepository = new LivroRepository(contexto);
             EmprestimoRepository = new EmprestimoRepository(contexto);
-            EnderecoAlunoRepository = new EnderecoAlunoRepository(contexto);
+            EnderecoAlunoRepository = new EnderecoRepository(contexto);
             EnderecoFuncionarioRepository = new EnderecoFuncionarioRepository(contexto);
-            TelefoneAlunoRepository = new TelefoneAlunoRepository(contexto);
+            TelefoneAlunoRepository = new TelefoneRepository(contexto);
             TelefoneFuncionarioRepository = new TelefoneFuncionarioRepository(contexto);
         }
         

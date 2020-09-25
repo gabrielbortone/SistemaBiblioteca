@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Sistema_de_Biblioteca.Models.ValueObjects;
-using Sistema_de_Biblioteca.ViewModels;
 
 namespace Sistema_de_Biblioteca.Models
 {
-    public class AppDbContext : IdentityDbContext<Account>
+    public class AppDbContext : IdentityDbContext<Funcionario>
     {
-        public DbSet<Aluno> Alunos { get; set; }
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Aluno> Clientes { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }
         public DbSet<EnderecoAluno> EnderecoDeAlunos { get; set; }
         public DbSet<EnderecoFuncionario> EnderecoDeFuncionarios { get; set; }
@@ -36,11 +34,6 @@ namespace Sistema_de_Biblioteca.Models
                 .WithOne(tf => tf.Funcionario)
                 .HasForeignKey<TelefoneFuncionario>(tf => tf.FuncionarioId);
 
-            builder.Entity<Funcionario>()
-                .HasOne(f => f.Account)
-                .WithOne(a => a.Funcionario)
-                .HasForeignKey<Account>(a => a.Id_Funcionario);
-
             builder.Entity<Aluno>()
                 .HasOne(a => a.Endereco)
                 .WithOne(ea => ea.Aluno)
@@ -51,8 +44,6 @@ namespace Sistema_de_Biblioteca.Models
                 .WithOne(af => af.Aluno)
                 .HasForeignKey<TelefoneAluno>(af => af.AlunoId);
         }
-
-        public DbSet<Sistema_de_Biblioteca.ViewModels.FuncionarioViewModel> FuncionarioViewModel { get; set; }
 
     }
 }

@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Sistema_de_Biblioteca.Models.ValueObjects
 {
-    public class TelefoneAluno : Telefone
+    public class TelefoneAluno
     {
+        [Required]
         public int AlunoId { get; set; }
         public Aluno Aluno { get; set; }
-        public TelefoneAluno() : base()
-        {
 
-        }
-        public TelefoneAluno(string tipo, int ddd, string numero) : base(tipo, ddd,numero)
-        {
-
-        }
+        [Required]
+        public int TelefoneId { get; set; }
+        public Telefone Telefone { get; set; }
     }
 }

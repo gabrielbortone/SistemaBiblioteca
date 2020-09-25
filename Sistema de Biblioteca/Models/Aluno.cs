@@ -5,7 +5,7 @@ namespace Sistema_de_Biblioteca.Models
 {
     public class Aluno
     {
-        public int AlunoId { get; set; }
+        public int ClienteId { get; set; }
 
         [Required]
         [Display(Name = "Informe o seu nome")]

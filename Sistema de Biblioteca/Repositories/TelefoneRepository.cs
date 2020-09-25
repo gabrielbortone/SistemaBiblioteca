@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace Sistema_de_Biblioteca.Repositories
 {
-    public class TelefoneAlunoRepository : ITelefoneAlunoRepository
+    public class TelefoneRepository : ITelefoneRepository
     {
         private readonly AppDbContext _context;
-        public TelefoneAlunoRepository(AppDbContext context)
+        public TelefoneRepository(AppDbContext context)
         {
             _context = context;
         }

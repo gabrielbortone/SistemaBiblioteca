@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Repositories
 {
-    public class EnderecoAlunoRepository : IEnderecoAlunoRepository
+    public class EnderecoRepository : IEnderecoAlunoRepository
     {
         private readonly AppDbContext _context;
-        public EnderecoAlunoRepository(AppDbContext contexto)
+        public EnderecoRepository(AppDbContext contexto)
         {
             _context = contexto;
         }

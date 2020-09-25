@@ -1,13 +1,13 @@
-﻿using Sistema_de_Biblioteca.Models.ValueObjects;
+﻿using Microsoft.AspNetCore.Identity;
+using Sistema_de_Biblioteca.Models.ValueObjects;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sistema_de_Biblioteca.Models
 {
-    public class Funcionario
+    public class Funcionario : IdentityUser
     {
 
-        public int FuncionarioId { get; set; }
 
         [Required]
         [Display(Name = "Informe o seu nome")]
@@ -23,7 +23,6 @@ namespace Sistema_de_Biblioteca.Models
         [StringLength(11, MinimumLength = 11)]
         public string CPF { get; set; }
 
-        public Account Account { get; set; }
         public EnderecoFuncionario Endereco { get; set; }
         public TelefoneFuncionario Telefone { get; set; }
 
@@ -44,15 +43,13 @@ namespace Sistema_de_Biblioteca.Models
         public DateTime? DataDemissao { get; set; }
 
         public Funcionario(){}
-        public Funcionario(string nome, string sobrenome, string cpf, string username, string password, 
+        public Funcionario(string nome, string sobrenome, string cpf, string username,
             EnderecoFuncionario endereco, TelefoneFuncionario telefone, string email, string cargo, DateTime dataAdmissao)
         {
-            Account = new Account();
             Nome = nome;
             Sobrenome = sobrenome;
             CPF = cpf;
-            Account.UserName = username;
-            Account.PasswordHash = password;
+            UserName = username;
             Endereco = endereco;
             Telefone = telefone;
             Email = email;
