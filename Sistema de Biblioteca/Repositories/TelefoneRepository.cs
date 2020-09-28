@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Sistema_de_Biblioteca.Models;
+﻿using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
 using System.Linq;
@@ -14,36 +13,25 @@ namespace Sistema_de_Biblioteca.Repositories
             _context = context;
         }
 
-        public void AddTelefone(TelefoneAluno telefone)
+        public void AddTelefone(Telefone telefone)
         {
-            _context.TelefoneDeAlunos.Add(telefone);
+            _context.Telefones.Add(telefone);
         }
 
-        public TelefoneAluno GetTelefoneByAluno(Aluno aluno)
+        public Telefone GetTelefoneById(int? id)
         {
-            return _context.TelefoneDeAlunos.FirstOrDefault(ta => ta.Aluno == aluno);
-        }
-
-        public TelefoneAluno GetTelefoneById(int? id)
-        {
-            return _context.TelefoneDeAlunos.FirstOrDefault(ta => ta.Id == id);
+            return _context.Telefones.FirstOrDefault(t => t.TelefoneId == id);
         }
 
         public void RemoveTelefone(int idTelefone)
         {
             var telefone = GetTelefoneById(idTelefone);
-            _context.TelefoneDeAlunos.Remove(telefone);
+            _context.Telefones.Remove(telefone);
         }
 
-        public void RemoveTelefoneByAluno(int idAluno)
+        public void UpdateTelefone(Telefone telefone)
         {
-            var telefone = _context.TelefoneDeAlunos.FirstOrDefault(ta => ta.AlunoId == idAluno);
-            _context.TelefoneDeAlunos.Remove(telefone);
-        }
-
-        public void UpdateTelefone(TelefoneAluno telefone)
-        {
-            _context.TelefoneDeAlunos.Update(telefone);
+            _context.Telefones.Update(telefone);
         }
     }
 }

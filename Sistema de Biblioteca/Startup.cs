@@ -29,7 +29,7 @@ namespace Sistema_de_Biblioteca
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddIdentity<Account, IdentityRole>()
+            services.AddIdentity<Funcionario, IdentityRole>()
                .AddEntityFrameworkStores<AppDbContext>()
                .AddDefaultTokenProviders();
             

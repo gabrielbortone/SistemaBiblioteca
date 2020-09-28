@@ -9,11 +9,11 @@ namespace Sistema_de_Biblioteca.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<Account> _userManager;
-        private readonly SignInManager<Account> _signInManager;
+        private readonly UserManager<Funcionario> _userManager;
+        private readonly SignInManager<Funcionario> _signInManager;
 
-        public AccountController(UserManager<Account> userManager,
-            SignInManager<Account> signInManager)
+        public AccountController(UserManager<Funcionario> userManager,
+            SignInManager<Funcionario> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

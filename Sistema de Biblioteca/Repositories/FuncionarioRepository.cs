@@ -24,15 +24,12 @@ namespace Sistema_de_Biblioteca.Repositories
             return _context.Funcionarios.ToList();
         }
 
-        public Funcionario GetFuncionarioById(int? id)
+        public Funcionario GetFuncionarioById(string? id)
         {
-            return _context.Funcionarios.FirstOrDefault(f=>f.FuncionarioId == id);
+            return _context.Funcionarios.FirstOrDefault(f => f.Id == id);
         }
 
-        public Funcionario GetFuncionarioByAccount(Account account)
-        {
-            return _context.Funcionarios.FirstOrDefault(F => F.Account == account);
-        }
+
 
         public void RemoveFuncionario(Funcionario funcionario)
         {

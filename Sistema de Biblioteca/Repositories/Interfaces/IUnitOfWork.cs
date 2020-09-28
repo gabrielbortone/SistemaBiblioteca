@@ -6,9 +6,11 @@
         AlunoRepository AlunoRepository { get; }
         LivroRepository LivroRepository { get; }
         EmprestimoRepository EmprestimoRepository { get; }
-        EnderecoRepository EnderecoAlunoRepository { get;}
+        EnderecoRepository EnderecoRepository { get; }
+        EnderecoAlunoRepository EnderecoAlunoRepository { get;}
         EnderecoFuncionarioRepository EnderecoFuncionarioRepository { get; }
-        TelefoneRepository TelefoneAlunoRepository { get; }
+        TelefoneRepository TelefoneRepository { get; }
+        TelefoneAlunoRepository TelefoneAlunoRepository { get; }
         TelefoneFuncionarioRepository TelefoneFuncionarioRepository { get; }
         void Commit();
     }

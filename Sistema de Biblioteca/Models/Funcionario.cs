@@ -8,7 +8,6 @@ namespace Sistema_de_Biblioteca.Models
     public class Funcionario : IdentityUser
     {
 
-
         [Required]
         [Display(Name = "Informe o seu nome")]
         [StringLength(30, MinimumLength = 3)]
@@ -27,11 +26,6 @@ namespace Sistema_de_Biblioteca.Models
         public TelefoneFuncionario Telefone { get; set; }
 
 
-        [Required(ErrorMessage = "Informe o seu email")]
-        [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido...")]
-        public string Email { get; set; }
-
-
         [Required]
         [Display(Name = "Informe o cargo do funcionário")]
         [StringLength(30, MinimumLength = 4)]
@@ -43,6 +37,20 @@ namespace Sistema_de_Biblioteca.Models
         public DateTime? DataDemissao { get; set; }
 
         public Funcionario(){}
+        public Funcionario(string id, string nome, string sobrenome, string cpf, string username,
+            EnderecoFuncionario endereco, TelefoneFuncionario telefone, string email, string cargo, DateTime dataAdmissao)
+        {
+            Id = id;
+            Nome = nome;
+            Sobrenome = sobrenome;
+            CPF = cpf;
+            UserName = username;
+            Endereco = endereco;
+            Telefone = telefone;
+            Email = email;
+            Cargo = cargo;
+            DataAdmissao = dataAdmissao;
+        }
         public Funcionario(string nome, string sobrenome, string cpf, string username,
             EnderecoFuncionario endereco, TelefoneFuncionario telefone, string email, string cargo, DateTime dataAdmissao)
         {

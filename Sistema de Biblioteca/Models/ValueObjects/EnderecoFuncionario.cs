@@ -5,7 +5,7 @@ namespace Sistema_de_Biblioteca.Models.ValueObjects
     public class EnderecoFuncionario 
     {
         [Required]
-        public int FuncionarioId { get; set; }
+        public string FuncionarioId { get; set; }
         public Funcionario Funcionario { get; set; }
 
         [Required]

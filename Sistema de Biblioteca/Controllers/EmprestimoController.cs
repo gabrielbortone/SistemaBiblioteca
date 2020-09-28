@@ -15,8 +15,8 @@ namespace Sistema_de_Biblioteca.Controllers
     public class EmprestimoController : Controller
     {
         private IUnitOfWork _unitOfWork;
-        private UserManager<Account> _userManager;
-        public EmprestimoController(IUnitOfWork unitOfWork, UserManager<Account> userManager)
+        private UserManager<Funcionario> _userManager;
+        public EmprestimoController(IUnitOfWork unitOfWork, UserManager<Funcionario> userManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
@@ -39,7 +39,7 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 try
                 {
-                    funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioByAccount(await _userManager.GetUserAsync(User));
+                    funcionario = await _userManager.GetUserAsync(User);
                     aluno = _unitOfWork.AlunoRepository.GetAlunoById(emprestimoVM.AlunoId);
                     livro = _unitOfWork.LivroRepository.GetLivroById(emprestimoVM.LivroId);
                     Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, livro, aluno, funcionario);
@@ -87,7 +87,7 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioByAccount(await _userManager.GetUserAsync(User));
+                Funcionario funcionario = await _userManager.GetUserAsync(User);
                 Emprestimo emprestimo = new Emprestimo((DateTime)emprestimoVM.DataEntrega, _unitOfWork.LivroRepository.GetLivroById(emprestimoVM.LivroId),
                     _unitOfWork.AlunoRepository.GetAlunoById(emprestimoVM.AlunoId), funcionario);
                 emprestimo.EmprestimoId = emprestimoVM.Id;

@@ -1,15 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Sistema_de_Biblioteca.Models;
+﻿using Sistema_de_Biblioteca.Models;
 using Sistema_de_Biblioteca.Models.ValueObjects;
 using Sistema_de_Biblioteca.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sistema_de_Biblioteca.Repositories
 {
-    public class EnderecoRepository : IEnderecoAlunoRepository
+    public class EnderecoRepository : IEnderecoRepository
     {
         private readonly AppDbContext _context;
         public EnderecoRepository(AppDbContext contexto)
@@ -17,36 +13,25 @@ namespace Sistema_de_Biblioteca.Repositories
             _context = contexto;
         }
 
-        public void AddEndereco(EnderecoAluno endereco)
+        public void AddEndereco(Endereco endereco)
         {
-            _context.EnderecoDeAlunos.Add(endereco);
+            _context.Enderecos.Add(endereco);
         }
 
-        public EnderecoAluno GetEnderecoByAluno(Aluno aluno)
+        public Endereco GetEnderecoById(int? id)
         {
-            return _context.EnderecoDeAlunos.FirstOrDefault(ea => ea.Aluno == aluno);
-        }
-
-        public EnderecoAluno GetEnderecoById(int? id)
-        {
-            return _context.EnderecoDeAlunos.FirstOrDefault(ea => ea.Id == id);
+            return _context.Enderecos.FirstOrDefault(e => e.EnderecoId == id);
         }
 
         public void RemoveEndereco(int idEndereco)
         {
             var endereco = GetEnderecoById(idEndereco);
-            _context.Remove(endereco);
+            _context.Enderecos.Remove(endereco);
         }
 
-        public void RemoveEnderecoByAluno(int idAluno)
+        public void UpdateEndereco(Endereco endereco)
         {
-            var endereco = _context.EnderecoDeAlunos.FirstOrDefault(ea => ea.AlunoId == idAluno);
-            _context.Remove(endereco);
-        }
-
-        public void UpdateEndereco(EnderecoAluno endereco)
-        {
-            _context.Update(endereco);
+            _context.Enderecos.Update(endereco);
         }
     }
 }

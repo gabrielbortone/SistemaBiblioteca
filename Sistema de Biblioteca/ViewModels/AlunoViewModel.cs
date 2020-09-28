@@ -22,40 +22,11 @@ namespace Sistema_de_Biblioteca.ViewModels
         [StringLength(11, MinimumLength = 11)]
         public string CPF { get; set; }
 
+        [Required]
+        public EnderecoViewModel EnderecoVM { get; set; }
 
         [Required]
-        [Display(Name = "Informe o CEP:")]
-        [StringLength(9, MinimumLength = 9)]
-        public string CEP { get; set; }
-
-        [Required]
-        [Display(Name = "Informe o bairro:")]
-        [StringLength(30, MinimumLength = 4)]
-        public string Bairro { get; set; }
-
-        [Required]
-        [Display(Name = "Informe a cidade:")]
-        [StringLength(35, MinimumLength = 4)]
-        public string Cidade { get; set; }
-
-        [Required]
-        [Display(Name = "Informe o Estado:")]
-        [StringLength(35, MinimumLength = 4)]
-        public string Estado { get; set; }
-
-        [Required]
-        public string Tipo { get; set; }
-
-        [Required]
-        [Display(Name = "Informe o seu DDD")]
-        [Range(000, 999)]
-        public int DDD { get; set; }
-
-        [Required]
-        [Display(Name = "Informe o seu número:")]
-        [StringLength(11, MinimumLength = 8)]
-        public string Numero { get; set; }
-
+        public TelefoneViewModel TelefoneVM { get; set; }
 
         [Required(ErrorMessage = "Informe o seu email")]
         [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um email válido...")]
@@ -64,5 +35,28 @@ namespace Sistema_de_Biblioteca.ViewModels
         [Display(Name = "Informe o seu número de matrícula")]
         [StringLength(12, MinimumLength = 8)]
         public string Matricula { get; set; }
+
+        public AlunoViewModel(int id, string nome, string sobrenome, string cPF, EnderecoViewModel enderecoVM, TelefoneViewModel telefoneVM, string email, string matricula)
+        {
+            Id = id;
+            Nome = nome;
+            Sobrenome = sobrenome;
+            CPF = cPF;
+            EnderecoVM = enderecoVM;
+            TelefoneVM = telefoneVM;
+            Email = email;
+            Matricula = matricula;
+        }
+
+        public AlunoViewModel(string nome, string sobrenome, string cPF, EnderecoViewModel enderecoVM, TelefoneViewModel telefoneVM, string email, string matricula)
+        {
+            Nome = nome;
+            Sobrenome = sobrenome;
+            CPF = cPF;
+            EnderecoVM = enderecoVM;
+            TelefoneVM = telefoneVM;
+            Email = email;
+            Matricula = matricula;
+        }
     }
 }

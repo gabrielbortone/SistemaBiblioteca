@@ -15,8 +15,8 @@ namespace Sistema_de_Biblioteca.Controllers
     public class FuncionarioController : Controller
     {
         private IUnitOfWork _unitOfWork;
-        private UserManager<Account> _userManager;
-        public FuncionarioController(IUnitOfWork unitOfWork, UserManager<Account> userManager)
+        private UserManager<Funcionario> _userManager;
+        public FuncionarioController(IUnitOfWork unitOfWork, UserManager<Funcionario> userManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
@@ -32,30 +32,37 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                EnderecoFuncionario endereco = new EnderecoFuncionario(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado);
+                Endereco endereco = new Endereco(funcionarioVM.EnderecoVM.CEP, funcionarioVM.EnderecoVM.Bairro, 
+                    funcionarioVM.EnderecoVM.Cidade, funcionarioVM.EnderecoVM.Estado);
                 
-                TelefoneFuncionario telefone = new TelefoneFuncionario(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero);
-                
+                Telefone telefone = new Telefone(funcionarioVM.TelefoneVM.Tipo, funcionarioVM.TelefoneVM.DDD, funcionarioVM.TelefoneVM.Numero);
+
+                EnderecoFuncionario enderecoFuncionario = new EnderecoFuncionario();
+                enderecoFuncionario.EnderecoId = endereco.EnderecoId;
+                enderecoFuncionario.Endereco = endereco;
+
+                TelefoneFuncionario telefoneFuncionario = new TelefoneFuncionario();
+                telefoneFuncionario.TelefoneId = telefone.TelefoneId;
+                telefoneFuncionario.Telefone = telefone;
+
                 Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF, 
-                    funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
+                    funcionarioVM.Username, enderecoFuncionario, telefoneFuncionario, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
 
-                _unitOfWork.FuncionarioRepository.AddFuncionario(funcionario);
-                _unitOfWork.Commit();
+                enderecoFuncionario.FuncionarioId = funcionario.Id;
+                enderecoFuncionario.Funcionario = funcionario;
 
-                endereco.Funcionario = funcionario;
-                endereco.FuncionarioId = funcionario.FuncionarioId;
-                telefone.Funcionario = funcionario;
-                telefone.FuncionarioId = funcionario.FuncionarioId;
+                _unitOfWork.EnderecoRepository.AddEndereco(endereco);
+                _unitOfWork.TelefoneRepository.AddTelefone(telefone);
 
-                var user = new Account() { Id_Funcionario= funcionario.FuncionarioId,UserName = funcionarioVM.Username};
-                var result = await _userManager.CreateAsync(user, funcionarioVM.Senha);
+                var result = await _userManager.CreateAsync(funcionario, funcionarioVM.Senha);
 
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "Funcionário");
-                    _unitOfWork.EnderecoFuncionarioRepository.AddEndereco(endereco);
-                    _unitOfWork.TelefoneFuncionarioRepository.AddTelefone(telefone);
+                    await _userManager.AddToRoleAsync(funcionario, "Funcionário");
+                    _unitOfWork.EnderecoFuncionarioRepository.AddEndereco(enderecoFuncionario);
+                    _unitOfWork.TelefoneFuncionarioRepository.AddTelefone(telefoneFuncionario);
+                    _unitOfWork.Commit();
                 }
                 else
                 {
@@ -65,8 +72,6 @@ namespace Sistema_de_Biblioteca.Controllers
                     return View(funcionarioVM);
                 }
 
-                _unitOfWork.Commit();
-
                 ViewBag.Mensagem = "Cadastro feito com sucesso!";
                 return RedirectToAction("Listar");
             }
@@ -74,7 +79,7 @@ namespace Sistema_de_Biblioteca.Controllers
                 return View(funcionarioVM);
         }
 
-        public IActionResult Editar(int? id)
+        public IActionResult Editar(string? id)
         {
             if (id == null)
             {
@@ -82,28 +87,28 @@ namespace Sistema_de_Biblioteca.Controllers
             }
 
             var funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
-            var endereco = _unitOfWork.EnderecoFuncionarioRepository.GetEnderecoByFuncionario(funcionario);
-            var telefone = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByFuncionario(funcionario);
-            
-            funcionario.Endereco = endereco;
-            funcionario.Telefone = telefone; 
+            var enderecoFuncionario = _unitOfWork.EnderecoFuncionarioRepository.GetEnderecoByIdFuncionario(id);
+            var endereco = _unitOfWork.EnderecoRepository.GetEnderecoById(enderecoFuncionario.EnderecoId);
+            var telefoneFuncionario = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByIdFuncionario(id);
+            var telefone = _unitOfWork.TelefoneRepository.GetTelefoneById(telefoneFuncionario.TelefoneId);
 
-            FuncionarioViewModel funcionarioVM = new FuncionarioViewModel()
+            EnderecoViewModel enderecoVM = new EnderecoViewModel() 
             {
-                Id = funcionario.FuncionarioId,
-                Nome = funcionario.Nome,
-                Sobrenome = funcionario.Sobrenome,
-                CPF = funcionario.CPF,
-                CEP = funcionario.Endereco.CEP,
-                Bairro = funcionario.Endereco.Bairro,
-                Cidade = funcionario.Endereco.Cidade,
-                Estado = funcionario.Endereco.Estado,
-                Tipo = funcionario.Telefone.Tipo,
-                DDD = funcionario.Telefone.DDD,
-                Numero = funcionario.Telefone.Numero,
-                Email = funcionario.Email,
-                Cargo = funcionario.Cargo
+                CEP = endereco.CEP,
+                Bairro = endereco.Bairro,
+                Cidade = endereco.Cidade,
+                Estado = endereco.Estado,
             };
+
+            TelefoneViewModel telefoneVM = new TelefoneViewModel()
+            {
+                Tipo = telefone.Tipo,
+                DDD = telefone.DDD,
+                Numero = telefone.Numero,
+            };
+
+            FuncionarioViewModel funcionarioVM = new FuncionarioViewModel(funcionario.Id, funcionario.Nome, funcionario.Sobrenome,
+                funcionario.CPF, funcionario.UserName, enderecoVM, telefoneVM, funcionario.Email, funcionario.Cargo, funcionario.DataAdmissao );
 
             if (funcionario == null)
             {
@@ -119,33 +124,32 @@ namespace Sistema_de_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                EnderecoFuncionario endereco = new EnderecoFuncionario(funcionarioVM.CEP, funcionarioVM.Bairro, funcionarioVM.Cidade, funcionarioVM.Estado);
-                TelefoneFuncionario telefone = new TelefoneFuncionario(funcionarioVM.Tipo, funcionarioVM.DDD, funcionarioVM.Numero);
+                Endereco endereco = new Endereco(funcionarioVM.EnderecoVM.CEP, funcionarioVM.EnderecoVM.Bairro, funcionarioVM.EnderecoVM.Cidade, funcionarioVM.EnderecoVM.Estado);
+                Telefone telefone = new Telefone(funcionarioVM.TelefoneVM.Tipo, funcionarioVM.TelefoneVM.DDD, funcionarioVM.TelefoneVM.Numero);
+
+                EnderecoFuncionario enderecoFuncionario = _unitOfWork.EnderecoFuncionarioRepository.GetEnderecoByIdFuncionario(funcionarioVM.Id);
+                TelefoneFuncionario telefoneFuncionario = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByIdFuncionario(funcionarioVM.Id);
+                endereco.EnderecoId = enderecoFuncionario.EnderecoId;
+                telefone.TelefoneId = telefoneFuncionario.TelefoneId;
+
+                Funcionario funcionario = new Funcionario(funcionarioVM.Id, funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF,
+                    funcionarioVM.Username, enderecoFuncionario, telefoneFuncionario, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
                 
-                Funcionario funcionario = new Funcionario(funcionarioVM.Nome, funcionarioVM.Sobrenome, funcionarioVM.CPF,
-                    funcionarioVM.Username, funcionarioVM.Senha, endereco, telefone, funcionarioVM.Email, funcionarioVM.Cargo, funcionarioVM.DataAdmissao);
-                funcionario.FuncionarioId = funcionarioVM.Id;
-
-                funcionario.FuncionarioId = funcionario.FuncionarioId;
-                endereco.Funcionario = funcionario;
-                endereco.FuncionarioId = funcionario.FuncionarioId;
-                telefone.Funcionario = funcionario;
-                telefone.FuncionarioId = funcionario.FuncionarioId;
-                funcionario.Account = funcionario.Account;
-
-                _unitOfWork.EnderecoFuncionarioRepository.UpdateEndereco(endereco);
-                _unitOfWork.TelefoneFuncionarioRepository.UpdateTelefone(telefone);
+                _unitOfWork.EnderecoRepository.UpdateEndereco(endereco);
+                _unitOfWork.TelefoneRepository.UpdateTelefone(telefone);
                 _unitOfWork.FuncionarioRepository.UpdateFuncionario(funcionario);
 
                  ViewBag.Mensagem = "Edição feito com sucesso!";
+
                 _unitOfWork.Commit();
+
                 return RedirectToAction("Listar");
             }
             ViewBag.Mensagem = "Edição não efetuada! Verifique as informações e tente novamente";
             return View(funcionarioVM);
         }
 
-        public IActionResult Deletar(int? id)
+        public IActionResult Deletar(string? id)
         {
             if (id == null)
             {
@@ -153,27 +157,28 @@ namespace Sistema_de_Biblioteca.Controllers
             }
 
             var funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
-            var endereco = _unitOfWork.EnderecoFuncionarioRepository.GetEnderecoByFuncionario(funcionario);
-            var telefone = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByFuncionario(funcionario);
-            funcionario.Endereco = endereco;
-            funcionario.Telefone = telefone;
+            var endereoFuncionario = _unitOfWork.EnderecoFuncionarioRepository.GetEnderecoByIdFuncionario(funcionario.Id);
+            var endereco = _unitOfWork.EnderecoRepository.GetEnderecoById(endereoFuncionario.EnderecoId);
+            var telefoneFuncionario = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByIdFuncionario(funcionario.Id);
+            var telefone = _unitOfWork.TelefoneRepository.GetTelefoneById(telefoneFuncionario.TelefoneId);
 
-            FuncionarioViewModel funcionarioVM = new FuncionarioViewModel()
+            EnderecoViewModel enderecoVM = new EnderecoViewModel()
             {
-                Id = funcionario.FuncionarioId,
-                Nome = funcionario.Nome,
-                Sobrenome = funcionario.Sobrenome,
-                CPF = funcionario.CPF,
-                CEP = funcionario.Endereco.CEP,
-                Bairro = funcionario.Endereco.Bairro,
-                Cidade = funcionario.Endereco.Cidade,
-                Estado = funcionario.Endereco.Estado,
-                Tipo = funcionario.Telefone.Tipo,
-                DDD = funcionario.Telefone.DDD,
-                Numero = funcionario.Telefone.Numero,
-                Email = funcionario.Email,
-                Cargo = funcionario.Cargo
+                CEP = endereco.CEP,
+                Bairro = endereco.Bairro,
+                Cidade = endereco.Cidade,
+                Estado = endereco.Estado,
             };
+
+            TelefoneViewModel telefoneVM = new TelefoneViewModel()
+            {
+                Tipo = telefone.Tipo,
+                DDD = telefone.DDD,
+                Numero = telefone.Numero,
+            };
+
+            FuncionarioViewModel funcionarioVM = new FuncionarioViewModel(funcionario.Id, funcionario.Nome, funcionario.Sobrenome,
+                funcionario.CPF, funcionario.UserName, enderecoVM, telefoneVM, funcionario.Email, funcionario.Cargo, funcionario.DataAdmissao);
 
             if (funcionario == null)
             {
@@ -185,24 +190,35 @@ namespace Sistema_de_Biblioteca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Deletar(int id)
+        public IActionResult Deletar(FuncionarioViewModel funcionarioVM)
         {
             if (ModelState.IsValid)
             {
-                Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(id);
+                Funcionario funcionario = _unitOfWork.FuncionarioRepository.GetFuncionarioById(funcionarioVM.Id);
 
                 if (funcionario != null)
                 {
-                    _unitOfWork.EnderecoFuncionarioRepository.RemoveEnderecoByFuncionario(funcionario.FuncionarioId);
-                    _unitOfWork.TelefoneFuncionarioRepository.RemoveTelefoneByFuncionario(funcionario.FuncionarioId);
+                    var enderecoFuncionario = _unitOfWork.EnderecoFuncionarioRepository.GetEnderecoByIdFuncionario(funcionario.Id);
+                    var endereco = _unitOfWork.EnderecoRepository.GetEnderecoById(enderecoFuncionario.EnderecoId);
+                    var telefoneFuncionario = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByIdFuncionario(funcionario.Id);
+                    var telefone = _unitOfWork.TelefoneRepository.GetTelefoneById(telefoneFuncionario.TelefoneId);
+
+                    _unitOfWork.EnderecoFuncionarioRepository.RemoveEndereco(enderecoFuncionario.EnderecoId);
+                    _unitOfWork.TelefoneFuncionarioRepository.RemoveTelefone(telefoneFuncionario.TelefoneId);
+
+                    _unitOfWork.EnderecoRepository.RemoveEndereco(endereco.EnderecoId);
+                    _unitOfWork.TelefoneRepository.RemoveTelefone(telefone.TelefoneId);
                     _unitOfWork.FuncionarioRepository.RemoveFuncionario(funcionario);
+
                     ViewBag.Mensagem = "Funcionário Removido feito com sucesso!";
+
                     _unitOfWork.Commit();
+
                     return RedirectToAction("Listar");
                 }
             }
             ViewBag.Mensagem = "Remoção não efetuada! Verifique as informações e tente novamente";
-            return View(id);
+            return View(funcionarioVM);
         }
 
         public IActionResult Listar()
@@ -211,35 +227,38 @@ namespace Sistema_de_Biblioteca.Controllers
             {
                 IEnumerable<Funcionario> ListaFuncionario = _unitOfWork.FuncionarioRepository.GetAllFuncionario();
                 List<FuncionarioViewModel> ListaFuncionarioViewModels = new List<FuncionarioViewModel>();
+
                 if (!ListaFuncionario.Any())
                 {
                     ViewData["Url"] = "/Funcionario";
                     return View("ErroListaVazia", ViewData["Url"]);
                 }
+
                 foreach (Funcionario funcionario in ListaFuncionario)
                 {
-                    EnderecoFuncionario enderecoFuncionario = _unitOfWork.EnderecoFuncionarioRepository.GetEnderecoByFuncionario(funcionario);
-                    TelefoneFuncionario telefoneFuncionario = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByFuncionario(funcionario);
-                    funcionario.Endereco = enderecoFuncionario;
-                    funcionario.Telefone = telefoneFuncionario;
+                    var endereoFuncionario = _unitOfWork.EnderecoFuncionarioRepository.GetEnderecoByIdFuncionario(funcionario.Id);
+                    var endereco = _unitOfWork.EnderecoRepository.GetEnderecoById(endereoFuncionario.EnderecoId);
+                    var telefoneFuncionario = _unitOfWork.TelefoneFuncionarioRepository.GetTelefoneByIdFuncionario(funcionario.Id);
+                    var telefone = _unitOfWork.TelefoneRepository.GetTelefoneById(telefoneFuncionario.TelefoneId);
 
-
-                    FuncionarioViewModel funcionarioVM = new FuncionarioViewModel()
+                    EnderecoViewModel enderecoVM = new EnderecoViewModel()
                     {
-                        Id = funcionario.FuncionarioId,
-                        Nome = funcionario.Nome,
-                        Sobrenome = funcionario.Sobrenome,
-                        CPF = funcionario.CPF,
-                        CEP = funcionario.Endereco.CEP,
-                        Bairro = funcionario.Endereco.Bairro,
-                        Cidade = funcionario.Endereco.Cidade,
-                        Estado = funcionario.Endereco.Estado,
-                        Tipo = funcionario.Telefone.Tipo,
-                        DDD = funcionario.Telefone.DDD,
-                        Numero = funcionario.Telefone.Numero,
-                        Email = funcionario.Email,
-                        Cargo = funcionario.Cargo
+                        CEP = endereco.CEP,
+                        Bairro = endereco.Bairro,
+                        Cidade = endereco.Cidade,
+                        Estado = endereco.Estado,
                     };
+
+                    TelefoneViewModel telefoneVM = new TelefoneViewModel()
+                    {
+                        Tipo = telefone.Tipo,
+                        DDD = telefone.DDD,
+                        Numero = telefone.Numero,
+                    };
+
+                    FuncionarioViewModel funcionarioVM = new FuncionarioViewModel(funcionario.Id, funcionario.Nome, funcionario.Sobrenome,
+                        funcionario.CPF, funcionario.UserName, enderecoVM, telefoneVM, funcionario.Email, funcionario.Cargo, funcionario.DataAdmissao);
+
                     ListaFuncionarioViewModels.Add(funcionarioVM);
                 }
                 return View(ListaFuncionarioViewModels);

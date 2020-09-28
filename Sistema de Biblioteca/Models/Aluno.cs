@@ -5,7 +5,7 @@ namespace Sistema_de_Biblioteca.Models
 {
     public class Aluno
     {
-        public int ClienteId { get; set; }
+        public int AlunoId { get; set; }
 
         [Required]
         [Display(Name = "Informe o seu nome")]
@@ -45,5 +45,16 @@ namespace Sistema_de_Biblioteca.Models
             Matricula = matricula;
         }
 
+        public Aluno(int alunoId, string nome, string sobrenome, string cPF, EnderecoAluno endereco, TelefoneAluno telefone, string email, string matricula)
+        {
+            AlunoId = alunoId;
+            Nome = nome;
+            Sobrenome = sobrenome;
+            CPF = cPF;
+            Endereco = endereco;
+            Telefone = telefone;
+            Email = email;
+            Matricula = matricula;
+        }
     }
 }

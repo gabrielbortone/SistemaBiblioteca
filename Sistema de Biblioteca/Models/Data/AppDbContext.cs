@@ -6,10 +6,12 @@ namespace Sistema_de_Biblioteca.Models
 {
     public class AppDbContext : IdentityDbContext<Funcionario>
     {
-        public DbSet<Aluno> Clientes { get; set; }
+        public DbSet<Aluno> Alunos { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }
+        public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<EnderecoAluno> EnderecoDeAlunos { get; set; }
         public DbSet<EnderecoFuncionario> EnderecoDeFuncionarios { get; set; }
+        public DbSet<Telefone> Telefones { get; set; }
         public DbSet<TelefoneAluno> TelefoneDeAlunos { get; set; }
         public DbSet<TelefoneFuncionario> TelefoneDeFuncionarios { get; set; }
         public DbSet<Livro> Livros { get; set; }
